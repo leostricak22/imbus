@@ -3,23 +3,26 @@ import { View, StyleSheet, Text, Pressable } from 'react-native';
 import { useState} from 'react';
 
 import Login from './src/components/Login';
+import Homepage from './src/components/Homepage/Homepage';
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false); 
+    const [isLoggedIn, setIsLoggedIn] = useState(true); 
 
     return (
-        <View style={styles.container}>
-          {isLoggedIn ? (
-            <View style={styles.logoutContainer}>
-                <Text style={styles.logoutText} onPress={() => setIsLoggedIn(false)}>
-                    ODJAVA
-                </Text>
-            </View>
-          ) : (
-            <Login setIsLoggedIn={setIsLoggedIn} />
-        )
+      <View style={styles.container}>
+        {
+          isLoggedIn ? (
+              <Homepage setIsLoggedIn={setIsLoggedIn}/>
+              /*<View style={styles.logoutContainer}>
+                  <Text style={styles.logoutText} onPress={() => setIsLoggedIn(false)}>
+                      ODJAVA
+                  </Text>
+              </View>*/
+            ) : (
+              <Login setIsLoggedIn={setIsLoggedIn} />
+          )
         }
-    </View>
+      </View>
     );
 }
 
