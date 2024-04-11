@@ -6,7 +6,7 @@ import Login from './src/components/Login';
 import Homepage from './src/components/Homepage/Homepage';
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true); 
+    const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
     return (
       <View style={styles.container}>

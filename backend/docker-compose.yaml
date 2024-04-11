@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: imbus
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: lmao
+      MYSQL_ROOT_PASSWORD: lmao13
+    ports:
+      - '3306:3306'
