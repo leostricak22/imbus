@@ -9,8 +9,8 @@ import org.springframework.context.annotation.PropertySource;
 @Setter
 @Getter
 @Configuration
-@PropertySource("classpath:.env")   // .env file location
-@ConfigurationProperties(prefix = "myconfig")   // "package" of env variables
+@PropertySource("classpath:application.properties")   // file location
+@ConfigurationProperties(prefix = "config")   // "package" of env variables
 public class EnvConfig {
     private String SECRET_KEY;  // jwt token secret key
 }

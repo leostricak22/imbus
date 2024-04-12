@@ -1,4 +1,4 @@
-package com.blitz.imbus.config;
+package com.blitz.imbus.config.security;
 
 import com.blitz.imbus.service.JwtService;
 import io.micrometer.common.lang.NonNull;
