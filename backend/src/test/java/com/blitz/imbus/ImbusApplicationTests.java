@@ -1,4 +1,4 @@
-package com.blitz.whatsdown;
+package com.blitz.imbus;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

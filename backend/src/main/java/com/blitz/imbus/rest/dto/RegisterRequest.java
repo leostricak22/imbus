@@ -1,7 +1,9 @@
-package com.blitz.whatsdown.model.requests;
+package com.blitz.imbus.rest.dto;
 
-import com.blitz.whatsdown.validation.PasswordValidate;
-import com.blitz.whatsdown.validation.RoleIdExists;
+import com.blitz.imbus.domain.enums.Role;
+import com.blitz.imbus.validation.PasswordValidate;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -28,6 +30,6 @@ public class RegisterRequest {
     @PasswordValidate
     private String password;
 
-    @RoleIdExists
-    private Integer role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

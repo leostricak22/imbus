@@ -1,4 +1,4 @@
-package com.blitz.whatsdown.config;
+package com.blitz.imbus.config;
 
 import lombok.Getter;
 import lombok.Setter;

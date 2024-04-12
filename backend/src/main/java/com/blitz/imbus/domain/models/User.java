@@ -1,22 +1,16 @@
-package com.blitz.whatsdown.model;
+package com.blitz.imbus.domain.models;
 
-import com.blitz.whatsdown.repository.RoleRepository;
-import com.blitz.whatsdown.validation.PasswordValidate;
-import com.blitz.whatsdown.validation.RoleIdExists;
+import com.blitz.imbus.domain.enums.Role;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 
-import jakarta.validation.constraints.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
 
 @Entity
 @Data
@@ -43,7 +37,8 @@ public class User implements UserDetails {
 
     private String password;
 
-    private Integer role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -68,6 +63,7 @@ public class User implements UserDetails {
     // giving user the role
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role));
+        System.out.println(role.name());
+        return Collections.singletonList(new SimpleGrantedAuthority(role.name()));
     }
 }

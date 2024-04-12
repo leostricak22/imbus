@@ -1,11 +1,10 @@
-package com.blitz.whatsdown.auth;
+package com.blitz.imbus.service;
 
-import com.blitz.whatsdown.config.JwtService;
-import com.blitz.whatsdown.model.User;
-import com.blitz.whatsdown.model.requests.AuthenticationRequest;
-import com.blitz.whatsdown.model.requests.RegisterRequest;
-import com.blitz.whatsdown.model.responses.AuthenticationResponse;
-import com.blitz.whatsdown.repository.UserRepository;
+import com.blitz.imbus.domain.models.User;
+import com.blitz.imbus.rest.dto.AuthenticationRequest;
+import com.blitz.imbus.rest.dto.RegisterRequest;
+import com.blitz.imbus.rest.dto.AuthenticationResponse;
+import com.blitz.imbus.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

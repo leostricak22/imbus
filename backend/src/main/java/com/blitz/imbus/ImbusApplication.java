@@ -1,4 +1,4 @@
-package com.blitz.whatsdown;
+package com.blitz.imbus;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

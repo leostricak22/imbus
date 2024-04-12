@@ -1,4 +1,4 @@
-package com.blitz.whatsdown.validation;
+package com.blitz.imbus.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

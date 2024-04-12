@@ -1,5 +1,6 @@
-package com.blitz.whatsdown.config;
+package com.blitz.imbus.config;
 
+import com.blitz.imbus.domain.enums.Role;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class SecurityConfiguration {
             .csrf().disable()
             .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll() // allowing all '/auth' routes to anyone
-                .requestMatchers("/api/client/**").hasRole("1") // allowing '/client' routes only for the role client
-                .requestMatchers("/api/expert/**").hasRole("2") // allowing '/expert' routes only for the role expert
+                .requestMatchers("/api/client/**").hasAuthority(Role.CLIENT.name()) // allowing '/client' routes only for the role client
+                .requestMatchers("/api/expert/**").hasAuthority(Role.EXPERT.name()) // allowing '/expert' routes only for the role expert
                 .anyRequest().authenticated() // all other requests require authentication
             .and()
             .sessionManagement()

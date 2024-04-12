@@ -1,8 +1,9 @@
-package com.blitz.whatsdown.auth;
+package com.blitz.imbus.rest.controller;
 
-import com.blitz.whatsdown.model.requests.AuthenticationRequest;
-import com.blitz.whatsdown.model.requests.RegisterRequest;
-import com.blitz.whatsdown.model.responses.AuthenticationResponse;
+import com.blitz.imbus.service.AuthenticationService;
+import com.blitz.imbus.rest.dto.AuthenticationRequest;
+import com.blitz.imbus.rest.dto.RegisterRequest;
+import com.blitz.imbus.rest.dto.AuthenticationResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate (
             @RequestBody AuthenticationRequest request
     ) {
+        System.out.println(request);
         return ResponseEntity.ok(authenticationService.authenticate(request)); // returning token
     }
 

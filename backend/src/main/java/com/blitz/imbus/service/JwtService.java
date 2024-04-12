@@ -1,5 +1,6 @@
-package com.blitz.whatsdown.config;
+package com.blitz.imbus.service;
 
+import com.blitz.imbus.config.EnvConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

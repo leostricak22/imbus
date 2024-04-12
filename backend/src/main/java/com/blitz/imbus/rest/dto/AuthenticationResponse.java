@@ -1,5 +1,6 @@
-package com.blitz.whatsdown.model.requests;
+package com.blitz.imbus.rest.dto;
 
+import ch.qos.logback.classic.spi.LoggingEventVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
-    private String email;
-    private String password;
+public class AuthenticationResponse {
+    private String token;
 }

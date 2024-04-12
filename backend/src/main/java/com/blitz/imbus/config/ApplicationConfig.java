@@ -1,6 +1,6 @@
-package com.blitz.whatsdown.config;
+package com.blitz.imbus.config;
 
-import com.blitz.whatsdown.repository.UserRepository;
+import com.blitz.imbus.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
