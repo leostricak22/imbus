@@ -33,7 +33,7 @@ public class User implements UserDetails {
 
     private Boolean active;
 
-    private Timestamp created_at;
+    private Long created_at;
 
     private String password;
 
