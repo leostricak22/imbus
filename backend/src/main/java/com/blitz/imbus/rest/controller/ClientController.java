@@ -2,16 +2,24 @@
 
 package com.blitz.imbus.rest.controller;
 
+import com.blitz.imbus.rest.dto.FilterRequest;
+import com.blitz.imbus.rest.dto.ExpertsResponse;
+import com.blitz.imbus.service.ExpertsService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/client")
+@AllArgsConstructor
 public class ClientController {
-    @GetMapping
-    public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("Poz obicnom korisniku");
+    private final ExpertsService expertsService;
+
+    @PostMapping("/all-experts-filter")
+    public ResponseEntity<ExpertsResponse> allExperts (
+            @Valid @RequestBody FilterRequest request // Executing function only if request data format is valid
+    ) {
+        return ResponseEntity.ok(expertsService.getExperts(request));
     }
 }
