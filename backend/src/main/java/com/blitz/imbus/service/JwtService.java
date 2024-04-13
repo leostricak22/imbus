@@ -1,7 +1,9 @@
 package com.blitz.imbus.service;
 
 import com.blitz.imbus.config.EnvConfig;
+import com.blitz.imbus.domain.exception.AppException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -13,11 +15,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.security.SignatureException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+
+import static com.blitz.imbus.domain.exception.ErrorCode.UNAUTHORIZED;
 
 @Service
 public class JwtService {
@@ -75,11 +80,11 @@ public class JwtService {
     // extract all claims from the jwt
     private Claims extractAllClaims(String token) {
         return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+            .parserBuilder()
+            .setSigningKey(getSignInKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
     }
 
     // creates a signing key from the secret

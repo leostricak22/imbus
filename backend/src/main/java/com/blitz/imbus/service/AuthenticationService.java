@@ -28,7 +28,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         // check if user already exists
-        if(userRepository.existsByUsernameOrEmail(request.getUsername(), request.getEmail()).isPresent())
+        if (userRepository.existsByUsernameOrEmail(request.getUsername(), request.getEmail()))
             throw new AppException(CONFLICT);
 
         // saving user to database with encoded password
