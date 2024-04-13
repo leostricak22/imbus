@@ -1,9 +1,13 @@
 package com.blitz.imbus.rest.dto;
 
-import com.blitz.imbus.domain.models.Filter;
+import com.blitz.imbus.domain.models.FilterCriteria;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class FilterRequest {
-    List<Filter> filters;
+    @NotNull
+    List<FilterCriteria> filters;
 }

@@ -18,7 +18,7 @@ public class ClientController {
 
     @PostMapping("/all-experts-filter")
     public ResponseEntity<ExpertsResponse> allExperts (
-            @Valid @RequestBody FilterRequest request // Executing function only if request data format is valid
+            @Valid @RequestBody FilterRequest request
     ) {
         return ResponseEntity.ok(expertsService.getExperts(request));
     }
