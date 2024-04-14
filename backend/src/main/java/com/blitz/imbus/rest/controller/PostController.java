@@ -20,8 +20,15 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/get-all-posts")
-    public ResponseEntity<List<Post>> getAllPosts() {
+    public ResponseEntity<List<PostResponse>> getAllPosts() {
         return ResponseEntity.ok(postService.getAllPosts());
+    }
+
+    @GetMapping("/get-specific-post/{id}")
+    public ResponseEntity<PostResponse> getAllPosts(
+            @PathVariable Integer id
+    ) {
+        return ResponseEntity.ok(postService.getSpecificPost(id));
     }
 
     @PostMapping("/add-post")
