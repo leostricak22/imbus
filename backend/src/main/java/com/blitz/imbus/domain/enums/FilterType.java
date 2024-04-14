@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public enum FilterType {
     LOCATION,
-    CATEGORY
+    FIELD
 }
