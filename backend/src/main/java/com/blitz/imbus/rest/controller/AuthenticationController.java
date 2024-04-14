@@ -23,7 +23,7 @@ public class AuthenticationController {
     // registration route
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register (
-            @Valid @RequestBody RegisterRequest request // Executing function only if request data format is valid
+            @Valid @RequestBody RegisterRequest request // executing function only if request data format is valid
     ) {
         return ResponseEntity.ok(authenticationService.register(request)); // returning token
     }

@@ -16,9 +16,6 @@ public class PostRequest {
     private Integer id;
 
     @NotNull
-    private Integer creator_id;
-
-    @NotNull
     private Long doTheJobFrom;
 
     @NotNull // TODO: must be after 'doTheJobFrom'

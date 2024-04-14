@@ -7,9 +7,14 @@ import com.blitz.imbus.domain.models.Post;
 import com.blitz.imbus.domain.models.User;
 import com.blitz.imbus.repository.FieldRepository;
 import com.blitz.imbus.repository.PostRepository;
+import com.blitz.imbus.repository.UserRepository;
 import com.blitz.imbus.rest.dto.PostRequest;
 import com.blitz.imbus.rest.dto.PostResponse;
+import com.blitz.imbus.rest.dto.UserResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,12 +25,17 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
     private final FieldRepository fieldRepository;
 
+    private final JwtService jwtService;
+
+    // getting all posts
     public List<PostResponse> getAllPosts() {
         List<Post> allPosts = postRepository.findAll();
-        List<PostResponse> allPostResponses = new ArrayList<>();
 
+        // create a response
+        List<PostResponse> allPostResponses = new ArrayList<>();
         for (Post allPost : allPosts) {
             allPostResponses.add(getSpecificPost(allPost.getId()));
         }
@@ -44,6 +54,15 @@ public class PostService {
 
         // creating a response
         return PostResponse.builder()
+                .id(post.get().getId())
+                .creator(UserResponse.builder()
+                        .id(post.get().getCreator().getId())
+                        .username(post.get().getCreator().getUsername())
+                        .name(post.get().getCreator().getName())
+                        .surname(post.get().getCreator().getSurname())
+                        .location(post.get().getCreator().getLocation())
+                        .fields(post.get().getCreator().getFields())
+                        .build())
                 .title(post.get().getTitle())
                 .description(post.get().getDescription())
                 .doTheJobFrom(post.get().getDoTheJobFrom())
@@ -55,10 +74,14 @@ public class PostService {
 
     // adding a post into the database
     public PostResponse addPost(PostRequest request) {
+        Optional<User> loggedInUser = userRepository.findByUsername(jwtService.getUsernameFromSession());
+        if(loggedInUser.isEmpty())
+            throw new AppException(ErrorCode.BAD_REQUEST);
+
         // creating a post from the request
         Post post = Post.builder()
                 .created_at(System.currentTimeMillis())
-                .creator_id(request.getCreator_id())
+                .creator(loggedInUser.get())
                 .title(request.getTitle())
                 .description(request.getDescription())
                 .doTheJobFrom(request.getDoTheJobFrom())

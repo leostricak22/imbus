@@ -7,6 +7,7 @@ import com.blitz.imbus.rest.dto.PostResponse;
 import com.blitz.imbus.service.PostService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class PostController {
 
     @PostMapping("/add-post")
     public ResponseEntity<PostResponse> addPost(
-            @Valid @RequestBody PostRequest request // Executing function only if request data format is valid
+            @Valid @RequestBody PostRequest request // executing function only if request data format is valid
     ) {
         return ResponseEntity.ok(postService.addPost(request));
     }

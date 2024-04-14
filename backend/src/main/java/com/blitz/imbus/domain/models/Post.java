@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.blitz.imbus.domain.models.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -21,7 +22,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer creator_id;
+    @OneToOne
+    @JoinColumn(name = "creator")
+    private User creator;
 
     private Long created_at;
 
