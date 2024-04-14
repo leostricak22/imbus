@@ -1,8 +1,11 @@
 package com.blitz.imbus.service;
 
+import com.blitz.imbus.domain.enums.FieldType;
 import com.blitz.imbus.domain.exception.AppException;
 import com.blitz.imbus.domain.exception.ErrorCode;
+import com.blitz.imbus.domain.models.Field;
 import com.blitz.imbus.domain.models.User;
+import com.blitz.imbus.repository.FieldRepository;
 import com.blitz.imbus.rest.dto.AuthenticationRequest;
 import com.blitz.imbus.rest.dto.RegisterRequest;
 import com.blitz.imbus.rest.dto.AuthenticationResponse;
@@ -15,6 +18,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.blitz.imbus.domain.exception.ErrorCode.CONFLICT;
 import static com.blitz.imbus.domain.exception.ErrorCode.UNAUTHORIZED;
 
@@ -22,6 +27,7 @@ import static com.blitz.imbus.domain.exception.ErrorCode.UNAUTHORIZED;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
+    private final FieldRepository fieldRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -44,10 +50,23 @@ public class AuthenticationService {
                 .active(true)
                 .created_at(System.currentTimeMillis())
                 .location(request.getLocation())
+                .fields(request.getFields())
                 .build();
 
         // adding user into database
         userRepository.save(user);
+
+        // adding fields into database
+        List<Field> allFields = user.getFields();
+        for (Field field : allFields) {
+            field.setUser(User.builder()
+                            .id(user.getId())
+                            .build());
+
+            fieldRepository.save(field);
+        }
+
+        //System.out.println(user);
 
         // generating token and returning it
         var jwtToken = jwtService.generateToken(user);

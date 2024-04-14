@@ -1,12 +1,14 @@
 package com.blitz.imbus.domain.models;
 
 import com.blitz.imbus.domain.enums.CroatianCounty;
+import com.blitz.imbus.domain.enums.FieldType;
 import com.blitz.imbus.domain.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,6 +45,9 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private CroatianCounty location;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Field> fields;
 
     @Override
     public boolean isAccountNonExpired() {

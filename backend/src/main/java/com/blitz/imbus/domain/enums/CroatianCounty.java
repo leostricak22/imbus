@@ -27,9 +27,9 @@ public enum CroatianCounty {
     MEDIMURSKA("Medimurska"),
     GRAD_ZAGREB("Grad Zagreb");
 
-    private final String countyName;
+    private final String name;
 
-    CroatianCounty(String countyName) {
-        this.countyName = countyName;
+    CroatianCounty(String name) {
+        this.name = name;
     }
 }

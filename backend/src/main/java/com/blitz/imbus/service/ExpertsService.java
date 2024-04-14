@@ -56,6 +56,7 @@ public class ExpertsService {
                     .surname(expert.getSurname())
                     .username(expert.getUsername())
                     .location(expert.getLocation())
+                    .fields(expert.getFields())
                     .build());
         }
 
