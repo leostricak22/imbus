@@ -34,14 +34,13 @@ public class ExpertsService {
 
         List<FilterCriteria> filterList = filters.getFilters();
 
-
         // create UserResponse object from every user
         boolean passesFilter;
         for (User expert : allExpertsWithAllData) {
             passesFilter = false;
             for (FilterCriteria filter : filterList) {
                 // check if location is in the filter and its value
-                if (filter.getName() == FilterType.LOCATION && filter.getValue().equals(expert.getLocation().toString())) {
+                if (filterService.checkFilterUser(filter, expert)) {
                     passesFilter = true;
                     break;
                 }
@@ -50,6 +49,7 @@ public class ExpertsService {
             if(!passesFilter)
                 continue;
 
+            // add user to allExperts
             allExperts.add(UserResponse.builder()
                     .id(expert.getId())
                     .name(expert.getName())
