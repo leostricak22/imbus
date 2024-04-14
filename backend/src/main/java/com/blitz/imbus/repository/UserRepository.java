@@ -2,6 +2,7 @@
 
 package com.blitz.imbus.repository;
 
+import com.blitz.imbus.domain.enums.CroatianCounty;
 import com.blitz.imbus.domain.enums.Role;
 import com.blitz.imbus.domain.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

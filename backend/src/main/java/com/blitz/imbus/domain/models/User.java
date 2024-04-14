@@ -1,5 +1,6 @@
 package com.blitz.imbus.domain.models;
 
+import com.blitz.imbus.domain.enums.CroatianCounty;
 import com.blitz.imbus.domain.enums.Role;
 import jakarta.persistence.*;
 
@@ -39,6 +40,9 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private CroatianCounty location;
 
     @Override
     public boolean isAccountNonExpired() {

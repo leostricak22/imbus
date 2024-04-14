@@ -1,11 +1,12 @@
 package com.blitz.imbus.service;
 
+import com.blitz.imbus.domain.enums.FilterType;
 import com.blitz.imbus.domain.enums.Role;
 import com.blitz.imbus.domain.exception.AppException;
 import com.blitz.imbus.domain.exception.ErrorCode;
+import com.blitz.imbus.domain.models.FilterCriteria;
 import com.blitz.imbus.domain.models.User;
 import com.blitz.imbus.repository.UserRepository;
-import com.blitz.imbus.rest.dto.AuthenticationResponse;
 import com.blitz.imbus.rest.dto.ExpertsResponse;
 import com.blitz.imbus.rest.dto.FilterRequest;
 import com.blitz.imbus.rest.dto.UserResponse;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -30,13 +32,30 @@ public class ExpertsService {
         List<User> allExpertsWithAllData = userRepository.findByRole(Role.EXPERT);
         List<UserResponse> allExperts = new ArrayList<>();
 
+        List<FilterCriteria> filterList = filters.getFilters();
+
+
         // create UserResponse object from every user
-        for (User expertsAllDatum : allExpertsWithAllData) {
+        boolean passesFilter;
+        for (User expert : allExpertsWithAllData) {
+            passesFilter = false;
+            for (FilterCriteria filter : filterList) {
+                // check if location is in the filter and its value
+                if (filter.getName() == FilterType.LOCATION && filter.getValue().equals(expert.getLocation().toString())) {
+                    passesFilter = true;
+                    break;
+                }
+            }
+
+            if(!passesFilter)
+                continue;
+
             allExperts.add(UserResponse.builder()
-                    .id(expertsAllDatum.getId())
-                    .name(expertsAllDatum.getName())
-                    .surname(expertsAllDatum.getSurname())
-                    .username(expertsAllDatum.getUsername())
+                    .id(expert.getId())
+                    .name(expert.getName())
+                    .surname(expert.getSurname())
+                    .username(expert.getUsername())
+                    .location(expert.getLocation())
                     .build());
         }
 

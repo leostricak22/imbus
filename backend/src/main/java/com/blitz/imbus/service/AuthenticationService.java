@@ -43,6 +43,7 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .active(true)
                 .created_at(System.currentTimeMillis())
+                .location(request.getLocation())
                 .build();
 
         // adding user into database
