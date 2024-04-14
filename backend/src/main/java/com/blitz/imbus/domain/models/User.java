@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "fields")
 @Table(name = "user")
 public class User implements UserDetails {
     @Id

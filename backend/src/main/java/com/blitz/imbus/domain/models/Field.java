@@ -20,4 +20,10 @@ public class Field {
     @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "post_id")
+    private Post post;
+
 }

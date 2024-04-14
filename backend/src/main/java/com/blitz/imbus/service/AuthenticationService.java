@@ -66,8 +66,6 @@ public class AuthenticationService {
             fieldRepository.save(field);
         }
 
-        //System.out.println(user);
-
         // generating token and returning it
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
