@@ -1,14 +1,15 @@
 package com.blitz.imbus.domain.models;
 
+import com.blitz.imbus.domain.enums.CategoryType;
 import com.blitz.imbus.domain.enums.CroatianCounty;
-import com.blitz.imbus.domain.enums.FieldType;
 import com.blitz.imbus.domain.enums.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +21,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "fields")
 @Table(name = "user")
 public class User implements UserDetails {
     @Id
@@ -37,7 +37,7 @@ public class User implements UserDetails {
 
     private Boolean active;
 
-    private Long created_at;
+    private LocalDateTime created_at;
 
     private String password;
 
@@ -47,8 +47,14 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private CroatianCounty location;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Field> fields;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name")
+    @CollectionTable(
+        name = "categories",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = true, updatable = true)
+    )
+    private Set<CategoryType> categories;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -70,7 +76,6 @@ public class User implements UserDetails {
         return true;
     }
 
-    // giving user the role
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(role.name()));

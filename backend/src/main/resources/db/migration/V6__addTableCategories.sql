@@ -1,0 +1,10 @@
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) DEFAULT NULL,
+    user_id INT DEFAULT NULL,
+    ad_id INT DEFAULT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (ad_id) REFERENCES ad(id)
+);
+
+DROP TABLE field;

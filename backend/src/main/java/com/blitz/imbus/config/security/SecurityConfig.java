@@ -24,17 +24,17 @@ public class SecurityConfig {
         http
             .csrf().disable()
             .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**").permitAll() // allowing all '/auth' routes to anyone
-                .requestMatchers("/api/client/**").hasAuthority(Role.CLIENT.name()) // allowing '/client' routes only for the role client
-                .requestMatchers("/api/expert/**").hasAuthority(Role.EXPERT.name()) // allowing '/expert' routes only for the role expert
-                .anyRequest().authenticated() // all other requests require authentication
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/client/**").hasAuthority(Role.CLIENT.name())
+                .requestMatchers("/api/expert/**").hasAuthority(Role.EXPERT.name())
+                .anyRequest().authenticated()
             .and()
             .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .authenticationProvider(authenticationProvider) // custom authentication provider
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // jwt filter
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build(); // build the filter
+        return http.build();
     }
 }

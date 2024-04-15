@@ -1,10 +1,12 @@
 package com.blitz.imbus.domain.enums;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Column;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-public enum FieldType {
+public enum CategoryType {
     VODOINSTALATERSKI_RADOVI("Vodoinstalaterski radovi"),
     STOLARSKI_RADOVI("Stolarski radovi"),
     SOBOSLIKARSKI_RADOVI("Soboslikarski radovi"),
@@ -12,7 +14,7 @@ public enum FieldType {
 
     public final String name;
 
-    FieldType(String name) {
+    CategoryType(String name) {
         this.name = name;
     }
 }

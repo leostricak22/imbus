@@ -1,5 +1,3 @@
-// controller for users with "expert" role
-
 package com.blitz.imbus.rest.controller;
 
 import org.springframework.http.ResponseEntity;

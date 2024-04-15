@@ -23,36 +23,35 @@ public class ExpertsService {
     private final UserRepository userRepository;
     private final FilterService filterService;
 
-    public ExpertsResponse getExperts(FilterRequest filters) {
-        // check if filters are valid
+    public ExpertsResponse getExpertsFilter(FilterRequest filters) {
         if(!filterService.validateFilter(filters))
             throw new AppException(ErrorCode.BAD_REQUEST);
 
-        // get all experts
         List<User> allExpertsWithAllData = userRepository.findByRole(Role.EXPERT);
-        List<UserResponse> allExperts = new ArrayList<>();
-
         List<FilterCriteria> filterList = filters.getFilters();
 
-        // create UserResponse object from every user
+        return ExpertsResponse.builder()
+                .experts(getExperts(allExpertsWithAllData, filterList))
+                .build();
+    }
+
+    public List<UserResponse> getExperts(List<User> allExpertsWithAllData, List<FilterCriteria> filterList) {
+        List<UserResponse> allExperts = new ArrayList<>();
+
         for (User expert : allExpertsWithAllData) {
             if (!filterService.checkFilterUser(filterList, expert))
                 continue;
 
-            // add user to allExperts
             allExperts.add(UserResponse.builder()
                     .id(expert.getId())
                     .name(expert.getName())
                     .surname(expert.getSurname())
                     .username(expert.getUsername())
                     .location(expert.getLocation())
-                    .fields(expert.getFields())
+                    .categories(expert.getCategories())
                     .build());
         }
 
-        // returning all experts with the selected filters
-        return ExpertsResponse.builder()
-                .experts(allExperts)
-                .build();
+        return allExperts;
     }
 }

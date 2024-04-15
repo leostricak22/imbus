@@ -1,31 +1,32 @@
 package com.blitz.imbus.rest.dto;
 
+import com.blitz.imbus.domain.enums.CategoryType;
 import com.blitz.imbus.domain.enums.CroatianCounty;
-import com.blitz.imbus.domain.models.Field;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
-public class PostRequest {
+public class AdRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    private Long doTheJobFrom;
+    private LocalDateTime do_the_job_from;
 
     @NotNull // TODO: must be after 'doTheJobFrom'
-    private Long doTheJobTo;
+    private LocalDateTime do_the_job_to;
 
     @Enumerated(EnumType.STRING)
     private CroatianCounty location;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Field> fields;
+    @Enumerated(EnumType.STRING)
+    private Set<CategoryType> categories;
 
     @NotBlank
     private String title;

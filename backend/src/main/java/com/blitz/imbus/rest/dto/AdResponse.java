@@ -5,16 +5,27 @@ import com.blitz.imbus.domain.enums.CroatianCounty;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
 @Builder
-public class UserResponse {
+public class AdResponse {
     private Integer id;
-    private String name;
-    private String surname;
-    private String username;
+
+    private UserResponse creator;
+
+    private LocalDateTime created_at;
+
+    private LocalDateTime do_the_job_from;
+
+    private LocalDateTime do_the_job_to;
+
     private CroatianCounty location;
+
     private Set<CategoryType> categories;
+
+    private String title;
+
+    private String description;
 }

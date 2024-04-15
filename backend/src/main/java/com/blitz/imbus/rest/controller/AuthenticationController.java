@@ -2,7 +2,7 @@ package com.blitz.imbus.rest.controller;
 
 import com.blitz.imbus.service.AuthenticationService;
 import com.blitz.imbus.rest.dto.AuthenticationRequest;
-import com.blitz.imbus.rest.dto.RegisterRequest;
+import com.blitz.imbus.rest.dto.UserRequest;
 import com.blitz.imbus.rest.dto.AuthenticationResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -20,21 +20,17 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    // registration route
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register (
-            @Valid @RequestBody RegisterRequest request // executing function only if request data format is valid
+            @Valid @RequestBody UserRequest request
     ) {
-        return ResponseEntity.ok(authenticationService.register(request)); // returning token
+        return ResponseEntity.ok(authenticationService.register(request));
     }
 
-    // authentication route
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate (
             @RequestBody AuthenticationRequest request
     ) {
-        System.out.println(request);
-        return ResponseEntity.ok(authenticationService.authenticate(request)); // returning token
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
-
 }

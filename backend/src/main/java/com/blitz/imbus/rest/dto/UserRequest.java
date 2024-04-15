@@ -1,9 +1,8 @@
 package com.blitz.imbus.rest.dto;
 
+import com.blitz.imbus.domain.enums.CategoryType;
 import com.blitz.imbus.domain.enums.CroatianCounty;
-import com.blitz.imbus.domain.enums.FieldType;
 import com.blitz.imbus.domain.enums.Role;
-import com.blitz.imbus.domain.models.Field;
 import com.blitz.imbus.validation.PasswordValidate;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,12 +12,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
 @Builder
-public class RegisterRequest {
+public class UserRequest {
     @NotBlank
     private String name;
 
@@ -42,5 +41,5 @@ public class RegisterRequest {
     private CroatianCounty location;
 
     @Enumerated(EnumType.STRING)
-    private List<Field> fields;
+    private Set<CategoryType> categories;
 }
