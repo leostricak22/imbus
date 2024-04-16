@@ -7,6 +7,7 @@ import com.blitz.imbus.rest.dto.UserRequest;
 import com.blitz.imbus.rest.dto.AuthenticationResponse;
 import com.blitz.imbus.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ModelMapper modelMapper;
 
     public AuthenticationResponse register(UserRequest request) {
         if (userRepository.existsByUsernameOrEmail(request.getUsername(), request.getEmail()))
@@ -32,18 +34,8 @@ public class AuthenticationService {
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        User user = User.builder()
-                .name(request.getName())
-                .surname(request.getSurname())
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .role(request.getRole())
-                .active(true)
-                .created_at(LocalDateTime.now())
-                .location(request.getLocation())
-                .categories(request.getCategories())
-                .build();
+        User user = modelMapper.map(request, User.class);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         userRepository.save(user);
 

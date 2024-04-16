@@ -4,12 +4,13 @@ import com.blitz.imbus.domain.enums.CategoryType;
 import com.blitz.imbus.domain.enums.CroatianCounty;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Set;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class UserResponse {
     private Integer id;
     private String name;

@@ -10,6 +10,7 @@ import com.blitz.imbus.rest.dto.AdRequest;
 import com.blitz.imbus.rest.dto.AdResponse;
 import com.blitz.imbus.rest.dto.UserResponse;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,8 @@ import java.util.Optional;
 public class AdService {
     private final AdRepository adRepository;
     private final UserRepository userRepository;
+
+    private final ModelMapper modelMapper;
 
     private final JwtService jwtService;
 
@@ -42,39 +45,14 @@ public class AdService {
         if(ad.isEmpty())
             throw new AppException(ErrorCode.BAD_REQUEST);
 
-        return AdResponse.builder()
-                .id(ad.get().getId())
-                .creator(UserResponse.builder()
-                        .id(ad.get().getCreator().getId())
-                        .username(ad.get().getCreator().getUsername())
-                        .name(ad.get().getCreator().getName())
-                        .surname(ad.get().getCreator().getSurname())
-                        .location(ad.get().getCreator().getLocation())
-                        .categories(ad.get().getCreator().getCategories())
-                        .build())
-                .title(ad.get().getTitle())
-                .description(ad.get().getDescription())
-                .created_at(ad.get().getCreated_at())
-                .do_the_job_from(ad.get().getDo_the_job_from())
-                .do_the_job_to(ad.get().getDo_the_job_to())
-                .categories(ad.get().getCategories())
-                .location(ad.get().getLocation())
-                .build();
+        return modelMapper.map(ad.get(), AdResponse.class);
     }
 
     public AdResponse addAd(AdRequest request) {
         Optional<User> loggedInUser = userRepository.findByUsername(jwtService.getUsernameFromSession());
 
-        Ad ad = Ad.builder()
-                .created_at(LocalDateTime.now())
-                .creator(loggedInUser.get())
-                .title(request.getTitle())
-                .description(request.getDescription())
-                .do_the_job_from(request.getDo_the_job_from())
-                .do_the_job_to(request.getDo_the_job_to())
-                .location(request.getLocation())
-                .categories(request.getCategories())
-                .build();
+        Ad ad = modelMapper.map(request, Ad.class);
+        ad.setCreator(loggedInUser.get());
 
         adRepository.save(ad);
 

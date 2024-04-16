@@ -18,14 +18,13 @@ public class FilterService {
         boolean filterFieldFound = checkIfFilterTypeExistsInJsonArray(filterList, FilterType.FIELD);
 
         for (FilterCriteria filter : filterList) {
+            if (filterLocationFound && filterFieldFound) break;
+
             if (!filterLocationFound && checkFilterUserLocation(filter, user))
                 filterLocationFound = true;
 
             if (!filterFieldFound && checkFilterUserField(filter, user))
                 filterFieldFound = true;
-
-            if (filterLocationFound && filterFieldFound)
-                break;
         }
 
         return filterLocationFound && filterFieldFound;
@@ -37,7 +36,7 @@ public class FilterService {
 
     public boolean checkFilterUserField(FilterCriteria filter, User user) {
         if (filter.getName() == FilterType.FIELD)
-            return true;// IntStream.range(0, user.getCategories().size()).anyMatch(i -> user.getCategories().get(i).getName().toString().equals(filter.getValue()));
+            return user.getCategories().stream().anyMatch(category -> category.getName().equals(filter.getValue()));
 
         return false;
     }

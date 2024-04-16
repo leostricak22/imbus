@@ -35,9 +35,11 @@ public class User implements UserDetails {
 
     private String email;
 
-    private Boolean active;
+    @Builder.Default
+    private Boolean active=true;
 
-    private LocalDateTime created_at;
+    @Builder.Default
+    private LocalDateTime created_at=LocalDateTime.now();
 
     private String password;
 
