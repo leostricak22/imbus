@@ -51,9 +51,6 @@ public class AdService {
         return allAdResponse;
     }
 
-
-
-
     public AdResponse getSpecificAd(Integer id) {
         Optional<Ad> ad = adRepository.findById(id);
 

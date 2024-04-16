@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class ExpertsService {
+public class ExpertService {
     private final UserRepository userRepository;
     private final FilterService filterService;
 
@@ -41,5 +42,14 @@ public class ExpertsService {
         }
 
         return allExpertsResponse;
+    }
+
+    public UserResponse getSpecificExpert(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if(user.isEmpty())
+            throw new AppException(ErrorCode.BAD_REQUEST);
+
+        return modelMapper.map(user.get(), UserResponse.class);
     }
 }

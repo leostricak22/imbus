@@ -34,9 +34,6 @@ public class FilterService {
                 filterFieldFound = true;
         }
 
-        System.out.println(filterLocationFound);
-        System.out.println(filterFieldFound);
-
         return filterLocationFound && filterFieldFound;
     }
 
