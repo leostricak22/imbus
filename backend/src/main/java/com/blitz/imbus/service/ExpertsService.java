@@ -24,9 +24,6 @@ public class ExpertsService {
     private final ModelMapper modelMapper;
 
     public List<UserResponse> getExpertsFilter(FilterRequest filters) {
-        if(!filterService.validateFilter(filters))
-            throw new AppException(ErrorCode.BAD_REQUEST);
-
         List<User> allExpertsWithAllData = userRepository.findByRole(Role.EXPERT);
         List<FilterCriteria> filterList = filters.getFilters();
 

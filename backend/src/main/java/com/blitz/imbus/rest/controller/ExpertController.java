@@ -21,9 +21,7 @@ public class ExpertController {
     @PreAuthorize("hasAuthority('CLIENT')")
     @GetMapping("/")
     public ResponseEntity<List<UserResponse>> allExperts() {
-        return ResponseEntity.ok(expertsService.getExpertsFilter(FilterRequest.builder()
-                .filters(new ArrayList<>())
-                .build()));
+        return ResponseEntity.ok(expertsService.getExpertsFilter(new FilterRequest()));
     }
 
     @PreAuthorize("hasAuthority('CLIENT')")

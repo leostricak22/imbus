@@ -1,9 +1,11 @@
 package com.blitz.imbus.service;
 
+import com.blitz.imbus.domain.enums.CategoryType;
 import com.blitz.imbus.domain.enums.FilterType;
 import com.blitz.imbus.domain.models.FilterCriteria;
 import com.blitz.imbus.domain.models.User;
 import com.blitz.imbus.rest.dto.FilterRequest;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -15,7 +17,7 @@ import java.util.stream.IntStream;
 public class FilterService {
     public boolean checkFilterUser(List<FilterCriteria> filterList, User user) {
         boolean filterLocationFound = checkIfFilterTypeExistsInJsonArray(filterList, FilterType.LOCATION);
-        boolean filterFieldFound = checkIfFilterTypeExistsInJsonArray(filterList, FilterType.FIELD);
+        boolean filterFieldFound = checkIfFilterTypeExistsInJsonArray(filterList, FilterType.CATEGORY);
 
         for (FilterCriteria filter : filterList) {
             if (filterLocationFound && filterFieldFound) break;
@@ -35,10 +37,8 @@ public class FilterService {
     }
 
     public boolean checkFilterUserField(FilterCriteria filter, User user) {
-        if (filter.getName() == FilterType.FIELD)
-            return user.getCategories().stream().anyMatch(category -> category.getName().equals(filter.getValue()));
-
-        return false;
+        return filter.getName() == FilterType.CATEGORY &&
+               user.getCategories().stream().anyMatch(category -> category.name().equals(filter.getValue()));
     }
 
     public boolean checkIfFilterTypeExistsInJsonArray(List<FilterCriteria> filterArray, FilterType filterType) {
@@ -47,21 +47,5 @@ public class FilterService {
                 return false;
 
         return true;
-    }
-
-    public boolean validateFilter(FilterRequest filters) {
-        List<FilterCriteria> filterList = filters.getFilters();
-
-        for (FilterCriteria filter : filterList)
-            if (!isFilterNameValid(filter.getName().toString()))
-                return false;
-
-        return true;
-    }
-
-    public boolean isFilterNameValid(String filterName) {
-        return Arrays.stream(FilterType.class.getEnumConstants())
-                .map(Enum::name)
-                .anyMatch(name -> name.equals(filterName));
     }
 }
