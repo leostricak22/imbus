@@ -1,15 +1,36 @@
 package com.blitz.imbus.rest.controller;
 
+import com.blitz.imbus.rest.dto.FilterRequest;
+import com.blitz.imbus.rest.dto.UserResponse;
+import com.blitz.imbus.service.ExpertsService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/expert")
 public class ExpertController {
-    @GetMapping
-    public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("Pozdrav znalcu");
+    private final ExpertsService expertsService;
+
+    @PreAuthorize("hasAuthority('CLIENT')")
+    @GetMapping("/")
+    public ResponseEntity<List<UserResponse>> allExperts() {
+        return ResponseEntity.ok(expertsService.getExpertsFilter(FilterRequest.builder()
+                .filters(new ArrayList<>())
+                .build()));
+    }
+
+    @PreAuthorize("hasAuthority('CLIENT')")
+    @PostMapping("/filter")
+    public ResponseEntity<List<UserResponse>> allExpertsFilter (
+            @Valid @RequestBody FilterRequest request
+    ) {
+        return ResponseEntity.ok(expertsService.getExpertsFilter(request));
     }
 }

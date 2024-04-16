@@ -6,6 +6,7 @@ import com.blitz.imbus.service.AdService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class AdController {
         return ResponseEntity.ok(adService.getSpecificAd(id));
     }
 
+    @PreAuthorize("hasAuthority('CLIENT')")
     @PostMapping("/add")
     public ResponseEntity<AdResponse> addAd(
             @Valid @RequestBody AdRequest request
