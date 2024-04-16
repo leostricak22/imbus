@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.blitz.imbus.domain.exception.ErrorCode.BAD_REQUEST;
@@ -46,5 +48,16 @@ public class OfferService {
         offerRepository.save(offer);
 
         return modelMapper.map(offer, OfferResponse.class);
+    }
+
+    public List<OfferResponse> getAllOffers(Integer adId) {
+        List<Offer> allOffers = offerRepository.findAllByAdId(adId);
+
+        List<OfferResponse> offerResponse = new ArrayList<>();
+        for(Offer offer : allOffers)
+            if(offer.getAd().getCreator().getUsername().equals(jwtService.getUsernameFromSession()))
+                offerResponse.add(modelMapper.map(offer, OfferResponse.class));
+
+        return offerResponse;
     }
 }

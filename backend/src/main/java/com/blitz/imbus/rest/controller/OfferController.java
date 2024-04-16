@@ -17,6 +17,14 @@ import java.util.List;
 public class OfferController {
     private final OfferService offerService;
 
+    @PreAuthorize("hasAuthority('CLIENT')")
+    @GetMapping("/{adId}")
+    public ResponseEntity<List<OfferResponse>> getAllOffers(
+            @PathVariable Integer adId
+    ) {
+        return ResponseEntity.ok(offerService.getAllOffers(adId));
+    }
+
     @PreAuthorize("hasAuthority('EXPERT')")
     @PostMapping("/")
     public ResponseEntity<OfferResponse> giveOfferToAnAd(
@@ -24,7 +32,4 @@ public class OfferController {
     ) {
         return ResponseEntity.ok(offerService.giveOfferToAnAd(offerRequest));
     }
-
-
-
 }
