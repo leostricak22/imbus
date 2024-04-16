@@ -1,0 +1,30 @@
+package com.blitz.imbus.rest.controller;
+
+import com.blitz.imbus.rest.dto.*;
+import com.blitz.imbus.service.OfferService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@AllArgsConstructor
+@RestController
+@RequestMapping("/api/offer")
+public class OfferController {
+    private final OfferService offerService;
+
+    @PreAuthorize("hasAuthority('EXPERT')")
+    @PostMapping("/")
+    public ResponseEntity<OfferResponse> giveOfferToAnAd(
+            @Valid @RequestBody OfferRequest offerRequest
+    ) {
+        return ResponseEntity.ok(offerService.giveOfferToAnAd(offerRequest));
+    }
+
+
+
+}
