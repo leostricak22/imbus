@@ -29,8 +29,8 @@ public class ExpertController {
     @PreAuthorize("hasAuthority('CLIENT')")
     @PostMapping("/filter")
     public ResponseEntity<List<UserResponse>> allExpertsFilter (
-            @Valid @RequestBody FilterRequest request
+            @Valid @RequestBody FilterRequest filterRequest
     ) {
-        return ResponseEntity.ok(expertsService.getExpertsFilter(request));
+        return ResponseEntity.ok(expertsService.getExpertsFilter(filterRequest));
     }
 }

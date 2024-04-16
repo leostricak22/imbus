@@ -48,10 +48,8 @@ public class AdService {
         return modelMapper.map(ad.get(), AdResponse.class);
     }
 
-    public AdResponse addAd(AdRequest request) {
+    public AdResponse addAd(Ad ad) {
         Optional<User> loggedInUser = userRepository.findByUsername(jwtService.getUsernameFromSession());
-
-        Ad ad = modelMapper.map(request, Ad.class);
         ad.setCreator(loggedInUser.get());
 
         adRepository.save(ad);

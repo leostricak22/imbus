@@ -26,17 +26,12 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final ModelMapper modelMapper;
 
-    public AuthenticationResponse register(UserRequest request) {
-        if (userRepository.existsByUsernameOrEmail(request.getUsername(), request.getEmail()))
+    public AuthenticationResponse register(User user, String password) {
+        if (userRepository.existsByUsernameOrEmail(user.getUsername(), user.getEmail()))
             throw new AppException(CONFLICT);
 
-        request.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        User user = modelMapper.map(request, User.class);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
+        user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
@@ -45,15 +40,15 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
+    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
+        User user = userRepository.findByEmail(authenticationRequest.getEmail())
                 .orElseThrow(() -> new AppException(UNAUTHORIZED));
 
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             user.getUsername(),
-                            request.getPassword()
+                            authenticationRequest.getPassword()
                     )
             );
         } catch (BadCredentialsException ex) {
