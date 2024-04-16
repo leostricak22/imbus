@@ -30,5 +30,5 @@ public class Offer {
     private Float price;
 
     @Builder.Default
-    private boolean selected=false;
+    private Boolean selected=false;
 }

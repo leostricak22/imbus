@@ -60,4 +60,19 @@ public class OfferService {
 
         return offerResponse;
     }
+
+    public OfferResponse selectOffer(Integer offerId) {
+        Offer offerToSelect = offerRepository.findById(offerId)
+                .orElseThrow(() -> new AppException(BAD_REQUEST));
+
+        List<Offer> selectedOffersWithSameAdId = offerRepository.findAllByAdId(offerToSelect.getAd().getId());
+        for (Offer offer : selectedOffersWithSameAdId)
+            if(offer.getSelected())
+                throw new AppException(CONFLICT);
+
+        offerToSelect.setSelected(true);
+        offerRepository.save(offerToSelect);
+
+        return modelMapper.map(offerToSelect, OfferResponse.class);
+    }
 }

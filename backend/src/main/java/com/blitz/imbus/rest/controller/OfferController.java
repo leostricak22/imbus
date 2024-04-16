@@ -32,4 +32,12 @@ public class OfferController {
     ) {
         return ResponseEntity.ok(offerService.giveOfferToAnAd(offerRequest));
     }
+
+    @PreAuthorize("hasAuthority('CLIENT')")
+    @PostMapping("/select/{offerId}")
+    public ResponseEntity<OfferResponse> selectOffer(
+        @PathVariable Integer offerId
+    ) {
+        return ResponseEntity.ok(offerService.selectOffer(offerId));
+    }
 }
