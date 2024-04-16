@@ -3,11 +3,13 @@ package com.blitz.imbus.service;
 import com.blitz.imbus.domain.exception.AppException;
 import com.blitz.imbus.domain.exception.ErrorCode;
 import com.blitz.imbus.domain.models.Ad;
+import com.blitz.imbus.domain.models.FilterCriteria;
 import com.blitz.imbus.domain.models.User;
 import com.blitz.imbus.repository.AdRepository;
 import com.blitz.imbus.repository.UserRepository;
 import com.blitz.imbus.rest.dto.AdRequest;
 import com.blitz.imbus.rest.dto.AdResponse;
+import com.blitz.imbus.rest.dto.FilterRequest;
 import com.blitz.imbus.rest.dto.UserResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Filter;
 
 @Service
 @AllArgsConstructor
@@ -24,20 +27,32 @@ public class AdService {
     private final AdRepository adRepository;
     private final UserRepository userRepository;
 
-    private final ModelMapper modelMapper;
-
+    private final FilterService filterService;
     private final JwtService jwtService;
 
-    public List<AdResponse> getAllAds() {
-        List<Ad> allAds = adRepository.findAll();
+    private final ModelMapper modelMapper;
 
-        List<AdResponse> allAdRespons = new ArrayList<>();
-        for (Ad allAd : allAds) {
-            allAdRespons.add(getSpecificAd(allAd.getId()));
+    public List<AdResponse> getAdsFilter(FilterRequest filters) {
+        List<Ad> allAds = adRepository.findAll();
+        List<FilterCriteria> filterList = filters.getFilters();
+
+        return getAds(allAds, filterList);
+    }
+
+    public List<AdResponse> getAds(List<Ad> allAds, List<FilterCriteria> filterList) {
+        List<AdResponse> allAdResponse = new ArrayList<>();
+        for (Ad ad : allAds) {
+            if (!filterService.checkFilter(filterList, ad))
+                continue;
+
+            allAdResponse.add(modelMapper.map(ad, AdResponse.class));
         }
 
-        return allAdRespons;
+        return allAdResponse;
     }
+
+
+
 
     public AdResponse getSpecificAd(Integer id) {
         Optional<Ad> ad = adRepository.findById(id);

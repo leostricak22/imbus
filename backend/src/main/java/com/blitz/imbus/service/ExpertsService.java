@@ -24,22 +24,22 @@ public class ExpertsService {
     private final ModelMapper modelMapper;
 
     public List<UserResponse> getExpertsFilter(FilterRequest filters) {
-        List<User> allExpertsWithAllData = userRepository.findByRole(Role.EXPERT);
+        List<User> allExperts = userRepository.findByRole(Role.EXPERT);
         List<FilterCriteria> filterList = filters.getFilters();
 
-        return getExperts(allExpertsWithAllData, filterList);
+        return getExperts(allExperts, filterList);
     }
 
-    public List<UserResponse> getExperts(List<User> allExpertsWithAllData, List<FilterCriteria> filterList) {
-        List<UserResponse> allExperts = new ArrayList<>();
+    public List<UserResponse> getExperts(List<User> allExperts, List<FilterCriteria> filterList) {
+        List<UserResponse> allExpertsResponse = new ArrayList<>();
 
-        for (User expert : allExpertsWithAllData) {
-            if (!filterService.checkFilterUser(filterList, expert))
+        for (User expert : allExperts) {
+            if (!filterService.checkFilter(filterList, expert))
                 continue;
 
-            allExperts.add(modelMapper.map(expert, UserResponse.class));
+            allExpertsResponse.add(modelMapper.map(expert, UserResponse.class));
         }
 
-        return allExperts;
+        return allExpertsResponse;
     }
 }

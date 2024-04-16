@@ -3,6 +3,8 @@ package com.blitz.imbus.rest.controller;
 import com.blitz.imbus.domain.models.Ad;
 import com.blitz.imbus.rest.dto.AdRequest;
 import com.blitz.imbus.rest.dto.AdResponse;
+import com.blitz.imbus.rest.dto.FilterRequest;
+import com.blitz.imbus.rest.dto.UserResponse;
 import com.blitz.imbus.service.AdService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,7 +25,7 @@ public class AdController {
 
     @GetMapping("/")
     public ResponseEntity<List<AdResponse>> getAllAds() {
-        return ResponseEntity.ok(adService.getAllAds());
+        return ResponseEntity.ok(adService.getAdsFilter(new FilterRequest()));
     }
 
     @GetMapping("/{id}")
@@ -39,5 +41,12 @@ public class AdController {
             @Valid @RequestBody AdRequest adRequest
     ) {
         return ResponseEntity.ok(adService.addAd(modelMapper.map(adRequest, Ad.class)));
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<List<AdResponse>> allExpertsFilter (
+            @Valid @RequestBody FilterRequest filterRequest
+    ) {
+        return ResponseEntity.ok(adService.getAdsFilter(filterRequest));
     }
 }
