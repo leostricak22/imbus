@@ -2,24 +2,115 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TextInput, Image, Pressable, ImageBackground } from 'react-native';
 import { useState, useEffect } from 'react';
 
-homepageImage = require("../../../assets/icons/homepage/homepage.png");
-homepageSelectedImage = require("../../../assets/icons/homepage/homepageSelected.png");
+const homepageImage = require("../../../assets/icons/homepage/homepage.png");
+const homepageSelectedImage = require("../../../assets/icons/homepage/homepageSelected.png");
 
-postsImage = require("../../../assets/icons/homepage/posts.png");
-postsSelectedImage = require("../../../assets/icons/homepage/postsSelected.png");
+const postsImage = require("../../../assets/icons/homepage/posts.png");
+const postsSelectedImage = require("../../../assets/icons/homepage/postsSelected.png");
 
-messagesImage = require("../../../assets/icons/homepage/messages.png");
-messagesSelectedImage = require("../../../assets/icons/homepage/messagesSelected.png");
+const messagesImage = require("../../../assets/icons/homepage/messages.png");
+const messagesSelectedImage = require("../../../assets/icons/homepage/messagesSelected.png");
 
-specialistsImage = require("../../../assets/icons/homepage/specialists.png");
-specialistsSelectedImage = require("../../../assets/icons/homepage/specialistsSelected.png");
+const specialistsImage = require("../../../assets/icons/homepage/specialists.png");
+const specialistsSelectedImage = require("../../../assets/icons/homepage/specialistsSelected.png");
 
 export default function Navigation({ selectedSection, setSelectedSection }) {
-    const [buttonAddIsHovered, setButtonAddIsHovered] = useState(false); 
+    const [buttonAddIsHovered, setButtonAddIsHovered] = useState(false);
 
     return (
         <View style={styles.navigation}>
-            {this.containerHoleCutout()}
+            <View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View
+                        style={{
+                            position: 'absolute',
+                            height: 100,
+                            width: '39%',
+                            left: 0,
+                            backgroundColor: 'white',
+                            borderTopWidth: 1,
+                            borderTopColor: '#d5d5d5',
+                            borderTopStyle: 'solid',
+                        }}
+                    />
+
+                    <View
+                        style={{
+                            position: 'absolute',
+                            bottom: -51,
+                            left: '36%',
+                            width: '20%',
+                            height: 50,
+                            borderBottomWidth: 12,
+                            borderLeftWidth: 12,
+                            borderColor: 'white',
+                            borderBottomLeftRadius: 100,
+                        }}
+                    />
+
+                    <View
+                        style={{
+                            position: 'absolute',
+                            bottom: -51,
+                            right: "36%",
+                            width: '20%',
+                            height: 50,
+                            borderBottomWidth: 12,
+                            borderRightWidth: 12,
+                            borderColor: 'white',
+                            borderBottomRightRadius: 100,
+                        }}
+                    />
+
+                    <View
+                        style={{
+                            position: 'absolute',
+                            right: 0,
+                            height: 100,
+                            width: "39%",
+                            backgroundColor: 'white',
+                            borderTopWidth: 1,
+                            borderTopColor: '#d5d5d5',
+                            borderTopStyle: 'solid',
+                        }}
+                    />
+
+                    <View
+                        style={{
+                            position: 'absolute',
+                            height: 50,
+                            width: '100%',
+                            top: 40,
+                            left: 0,
+                            backgroundColor: 'white',
+                        }}
+                    />
+
+                    <View
+                        style={{
+                            position: 'absolute',
+                            height: 50,
+                            width: 50,
+                            top: 25,
+                            left: "30%",
+                            backgroundColor: 'white',
+                            transform: [{ rotate: '45deg' }],
+                        }}
+                    />
+
+                    <View
+                        style={{
+                            position: 'absolute',
+                            height: 50,
+                            width: 50,
+                            top: 25,
+                            right: "30%",
+                            backgroundColor: 'white',
+                            transform: [{ rotate: '45deg' }],
+                        }}
+                    />
+                </View>
+            </View>
             <View style={styles.container}>
                 <View style={styles.navigationLeftSide}>
                     <Pressable style={styles.section} onPress={() => {setSelectedSection(0);}}>
@@ -53,103 +144,6 @@ export default function Navigation({ selectedSection, setSelectedSection }) {
     );
 }
 
-containerHoleCutout = () => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-    {/* lijevo od gumba */}
-    <View
-        style={{
-            position: 'absolute',
-            height: 100,
-            width: '39%', // 36+3 to cover the border
-            left: 0,
-            backgroundColor: 'white',
-            borderTopWidth: 1,
-            borderTopColor: '#d5d5d5',
-            borderTopStyle: 'solid',    
-        }}
-    />
-
-    {/* lijevo od gumba oblina */}
-    <View
-        style={{
-            position: 'absolute',
-            bottom: -51, // -50 - 1 to cover the top border
-            left: '36%',
-            width: '20%',
-            height: 50,
-            borderBottomWidth: 12,
-            borderLeftWidth: 12,
-            borderColor: 'white',
-            borderBottomLeftRadius: 100,
-        }}
-    />
-
-    {/* desno od gumba oblina */}
-    <View
-        style={{
-            position: 'absolute',
-            bottom: -51, // -50 - 1 to cover the top border 
-            right: "36%",
-            width: '20%',
-            height: 50,
-            borderBottomWidth: 12,
-            borderRightWidth: 12,
-            borderColor: 'white',
-            borderBottomRightRadius: 100,
-        }}
-    />
-
-    {/* desno od gumba */}
-    <View
-        style={{
-            position: 'absolute',
-            right: 0,
-            height: 100,
-            width: "39%", // 36+3 to cover the border
-            backgroundColor: 'white',
-            borderTopWidth: 1,
-            borderTopColor: '#d5d5d5',
-            borderTopStyle: 'solid',    
-        }}
-      />
-    {/* ispod gumba */}
-    <View
-        style={{
-            position: 'absolute',
-            height: 50,
-            width: '100%',
-            top: 40,
-            left: 0,
-            backgroundColor: 'white',
-        }}
-    />
-    {/* ispod gumba dole lijevo*/}
-    <View
-        style={{
-            position: 'absolute',
-            height: 50,
-            width: 50,
-            top: 25,
-            left: "30%",
-            backgroundColor: 'white',
-            transform: [{ rotate: '45deg' }],
-        }}
-      />
-    {/* ispod gumba dole desno*/}
-    <View
-        style={{
-            position: 'absolute',
-            height: 50,
-            width: 50,
-            top: 25,
-            right: "30%",
-            backgroundColor: 'white',
-            transform: [{ rotate: '45deg' }],
-        }}
-    />
-    </View>
-  );
-
 const styles = StyleSheet.create({
     navigation: {
         width: '100%',
@@ -163,7 +157,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         overflow: 'hidden',
         zIndex: 1,
-        overflow: "hidden",
     },
     navigationLeftSide: {
         flexDirection: 'row',
