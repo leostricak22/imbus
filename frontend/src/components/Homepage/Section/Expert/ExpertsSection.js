@@ -11,8 +11,9 @@ import {
     Modal, TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import useAllExpertData from "../../../hooks/useAllExpertData";
-import Filter from "../../Filter/Filter";
+import useAllExpertData from "../../../../hooks/useAllExpertData";
+import Filter from "../../../Filter/Filter";
+import ExpertContainer from "./ExpertContainer";
 
 export default function HomepageSection({ navigation }) {
     const { allExpertData, dataLoading, refetchAllExpertData, filters, setFilters } = useAllExpertData();
@@ -44,10 +45,10 @@ export default function HomepageSection({ navigation }) {
                 <TextInput style={styles.input} placeholder="Pretraži znalce..."></TextInput>
                 <View style={styles.filterIconsContainer}>
                     <Pressable onPress={() => setShowFilter(true)}>
-                        <Image source={require('../../../../assets/icons/filter.png')} style={{ width: 25, height: 25 }} />
+                        <Image source={require('../../../../../assets/icons/filter.png')} style={{ width: 25, height: 25 }} />
                     </Pressable>
                     <Pressable>
-                        <Image source={require('../../../../assets/icons/list.png')} style={{ width: 25, height: 25 }} />
+                        <Image source={require('../../../../../assets/icons/list.png')} style={{ width: 25, height: 25 }} />
                     </Pressable>
                 </View>
             </View>
@@ -64,13 +65,7 @@ export default function HomepageSection({ navigation }) {
                     ) : (
                         <>
                             {allExpertData.map(expert => (
-                                <View key={expert.id} style={styles.itemContainer}>
-                                    <Text style={styles.text}>Name: {expert.name}</Text>
-                                    <Text style={styles.text}>Surname: {expert.surname}</Text>
-                                    <Text style={styles.text}>Username: {expert.username}</Text>
-                                    <Text style={styles.text}>Location: {expert.location}</Text>
-                                    <Text style={styles.text}>Categories: {expert.categories.join(', ')}</Text>
-                                </View>
+                                <ExpertContainer expert={expert} />
                             ))}
                         </>
                     )

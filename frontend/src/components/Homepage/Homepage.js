@@ -4,11 +4,9 @@ import {useEffect, useState} from 'react';
 import Header from './Header';
 import Navigation from './Navigation';
 import HomepageSection from './Section/HomepageSection';
-import ExpertsSection from './Section/ExpertsSection';
+import ExpertsSection from './Section/Expert/ExpertsSection';
 
 import useTokenValidation from '../../hooks/useTokenValidation';
-
-
 export default function Homepage({navigation}) {
     const [selectedSection, setSelectedSection] = useState(0);
     const validToken = useTokenValidation();
