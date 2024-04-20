@@ -1,10 +1,11 @@
-import {ActivityIndicator, Button, RefreshControl, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, Button, RefreshControl, ScrollView, StyleSheet, Text} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import useAuthSessionData from "../../../hooks/useAuthSessionData";
 import {useEffect, useState} from "react";
 
 export default function HomepageSection({navigation}) {
-    const { authData, dataLoading, refetchAuthData } = useAuthSessionData()
+    const {authData, dataLoading, refetchAuthData} = useAuthSessionData()
     const [refreshing, setRefreshing] = useState(false);
     const [token, setToken] = useState(null);
 
@@ -37,7 +38,7 @@ export default function HomepageSection({navigation}) {
         }>
             {
                 dataLoading || !authData ? (
-                    <ActivityIndicator size="large" color="#209cee" />
+                    <ActivityIndicator size="large" color="#209cee"/>
                 ) : (
                     <>
                         <Text style={styles.title}>Pozdrav, {authData.name}</Text>
@@ -48,16 +49,17 @@ export default function HomepageSection({navigation}) {
                     </>
                 )
             }
-            <Button title="Logout" onPress={handleLogout} />
+            <Button title="Logout" onPress={handleLogout}/>
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%',
-        padding: 20,
+        width: '80%',
+        height: '80%',
+        alignSelf: 'center',
+        paddingTop: 20,
     },
     title: {
         fontSize: 24,

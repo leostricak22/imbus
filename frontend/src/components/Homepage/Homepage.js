@@ -1,16 +1,15 @@
-import {StyleSheet, View, Text, RefreshControl, ScrollView, Button} from 'react-native';
-import { useState, useEffect } from 'react';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {StyleSheet, Text, View} from 'react-native';
+import {useEffect, useState} from 'react';
 
 import Header from './Header';
 import Navigation from './Navigation';
 import HomepageSection from './Section/HomepageSection';
+import ExpertsSection from './Section/ExpertsSection';
 
-import useAuthSessionData from '../../hooks/useAuthSessionData';
 import useTokenValidation from '../../hooks/useTokenValidation';
 
 
-export default function Homepage({ navigation }) {
+export default function Homepage({navigation}) {
     const [selectedSection, setSelectedSection] = useState(0);
     const validToken = useTokenValidation();
 
@@ -26,7 +25,7 @@ export default function Homepage({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Header />
+            <Header/>
             {
                 selectedSection === 0 ? (
                     <HomepageSection></HomepageSection>
@@ -35,11 +34,11 @@ export default function Homepage({ navigation }) {
                 ) : selectedSection === 2 ? (
                     <Text>Messages</Text>
                 ) : (
-                    <Text>Specialists</Text>
+                    <ExpertsSection></ExpertsSection>
                 )
             }
             <View style={styles.navigation}>
-                <Navigation selectedSection={selectedSection} setSelectedSection={setSelectedSection} />
+                <Navigation selectedSection={selectedSection} setSelectedSection={setSelectedSection}/>
             </View>
         </View>
     );
@@ -50,7 +49,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         flex: 1,
-        backgroundColor: 'lightblue',
     },
     navigation: {
         position: 'absolute',

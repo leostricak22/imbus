@@ -1,24 +1,26 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function useAuthSessionData () {
-    const [authData, setAuthData] = useState(null);
+export default function useAllExpertData () {
+    const [allExpertData, setAllExpertData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const fetchAuthData = async () => {
+    const fetchAllExpertData = async () => {
         try {
-            const response = await fetch('http://192.168.73.191:8080/api/auth/sessionUser', {
-                method: 'GET',
+            const response = await fetch('http://192.168.73.191:8080/api/expert/filter', {
+                method: 'POST',
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${await AsyncStorage.getItem('token')}`
                 },
+                body: JSON.stringify({})
             });
 
             if (!response.ok) {
                 throw new Error('Error fetching data');
             }
             const data = await response.json();
-            setAuthData(data);
+            setAllExpertData(data);
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
@@ -27,8 +29,8 @@ export default function useAuthSessionData () {
     };
 
     useEffect(() => {
-        fetchAuthData();
+        fetchAllExpertData();
     }, []);
 
-    return { authData, loading, refetchAuthData: fetchAuthData };
+    return { allExpertData, loading, refetchAllExpertData: fetchAllExpertData };
 };
