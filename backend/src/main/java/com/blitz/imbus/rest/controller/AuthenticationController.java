@@ -24,7 +24,7 @@ public class AuthenticationController {
 
     @GetMapping("/sessionUser")
     public ResponseEntity<User> getAllUsers() {
-        return ResponseEntity.ok(userRepository.findByUsername("leostricak22").get());
+        return ResponseEntity.ok(authenticationService.findUserBySessionUsername());
     }
 
     @PreAuthorize("isAuthenticated()")

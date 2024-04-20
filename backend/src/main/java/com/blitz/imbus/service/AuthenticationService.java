@@ -60,4 +60,8 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
+    public User findUserBySessionUsername() {
+        return userRepository.findByUsername(jwtService.getUsernameFromSession()).get();
+    }
 }
