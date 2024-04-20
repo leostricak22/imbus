@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function useAllExpertData () {
     const [allExpertData, setAllExpertData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [filters, setFilters] = useState( {});
 
     const fetchAllExpertData = async () => {
         try {
@@ -13,7 +14,7 @@ export default function useAllExpertData () {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${await AsyncStorage.getItem('token')}`
                 },
-                body: JSON.stringify({})
+                body: JSON.stringify(filters)
             });
 
             if (!response.ok) {
@@ -32,5 +33,5 @@ export default function useAllExpertData () {
         fetchAllExpertData();
     }, []);
 
-    return { allExpertData, loading, refetchAllExpertData: fetchAllExpertData };
+    return { allExpertData, loading, refetchAllExpertData: fetchAllExpertData, filters, setFilters };
 };

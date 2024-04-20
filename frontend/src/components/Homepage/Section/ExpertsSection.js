@@ -15,15 +15,19 @@ import useAllExpertData from "../../../hooks/useAllExpertData";
 import Filter from "../../Filter/Filter";
 
 export default function HomepageSection({ navigation }) {
-    const { allExpertData, dataLoading, refetchAllExpertData } = useAllExpertData();
+    const { allExpertData, dataLoading, refetchAllExpertData, filters, setFilters } = useAllExpertData();
     const [refreshing, setRefreshing] = useState(false);
-    const [showFilter, setShowFilter] = useState(false); // State to control filter section visibility
+    const [showFilter, setShowFilter] = useState(false);
 
-    const onRefresh = async () => {
+    const refresh = async () => {
         setRefreshing(true);
         await refetchAllExpertData();
         setRefreshing(false);
     };
+
+    useEffect(() => {
+        refresh();
+    }, [filters]);
 
     return (
         <View style={styles.container}>
@@ -33,7 +37,7 @@ export default function HomepageSection({ navigation }) {
                 visible={showFilter}
                 onRequestClose={() => setShowFilter(false)}
             >
-                <Filter setShowFilter={setShowFilter}></Filter>
+                <Filter setShowFilter={setShowFilter} setFilters={setFilters} />
             </Modal>
 
             <View style={styles.filterContainer}>
@@ -51,7 +55,7 @@ export default function HomepageSection({ navigation }) {
             <ScrollView style={styles.scrollViewContainer} refreshControl={
                 <RefreshControl
                     refreshing={refreshing}
-                    onRefresh={onRefresh}
+                    onRefresh={refresh}
                 />
             }>
                 {
