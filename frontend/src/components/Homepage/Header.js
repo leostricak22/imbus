@@ -2,9 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TextInput, Image, Pressable, ImageBackground } from 'react-native';
 import { useState, useRef } from 'react';
 
-logoImage = require("../../../assets/icon.png");
-backIconImage = require("../../../assets/icons/back.png");
-defaultUserProfileImage = require("../../../assets/icons/defaultUserProfile.png");
+const logoImage = require("../../../assets/icon.png");
+const backIconImage = require("../../../assets/icons/back.png");
+const defaultUserProfileImage = require("../../../assets/icons/defaultUserProfile.png");
 
 export default function Header() {
     return (

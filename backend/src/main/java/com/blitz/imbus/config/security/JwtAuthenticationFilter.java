@@ -39,6 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // TODO: return error code for no token
         }
 
+        System.out.println(authHeader);
         jwt = authHeader.substring(7);
 
         try {

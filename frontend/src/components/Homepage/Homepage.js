@@ -1,42 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, View, Text, TextInput, Image, Pressable, ImageBackground, ScrollView} from 'react-native';
+import {StyleSheet, View, Text, RefreshControl, ScrollView, Button} from 'react-native';
 import { useState, useEffect } from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Header from './Header';
 import Navigation from './Navigation';
-import useAuthSessionData from '../../hooks/useAuthSessionData';
+import HomepageSection from './Section/HomepageSection';
 
-export default function Homepage({ setIsLoggedIn }) {
+import useAuthSessionData from '../../hooks/useAuthSessionData';
+import useTokenValidation from '../../hooks/useTokenValidation';
+
+
+export default function Homepage({ navigation }) {
     const [selectedSection, setSelectedSection] = useState(0);
+    const validToken = useTokenValidation();
 
     useEffect(() => {
         console.log('Section changed to:', selectedSection);
     }, [selectedSection]);
 
-    const { authData, loading } = useAuthSessionData()
-
-    if (loading) {
-        return <Text>Loading...</Text>;
-    }
-
-    if (!authData) {
-        return <Text>No data available</Text>;
-    }
+    useEffect(() => {
+        if (validToken !== '' && !validToken) {
+            navigation.navigate('login');
+        }
+    }, [validToken, navigation]);
 
     return (
         <View style={styles.container}>
             <Header />
-            <ScrollView style={styles.container}>
-                {loading ? (
-                    <Text>Loading...</Text>
+            {
+                selectedSection === 0 ? (
+                    <HomepageSection></HomepageSection>
+                ) : selectedSection === 1 ? (
+                    <Text>Posts</Text>
+                ) : selectedSection === 2 ? (
+                    <Text>Messages</Text>
                 ) : (
-                    <>
-                        <Text>{authData.id}</Text>
-                        <Text>{authData.username}</Text>
-                        <Text>{authData.email}</Text>
-                    </>
-                )}
-            </ScrollView>
+                    <Text>Specialists</Text>
+                )
+            }
             <View style={styles.navigation}>
                 <Navigation selectedSection={selectedSection} setSelectedSection={setSelectedSection} />
             </View>

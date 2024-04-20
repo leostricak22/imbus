@@ -1,43 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { View, StyleSheet, Text, Pressable } from 'react-native';
-import { useState} from 'react';
+import React from 'react';
+
+import { StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './src/components/Login';
 import Homepage from './src/components/Homepage/Homepage';
 
-function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false); 
+const Stack = createStackNavigator();
 
+export default function App() {
     return (
-      <View style={styles.container}>
-        {
-          isLoggedIn ? (
-              <Homepage setIsLoggedIn={setIsLoggedIn}/>
-              /*<View style={styles.logoutContainer}>
-                  <Text style={styles.logoutText} onPress={() => setIsLoggedIn(false)}>
-                      ODJAVA
-                  </Text>
-              </View>*/
-            ) : (
-              <Login setIsLoggedIn={setIsLoggedIn} />
-          )
-        }
-      </View>
+        <NavigationContainer>
+            <SafeAreaView style={styles.safeArea}>
+                <Stack.Navigator initialRouteName="login">
+                    <Stack.Screen
+                        name="login"
+                        component={Login}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="homepage"
+                        component={Homepage}
+                        options={{ headerShown: false }}
+                    />
+                </Stack.Navigator>
+            </SafeAreaView>
+        </NavigationContainer>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center' 
-    },
-    logoutContainer: {
-    },
-    logoutText: {
-      fontSize: 18,
-      color: 'blue',
+    safeArea: {
+        flex: 1,
+        backgroundColor: 'transparent',
     }
 });
-
-export default App;

@@ -1,28 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TextInput, Image, Pressable, ImageBackground } from 'react-native';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const textLogoImage = require("../../assets/icons/imbusTextLogo.png");
 const googleLogoImage = require("../../assets/icons/googleLogo.png");
 const facebookLogoImage = require("../../assets/icons/facebookLogo.png");
 
-// Background
 const backgroundIconsImage = require("../../assets/icons/backgroundIcons.png");
 const screwImage = require("../../assets/icons/screw.png");
 
-export default function Login({ setIsLoggedIn }) {
-  const [isHovered, setIsHovered] = useState(false); 
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
+export default function Login({ navigation }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  function handleLogin() {
-      if(emailValue === "test" && passwordValue === "test") {
-        setIsLoggedIn(true);
-        return;
-      } else {
-        alert("Pogrešan e-mail ili lozinka!");
-      }
-  }
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://192.168.73.191:8080/api/auth/authenticate', { email, password });
+      await AsyncStorage.setItem('token', response.data.token);
+      navigation.navigate('homepage');
+    } catch (error) {
+      setError("Pogrešno korisničko ime ili lozinka!");
+    }
+  };
 
   return (
     <ImageBackground source={backgroundIconsImage} style={styles.imageBackground}>
@@ -37,24 +39,26 @@ export default function Login({ setIsLoggedIn }) {
           <Text style={styles.subtitleText}>Naši majstori, pravi su <Text style={styles.blue}>znalci!</Text></Text>
         </View>
         <View style={styles.loginForm}>
+          <Text style={styles.red}>{error}</Text>
+
           <TextInput
             style={styles.input}
-            value={emailValue}
-            onChangeText={setEmailValue}
+            value={email}
+            onChangeText={setEmail}
             placeholder="E-mail"
             keyboardType="email-address"
             autoCapitalize="none"
           />
           <TextInput
             style={styles.input}
-            value={passwordValue}
-            onChangeText={setPasswordValue}
+            value={password}
+            onChangeText={setPassword}
             placeholder="Lozinka"
             secureTextEntry={true}
           />
           <Text style={[styles.smallText, styles.spaceBottom, styles.stickToRight]}>Zaboravljena lozinka?</Text>
-          <Pressable 
-            style={[styles.buttonContainer, isHovered ? styles.backgroundDarkBlue : styles.backgroundBlue]} 
+          <Pressable
+            style={[styles.buttonContainer, isHovered ? styles.backgroundDarkBlue : styles.backgroundBlue]}
             onPress={handleLogin}
             onPressIn={() => setIsHovered(true)}
             onPressOut={() => setIsHovered(false)}
@@ -178,6 +182,9 @@ const styles = StyleSheet.create({
   },
   blue: {
     color:"#209cee",
+  },
+  red: {
+    color:"#ff0d0d",
   },
   backgroundBlue: {
     backgroundColor: '#209cee',
