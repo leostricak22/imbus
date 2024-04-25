@@ -11,7 +11,7 @@ const location = require("../../../../../assets/icons/location.png");
 export default function ExpertContainer({expert}) {
     return (
         <View key={expert.id} style={styles.itemContainer}>
-            <Image source={worker1} style={styles.profileImage} />
+            <Image source={{uri: `data:image/jpeg;base64,${expert && expert.profileImage}`}} style={styles.profileImage} />
             <View>
                 <Text style={styles.textTitle}>{expert.name} {expert.surname}</Text>
                 <View style={styles.rating}>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const useUpdateUser = (refetchUserData, userData) => {
+const useUpdateUser = () => {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(null);
 

@@ -18,4 +18,5 @@ public class UserResponse {
     private String username;
     private CroatianCounty location;
     private Set<CategoryType> categories;
+    private byte[] profileImage;
 }

@@ -1,5 +1,8 @@
 package com.blitz.imbus.service;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
@@ -17,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.imageio.ImageIO;
+
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -30,8 +35,6 @@ public class UserService {
         if (image.isEmpty()) {
             image = null;
         }
-
-        System.out.println(jwtService.getUsernameFromSession());
 
         User user = getUser(jwtService.getUsernameFromSession());
         validateUser(user);
@@ -68,7 +71,19 @@ public class UserService {
         try {
             if (image != null) {
                 byte[] imageBytes = image.getBytes();
-                user.setProfileImage(imageBytes);
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
+                BufferedImage originalImage = ImageIO.read(inputStream);
+
+                int newWidth = 200;
+                int newHeight = 200;
+                BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, originalImage.getType());
+                resizedImage.createGraphics().drawImage(originalImage, 0, 0, newWidth, newHeight, null);
+
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                ImageIO.write(resizedImage, "jpg", outputStream);
+                byte[] compressedImageBytes = outputStream.toByteArray();
+
+                user.setProfileImage(compressedImageBytes);
             }
         } catch (IOException e) {
             throw new AppException(ErrorCode.BAD_REQUEST);

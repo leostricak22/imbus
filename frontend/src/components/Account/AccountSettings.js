@@ -12,7 +12,7 @@ const defaultUserProfileImage = require("../../../assets/icons/defaultUserProfil
 export default function AccountSettings({ navigation }) {
     const [image, setImage] = useState(null);
     const {userData, setUserData, dataLoading, refetchUserData } = useUserSessionData()
-    const { updateUser, uploading, error } = useUpdateUser(refetchUserData, userData);
+    const { updateUser, uploading, error } = useUpdateUser();
 
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
