@@ -3,17 +3,15 @@ import { StyleSheet, View, Text, TextInput, Image, Pressable, ImageBackground } 
 import { useState, useRef } from 'react';
 
 const logoImage = require("../../../assets/icon.png");
-const notificationImage = require("../../../assets/icons/notification.png");
-const defaultUserProfileImage = require("../../../assets/icons/defaultUserProfile.png");
+const backIconImage = require("../../../assets/icons/back.png");
 
 export default function Header({navigation}) {
     return (
         <View style={styles.header}>
-            <Pressable style={styles.defaultUserProfileContainer} onPress={() => navigation.navigate("accountsettings")}>
-                <Image source={defaultUserProfileImage} style={styles.defaultUserProfileImage} />
+            <Pressable style={styles.backIconContainer} onPress={() => navigation.goBack()}>
+                <Image source={backIconImage} style={styles.backIconImage} />
             </Pressable>
             <Image source={logoImage} style={styles.logoImage} />
-            <Image source={notificationImage} style={styles.notification} />
         </View>
     );
 }
@@ -34,21 +32,15 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
     },
-    defaultUserProfileImage: {
+    backIconImage: {
         position: 'absolute',
         left: 0,
-        width: 30,
-        height: 30,
+        width: 20,
+        height: 20,
     },
-    defaultUserProfileContainer: {
+    backIconContainer: {
         position: 'absolute',
         left: 15,
-        width: 30,
-        height: 30,
-    },
-    notification: {
-        position: 'absolute',
-        right: 15,
         width: 30,
         height: 30,
     },

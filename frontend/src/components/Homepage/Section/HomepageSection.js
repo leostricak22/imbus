@@ -1,11 +1,11 @@
 import {ActivityIndicator, Button, RefreshControl, ScrollView, StyleSheet, Text} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import useAuthSessionData from "../../../hooks/useAuthSessionData";
+import useUserSessionData from "../../../hooks/useUserSessionData";
 import {useEffect, useState} from "react";
 
 export default function HomepageSection({navigation}) {
-    const {authData, dataLoading, refetchAuthData} = useAuthSessionData()
+    const {userData, dataLoading, refetchUserData} = useUserSessionData()
     const [refreshing, setRefreshing] = useState(false);
     const [token, setToken] = useState(null);
 
@@ -25,7 +25,7 @@ export default function HomepageSection({navigation}) {
 
     const onRefresh = async () => {
         setRefreshing(true);
-        await refetchAuthData();
+        await refetchUserData();
         setRefreshing(false);
     };
 
@@ -37,14 +37,14 @@ export default function HomepageSection({navigation}) {
             />
         }>
             {
-                dataLoading || !authData ? (
+                dataLoading || !userData ? (
                     <ActivityIndicator size="large" color="#209cee"/>
                 ) : (
                     <>
-                        <Text style={styles.title}>Pozdrav, {authData.name}</Text>
-                        <Text>ID: {authData.id}</Text>
-                        <Text>Username: {authData.username}</Text>
-                        <Text>Email: {authData.email}</Text>
+                        <Text style={styles.title}>Pozdrav, {userData.name}</Text>
+                        <Text>ID: {userData.id}</Text>
+                        <Text>Username: {userData.username}</Text>
+                        <Text>Email: {userData.email}</Text>
                         <Text>Token: {token}</Text>
                     </>
                 )

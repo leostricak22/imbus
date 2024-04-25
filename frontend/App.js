@@ -1,4 +1,5 @@
 import React from 'react';
+import {useEffect, useState} from 'react';
 
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,6 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './src/components/Login';
 import Homepage from './src/components/Homepage/Homepage';
+import AccountSettings from "./src/components/Account/AccountSettings";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +27,11 @@ export default function App() {
                     <Stack.Screen
                         name="homepage"
                         component={Homepage}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="accountsettings"
+                        component={AccountSettings}
                         options={{ headerShown: false }}
                     />
                 </Stack.Navigator>

@@ -23,7 +23,7 @@ export default function Homepage({navigation}) {
 
     return (
         <View style={styles.container}>
-            <Header/>
+            <Header navigation={navigation}/>
             {
                 selectedSection === 0 ? (
                     <HomepageSection></HomepageSection>
