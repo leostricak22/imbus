@@ -1,14 +1,22 @@
 import {StyleSheet, Text, View} from 'react-native';
 import {useEffect, useState} from 'react';
 
+import React from 'react';
+
 import Header from './Header';
 import Navigation from './Navigation';
 import HomepageSection from './Section/HomepageSection';
 import ExpertsSection from './Section/Expert/ExpertsSection';
 
 import useTokenValidation from '../../hooks/useTokenValidation';
+import useUserSessionData from "../../hooks/useUserSessionData";
+import {useFocusEffect} from "@react-navigation/native";
 export default function Homepage({navigation}) {
+    const [refreshing, setRefreshing] = useState(false);
+    const {userData, dataLoading, refetchUserData} = useUserSessionData()
     const [selectedSection, setSelectedSection] = useState(0);
+    const [firstFocus, setFirstFocus] = useState(true);
+
     const validToken = useTokenValidation();
 
     useEffect(() => {
@@ -21,12 +29,29 @@ export default function Homepage({navigation}) {
         }
     }, [validToken, navigation]);
 
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await refetchUserData();
+        setRefreshing(false);
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (!firstFocus) {
+                onRefresh();
+            } else {
+                setFirstFocus(false);
+            }
+        }, [firstFocus])
+    );
+
+
     return (
         <View style={styles.container}>
-            <Header navigation={navigation}/>
+            <Header navigation={navigation} userData={userData}/>
             {
                 selectedSection === 0 ? (
-                    <HomepageSection></HomepageSection>
+                    <HomepageSection userData={userData} dataLoading={dataLoading} onRefresh={onRefresh} refreshing={refreshing}></HomepageSection>
                 ) : selectedSection === 1 ? (
                     <Text>Posts</Text>
                 ) : selectedSection === 2 ? (

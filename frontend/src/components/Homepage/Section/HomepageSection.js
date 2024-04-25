@@ -4,9 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import useUserSessionData from "../../../hooks/useUserSessionData";
 import {useEffect, useState} from "react";
 
-export default function HomepageSection({navigation}) {
-    const {userData, dataLoading, refetchUserData} = useUserSessionData()
-    const [refreshing, setRefreshing] = useState(false);
+export default function HomepageSection({navigation, userData, dataLoading, onRefresh, refreshing}) {
     const [token, setToken] = useState(null);
 
     useEffect(() => {
@@ -21,12 +19,6 @@ export default function HomepageSection({navigation}) {
     const handleLogout = async () => {
         await AsyncStorage.removeItem('token');
         navigation.navigate('login');
-    };
-
-    const onRefresh = async () => {
-        setRefreshing(true);
-        await refetchUserData();
-        setRefreshing(false);
     };
 
     return (

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const useUpdateUser = () => {
+const useUpdateUser = (refetchUserData, userData) => {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -9,7 +9,7 @@ const useUpdateUser = () => {
         try {
             setUploading(true);
 
-            const response = await fetch('http://192.168.73.191:8080/user/1', {
+            const response = await fetch('http://192.168.73.191:8080/user/', {
                 method: 'PUT',
                 body: formData,
                 headers: {
@@ -19,7 +19,7 @@ const useUpdateUser = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to upload image');
+                throw new Error('Failed to update user!');
             }
         } catch (error) {
             setError(error);

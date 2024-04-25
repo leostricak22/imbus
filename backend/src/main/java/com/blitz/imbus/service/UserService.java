@@ -24,14 +24,16 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
 
-    public UserResponse updateUser(Integer userId, MultipartFile image, String userRequestString) {
+    public UserResponse updateUser(MultipartFile image, String userRequestString) {
         UserRequest userRequest = parseUserRequest(userRequestString);
 
         if (image.isEmpty()) {
             image = null;
         }
 
-        User user = getUser(userId);
+        System.out.println(jwtService.getUsernameFromSession());
+
+        User user = getUser(jwtService.getUsernameFromSession());
         validateUser(user);
 
         updateUserProfileImage(user, image);
@@ -50,8 +52,8 @@ public class UserService {
         }
     }
 
-    private User getUser(Integer userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    private User getUser(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
         return userOptional.orElseThrow(() -> new AppException(ErrorCode.BAD_REQUEST));
     }
 

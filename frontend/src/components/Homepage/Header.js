@@ -6,11 +6,11 @@ const logoImage = require("../../../assets/icon.png");
 const notificationImage = require("../../../assets/icons/notification.png");
 const defaultUserProfileImage = require("../../../assets/icons/defaultUserProfile.png");
 
-export default function Header({navigation}) {
+export default function Header({navigation, userData}) {
     return (
         <View style={styles.header}>
             <Pressable style={styles.defaultUserProfileContainer} onPress={() => navigation.navigate("accountsettings")}>
-                <Image source={defaultUserProfileImage} style={styles.defaultUserProfileImage} />
+                <Image source={{uri : `data:image/jpeg;base64,${userData && userData.profileImage}`}} style={styles.defaultUserProfileImage} />
             </Pressable>
             <Image source={logoImage} style={styles.logoImage} />
             <Image source={notificationImage} style={styles.notification} />
@@ -39,6 +39,9 @@ const styles = StyleSheet.create({
         left: 0,
         width: 30,
         height: 30,
+        borderRadius: 100,
+        borderWidth: 1,
+        borderColor: '#000',
     },
     defaultUserProfileContainer: {
         position: 'absolute',

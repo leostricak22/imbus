@@ -32,11 +32,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable Integer userId,
-                                                   @RequestParam("image") MultipartFile image,
+    @PutMapping("/")
+    public ResponseEntity<UserResponse> updateUser(@RequestParam("image") MultipartFile image,
                                                    @RequestParam("user") String userRequest
     ) {
-        return ResponseEntity.ok(userService.updateUser(userId, image, userRequest));
+        return ResponseEntity.ok(userService.updateUser(image, userRequest));
     }
 }
