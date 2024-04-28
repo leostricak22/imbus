@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     notification: {
         position: 'absolute',
         right: 15,
-        width: 30,
-        height: 30,
+        width: 25,
+        height: 25,
     },
 });

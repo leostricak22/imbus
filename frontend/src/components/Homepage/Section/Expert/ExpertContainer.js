@@ -1,17 +1,33 @@
 import {Image, StyleSheet, Text, View} from "react-native";
 import StarRating from 'react-native-star-rating';
 
+import React from 'react';
+
 import {categoryTypes} from "../../../../data/CategoryTypes";
 import {counties} from "../../../../data/Counties";
+import { SvgXml } from 'react-native-svg';
+import AccountProfileImage from "../../../../svg/AccountProfileImage";
 
-const worker1 = require("../../../../../assets/icons/worker1.png");
 const frenchKeyIcon = require("../../../../../assets/icons/french-key.png");
 const location = require("../../../../../assets/icons/location.png");
 
 export default function ExpertContainer({expert}) {
     return (
         <View key={expert.id} style={styles.itemContainer}>
-            <Image source={{uri: `data:image/jpeg;base64,${expert && expert.profileImage}`}} style={styles.profileImage} />
+            {
+                expert.profileImage ? (
+                    <Image source={{uri: `data:image/jpeg;base64,${expert.profileImage}`}} style={styles.profileImage} />
+                ) : (
+                    <View style={styles.profileImage}>
+                        <SvgXml
+                            width="100%"
+                            height="100%"
+                            xml={AccountProfileImage}
+                        />
+                    </View>
+                )
+            }
+
             <View>
                 <Text style={styles.textTitle}>{expert.name} {expert.surname}</Text>
                 <View style={styles.rating}>
@@ -27,7 +43,7 @@ export default function ExpertContainer({expert}) {
                 </View>
                 <View style={styles.expertInfo}>
                     <View style={styles.categories}>
-                        <Image source={frenchKeyIcon} style={{width: 15, height: 15, marginTop:2}} />
+                        <Image source={frenchKeyIcon} style={{width: 15, height: 15, marginTop: 2}}/>
                         <View>
                             {expert.categories.map(category => (
                                 <Text key={category} style={styles.textInfo}>
@@ -37,7 +53,7 @@ export default function ExpertContainer({expert}) {
                         </View>
                     </View>
                     <View style={styles.location}>
-                        <Image source={location} style={{width: 15, height: 15, marginTop:2}} />
+                        <Image source={location} style={{width: 15, height: 15, marginTop: 2}}/>
                         <View>
                             <Text style={styles.textInfo}>
                                 {counties.find(item => item.value === expert.location).label}
@@ -66,7 +82,9 @@ const styles = StyleSheet.create({
     profileImage: {
         width: 75,
         height: 75,
-        borderRadius: 50,
+        borderRadius: 100,
+        borderWidth: 1,
+        borderColor: 'black',
         marginRight: 5,
     },
     expertInfoContainer: {
@@ -87,7 +105,7 @@ const styles = StyleSheet.create({
         spaceBetween: 5,
         marginTop: 10,
     },
-    location : {
+    location: {
         display: 'flex',
         flexDirection: 'row',
         spaceBetween: 5,
