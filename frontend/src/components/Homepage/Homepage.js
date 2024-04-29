@@ -61,7 +61,7 @@ export default function Homepage({navigation}) {
                 )
             }
             <View style={styles.navigation}>
-                <Navigation selectedSection={selectedSection} setSelectedSection={setSelectedSection}/>
+                <Navigation navigation={navigation} selectedSection={selectedSection} setSelectedSection={setSelectedSection}/>
             </View>
         </View>
     );

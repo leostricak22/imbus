@@ -11,6 +11,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './src/components/Login';
 import Homepage from './src/components/Homepage/Homepage';
 import AccountSettings from "./src/components/Account/AccountSettings";
+import AddAd from "./src/components/Ad/AddAd";
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,11 @@ export default function App() {
                     <Stack.Screen
                         name="accountsettings"
                         component={AccountSettings}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="add-ad"
+                        component={AddAd}
                         options={{ headerShown: false }}
                     />
                 </Stack.Navigator>

@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TextInput, Image, Pressable, ImageBackground } from 'react-native';
 import { useState, useEffect } from 'react';
+import AdSmallFixesDialog from "./AdSmallFixesDialog";
 
 const homepageImage = require("../../../assets/icons/homepage/homepage.png");
 const homepageSelectedImage = require("../../../assets/icons/homepage/homepageSelected.png");
@@ -14,8 +15,27 @@ const messagesSelectedImage = require("../../../assets/icons/homepage/messagesSe
 const specialistsImage = require("../../../assets/icons/homepage/specialists.png");
 const specialistsSelectedImage = require("../../../assets/icons/homepage/specialistsSelected.png");
 
-export default function Navigation({ selectedSection, setSelectedSection }) {
+export default function Navigation({ navigation, selectedSection, setSelectedSection }) {
     const [buttonAddIsHovered, setButtonAddIsHovered] = useState(false);
+    const [dialogVisible, setDialogVisible] = useState(false);
+
+    const showDialog = () => {
+        setDialogVisible(true);
+    };
+
+    const hideDialog = () => {
+        setDialogVisible(false);
+    };
+
+    const handleOption1Press = () => {
+        navigation.navigate("add-ad")
+        hideDialog();
+    };
+
+    const handleOption2Press = () => {
+        // Do something for Option 2
+        hideDialog();
+    };
 
     return (
         <View style={styles.navigation}>
@@ -136,10 +156,17 @@ export default function Navigation({ selectedSection, setSelectedSection }) {
             <Pressable style={[styles.circleButton, buttonAddIsHovered ? styles.backgroundDarkBlue : styles.backgroundBlue]}
                 onPressIn={() => setButtonAddIsHovered(true)}
                 onPressOut={() => setButtonAddIsHovered(false)}
+                onPress={showDialog}
             >
                 <View style={styles.plusLineHorizontal} />
                 <View style={styles.plusLineVertical} />
             </Pressable>
+            <AdSmallFixesDialog
+                isVisible={dialogVisible}
+                onClose={hideDialog}
+                onOption1Press={handleOption1Press}
+                onOption2Press={handleOption2Press}
+            />
         </View>
     );
 }
