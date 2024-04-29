@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { View, Image, ScrollView, Dimensions, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import * as ImagePicker from "expo-image-picker";
 
-const containerWidth = Dimensions.get('window').length;
-
 const PhotoSliderEdit = ({ images, setImages }) => {
     const { width } = Dimensions.get('window');
     const height = width;
@@ -34,7 +32,7 @@ const PhotoSliderEdit = ({ images, setImages }) => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <ScrollView
                 pagingEnabled
                 horizontal
@@ -72,6 +70,10 @@ const PhotoSliderEdit = ({ images, setImages }) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        position: 'relative',
+        borderBottomWidth: 1,
+    },
     pagination: {
         flexDirection: 'row',
         position: 'absolute',
