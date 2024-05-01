@@ -12,7 +12,7 @@ import useAllOfferData from "../../../../hooks/useAllOfferData";
 import {useEffect, useState} from "react";
 import OfferContainer from "./OfferContainer";
 
-export default function AdContainer({ad}) {
+export default function AdContainer({ad, navigation}) {
     const { allOfferData, dataLoading, refetchAllOfferData } = useAllOfferData(ad.id);
     const [parentWidth, setParentWidth] = useState(0);
 
@@ -30,7 +30,7 @@ export default function AdContainer({ad}) {
     };
 
     return (
-        <View key={ad.creator.id} style={styles.itemContainer}>
+        <Pressable key={ad.creator.id} style={styles.itemContainer} onPress={() => navigation.navigate("view-ad", {"ad":ad})}>
             <View style={styles.userInfo}>
                 {
                     ad.creator.profileImage ? (
@@ -104,7 +104,7 @@ export default function AdContainer({ad}) {
                     <Text style={styles.white}>Ponuda</Text>
                 </Pressable>
             </View>
-        </View>
+        </Pressable>
     );
 }
 

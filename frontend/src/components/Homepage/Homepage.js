@@ -50,19 +50,21 @@ export default function Homepage({navigation}) {
     return (
         <View style={styles.container}>
             <Header navigation={navigation} userData={userData}/>
-            {
-                selectedSection === 0 ? (
-                    <HomepageSection userData={userData} dataLoading={dataLoading} onRefresh={onRefresh} refreshing={refreshing}></HomepageSection>
-                ) : selectedSection === 1 ? (
-                    <Text>Posts</Text>
-                ) : selectedSection === 2 ? (
-                    <Text>Messages</Text>
-                ) : selectedSection === 3 ? (
-                    <ExpertsSection />
-                ) : (
-                    <AdSection />
-                )
-            }
+            <View style={styles.section}>
+                {
+                    selectedSection === 0 ? (
+                        <HomepageSection userData={userData} dataLoading={dataLoading} onRefresh={onRefresh} refreshing={refreshing}></HomepageSection>
+                    ) : selectedSection === 1 ? (
+                        <Text>Posts</Text>
+                    ) : selectedSection === 2 ? (
+                        <Text>Messages</Text>
+                    ) : selectedSection === 3 ? (
+                        <ExpertsSection />
+                    ) : (
+                        <AdSection navigation={navigation} />
+                    )
+                }
+            </View>
             <View style={styles.navigation}>
                 <Navigation navigation={navigation} selectedSection={selectedSection} setSelectedSection={setSelectedSection} userData={userData}/>
             </View>
@@ -72,8 +74,6 @@ export default function Homepage({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%',
         flex: 1,
     },
     navigation: {
@@ -81,5 +81,9 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
+    },
+    section: {
+        flex: 1,
+        marginBottom: 70,
     },
 });

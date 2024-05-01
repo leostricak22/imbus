@@ -143,7 +143,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
 const styles = StyleSheet.create({
     navigation: {
         width: '100%',
-        height: 90,
+        height: 70,
         backgroundColor: 'white',
         borderTopWidth: 1,
         borderTopColor: '#afaeae',

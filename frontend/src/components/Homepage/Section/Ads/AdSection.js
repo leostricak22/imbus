@@ -16,7 +16,7 @@ import {useEffect, useState} from "react";
 import useAllAdData from "../../../../hooks/useAllAdData";
 import AdContainer from "./AdContainer";
 
-export default function AdSection() {
+export default function AdSection({navigation}) {
     const { allAdData, dataLoading, refetchAllAdData, filters, setFilters } = useAllAdData();
     const [refreshing, setRefreshing] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
@@ -66,7 +66,7 @@ export default function AdSection() {
                     ) : (
                         <>
                             {allAdData.map(ad => (
-                                <AdContainer ad={ad} />
+                                <AdContainer ad={ad} navigation={navigation} />
                             ))}
                         </>
                     )
