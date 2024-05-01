@@ -11,6 +11,7 @@ import ExpertsSection from './Section/Expert/ExpertsSection';
 import useTokenValidation from '../../hooks/useTokenValidation';
 import useUserSessionData from "../../hooks/useUserSessionData";
 import {useFocusEffect} from "@react-navigation/native";
+import AdSection from "./Section/Ads/AdSection";
 export default function Homepage({navigation}) {
     const [refreshing, setRefreshing] = useState(false);
     const {userData, dataLoading, refetchUserData} = useUserSessionData()
@@ -56,12 +57,14 @@ export default function Homepage({navigation}) {
                     <Text>Posts</Text>
                 ) : selectedSection === 2 ? (
                     <Text>Messages</Text>
+                ) : selectedSection === 3 ? (
+                    <ExpertsSection />
                 ) : (
-                    <ExpertsSection></ExpertsSection>
+                    <AdSection />
                 )
             }
             <View style={styles.navigation}>
-                <Navigation navigation={navigation} selectedSection={selectedSection} setSelectedSection={setSelectedSection}/>
+                <Navigation navigation={navigation} selectedSection={selectedSection} setSelectedSection={setSelectedSection} userData={userData}/>
             </View>
         </View>
     );

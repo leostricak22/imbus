@@ -55,7 +55,7 @@ public class OfferService {
 
         List<OfferResponse> offerResponse = new ArrayList<>();
         for(Offer offer : allOffers)
-            if(offer.getAd().getCreator().getUsername().equals(jwtService.getUsernameFromSession()))
+            //if(offer.getAd().getCreator().getUsername().equals(jwtService.getUsernameFromSession()))
                 offerResponse.add(modelMapper.map(offer, OfferResponse.class));
 
         return offerResponse;

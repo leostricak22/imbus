@@ -17,7 +17,6 @@ import java.util.List;
 public class OfferController {
     private final OfferService offerService;
 
-    @PreAuthorize("hasAuthority('CLIENT')")
     @GetMapping("/{adId}")
     public ResponseEntity<List<OfferResponse>> getAllOffers(
             @PathVariable Integer adId

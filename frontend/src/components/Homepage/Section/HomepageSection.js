@@ -37,6 +37,7 @@ export default function HomepageSection({navigation, userData, dataLoading, onRe
                         <Text>ID: {userData.id}</Text>
                         <Text>Username: {userData.username}</Text>
                         <Text>Email: {userData.email}</Text>
+                        <Text>Role: {userData.role}</Text>
                         <Text>Token: {token}</Text>
                     </>
                 )

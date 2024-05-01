@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Image, ScrollView, Dimensions, StyleSheet, Text } from 'react-native';
+import {View, Image, ScrollView, Dimensions, StyleSheet, Text, useWindowDimensions} from 'react-native';
 
-const PhotoSlider = ({images}) => {
-    const { width } = Dimensions.get('window');
-    const height = width * 0.7;
+const PhotoSlider = ({images, parentWidth=Dimensions.get('window').width}) => {
+    const width  = parentWidth;
+    const height = width;
 
     const [active, setActive] = useState(0);
 

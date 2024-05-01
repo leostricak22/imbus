@@ -1,5 +1,4 @@
-import {Platform, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import {StyleSheet, Text, TextInput, View} from "react-native";
 
 import {counties} from "../../data/Counties";
 import DropdownInput from "../InputTypes/DropdownInput";
@@ -8,7 +7,7 @@ import DateTimeInput from "../InputTypes/DateTimeInput";
 
 export default function Form({formData, setFormData}) {
     const handleChange = (name, value) => {
-        setFormData({ ...formData, [name]: value });
+        setFormData({...formData, [name]: value});
     };
 
     return (
@@ -25,7 +24,7 @@ export default function Form({formData, setFormData}) {
             <View>
                 <Text style={styles.label}>Description</Text>
                 <TextInput
-                    style={[styles.input, { height: 100 }]}
+                    style={[styles.input, {height: 100}]}
                     multiline
                     value={formData.description}
                     onChangeText={(text) => handleChange('description', text)}
@@ -37,23 +36,25 @@ export default function Form({formData, setFormData}) {
                 <View style={styles.dateContainerFields}>
                     <View style={styles.dateInputContainer}>
                         <Text>Od</Text>
-                        <DateTimeInput formData={formData} setFormData={setFormData} formDataItem={"do_the_job_from"} />
+                        <DateTimeInput formData={formData} setFormData={setFormData} formDataItem={"do_the_job_from"}/>
                     </View>
                     <View style={styles.dateInputContainer}>
                         <Text>Do</Text>
-                        <DateTimeInput formData={formData} setFormData={setFormData} formDataItem={"do_the_job_to"} />
+                        <DateTimeInput formData={formData} setFormData={setFormData} formDataItem={"do_the_job_to"}/>
                     </View>
                 </View>
             </View>
 
             <View>
                 <Text style={styles.label}>Lokacija</Text>
-                <DropdownInput handleChange={handleChange} items={counties} formData={formData} formDataItem={"location"} />
+                <DropdownInput handleChange={handleChange} items={counties} formData={formData}
+                               formDataItem={"location"}/>
             </View>
 
             <View>
                 <Text style={styles.label}>Kategorija</Text>
-                <DropdownInput handleChange={handleChange} items={categoryTypes} formData={formData} formDataItem={"categories"} />
+                <DropdownInput handleChange={handleChange} items={categoryTypes} formData={formData}
+                               formDataItem={"categories"}/>
             </View>
         </View>
     )

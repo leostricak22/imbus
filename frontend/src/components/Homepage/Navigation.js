@@ -2,6 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TextInput, Image, Pressable, ImageBackground } from 'react-native';
 import { useState, useEffect } from 'react';
 import AdSmallFixesDialog from "./AdSmallFixesDialog";
+import AccountProfileImage from "../../svg/AccountProfileImage";
+import {SvgUri, SvgXml} from "react-native-svg";
+import HomepageIcon from "../../svg/HomepageIcon";
+
+import AdIcon from "../../svg/AdIcon";
+import SmallFixesIcon from "../../svg/SmallFixesIcon";
+import ChatIcon from "../../svg/ChatIcon";
+import ExpertIcon from "../../svg/ExpertIcon";
 
 const homepageImage = require("../../../assets/icons/homepage/homepage.png");
 const homepageSelectedImage = require("../../../assets/icons/homepage/homepageSelected.png");
@@ -15,9 +23,11 @@ const messagesSelectedImage = require("../../../assets/icons/homepage/messagesSe
 const specialistsImage = require("../../../assets/icons/homepage/specialists.png");
 const specialistsSelectedImage = require("../../../assets/icons/homepage/specialistsSelected.png");
 
-export default function Navigation({ navigation, selectedSection, setSelectedSection }) {
+export default function Navigation({ navigation, selectedSection, setSelectedSection, userData} ) {
     const [buttonAddIsHovered, setButtonAddIsHovered] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
+    const [themeColor, setThemeColor] = useState("#209cee");
+    const [themeColorDark, setThemeColorDark] = useState("#085e96");
 
     const showDialog = () => {
         setDialogVisible(true);
@@ -27,7 +37,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
         setDialogVisible(false);
     };
 
-    const handleOption1Press = () => {
+    const handleAddAdPress = () => {
         navigation.navigate("add-ad")
         hideDialog();
     };
@@ -37,134 +47,93 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
         hideDialog();
     };
 
+    useEffect(() => {
+        if(userData && userData.role === 'EXPERT') {
+            setThemeColor("#cc9403");
+            setThemeColorDark("#7c5a02");
+        } else {
+            setThemeColor("#209cee");
+            setThemeColorDark("#085e96");
+        }
+    }, [selectedSection]);
+
     return (
         <View style={styles.navigation}>
-            <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <View
-                        style={{
-                            position: 'absolute',
-                            height: 100,
-                            width: '39%',
-                            left: 0,
-                            backgroundColor: 'white',
-                            borderTopWidth: 1,
-                            borderTopColor: '#d5d5d5',
-                            borderTopStyle: 'solid',
-                        }}
-                    />
-
-                    <View
-                        style={{
-                            position: 'absolute',
-                            bottom: -51,
-                            left: '36%',
-                            width: '20%',
-                            height: 50,
-                            borderBottomWidth: 12,
-                            borderLeftWidth: 12,
-                            borderColor: 'white',
-                            borderBottomLeftRadius: 100,
-                        }}
-                    />
-
-                    <View
-                        style={{
-                            position: 'absolute',
-                            bottom: -51,
-                            right: "36%",
-                            width: '20%',
-                            height: 50,
-                            borderBottomWidth: 12,
-                            borderRightWidth: 12,
-                            borderColor: 'white',
-                            borderBottomRightRadius: 100,
-                        }}
-                    />
-
-                    <View
-                        style={{
-                            position: 'absolute',
-                            right: 0,
-                            height: 100,
-                            width: "39%",
-                            backgroundColor: 'white',
-                            borderTopWidth: 1,
-                            borderTopColor: '#d5d5d5',
-                            borderTopStyle: 'solid',
-                        }}
-                    />
-
-                    <View
-                        style={{
-                            position: 'absolute',
-                            height: 50,
-                            width: '100%',
-                            top: 40,
-                            left: 0,
-                            backgroundColor: 'white',
-                        }}
-                    />
-
-                    <View
-                        style={{
-                            position: 'absolute',
-                            height: 50,
-                            width: 50,
-                            top: 25,
-                            left: "30%",
-                            backgroundColor: 'white',
-                            transform: [{ rotate: '45deg' }],
-                        }}
-                    />
-
-                    <View
-                        style={{
-                            position: 'absolute',
-                            height: 50,
-                            width: 50,
-                            top: 25,
-                            right: "30%",
-                            backgroundColor: 'white',
-                            transform: [{ rotate: '45deg' }],
-                        }}
-                    />
-                </View>
-            </View>
             <View style={styles.container}>
-                <View style={styles.navigationLeftSide}>
-                    <Pressable style={styles.section} onPress={() => {setSelectedSection(0);}}>
-                        <Image source={selectedSection == 0 ? homepageSelectedImage : homepageImage} style={styles.sectionImage} />
-                        <Text style={[styles.sectionText, selectedSection == 0 ? styles.blue : styles.gray]}>Naslovnica</Text>
+                <Pressable style={styles.section} onPress={() => {setSelectedSection(0);}}>
+                    <SvgXml
+                        width="30"
+                        height="20"
+                        xml={HomepageIcon}
+                        fill={
+                            selectedSection === 0 ? themeColor : "#000"
+                        }
+                    />
+                    <Text style={[styles.sectionText, selectedSection === 0 ? {color: themeColor} : styles.black]}>Naslovnica</Text>
+                </Pressable>
+
+                <Pressable style={styles.section} onPress={() => {setSelectedSection(1);}}>
+                    <SvgXml
+                        width="30"
+                        height="20"
+                        xml={SmallFixesIcon}
+                        fill={
+                            selectedSection === 1 ? themeColor : "#000"
+                        }
+                    />
+                    <Text style={[styles.sectionText, selectedSection === 1 ? {color: themeColor} : styles.black]}>Objave</Text>
+                </Pressable>
+
+                { (userData && userData.role === 'CLIENT') ? (
+                    <Pressable style={[styles.circleButton, buttonAddIsHovered ? {backgroundColor: themeColorDark} : {backgroundColor: themeColor}]}
+                               onPressIn={() => setButtonAddIsHovered(true)}
+                               onPressOut={() => setButtonAddIsHovered(false)}
+                               onPress={showDialog}
+                    >
+                        <View style={styles.plusLineHorizontal} />
+                        <View style={styles.plusLineVertical} />
                     </Pressable>
-                    <Pressable style={styles.section} onPress={() => {setSelectedSection(1);}}>
-                        <Image source={selectedSection == 1 ? postsSelectedImage : postsImage} style={styles.sectionImage} />
-                        <Text style={[styles.sectionText, selectedSection == 1 ? styles.blue : styles.gray]}>Objave</Text>
+                ) : (
+                    <Pressable style={styles.section} onPress={() => {setSelectedSection(5);}}>
+                        <SvgXml
+                            width="30"
+                            xml={AdIcon}
+                            fill={
+                                selectedSection === 5 ? themeColor : "#000"
+                            }
+                        />
+                        <Text style={[styles.sectionText, selectedSection === 5 ? {color: themeColor} : styles.black]}>Oglasi</Text>
                     </Pressable>
-                </View>                
-                <View style={styles.navigationRightSide}>
-                    <Pressable style={styles.section} onPress={() => {setSelectedSection(2);}}>
-                        <Image source={selectedSection == 2 ? messagesSelectedImage : messagesImage} style={styles.sectionImage} />
-                        <Text style={[styles.sectionText, selectedSection == 2 ? styles.blue : styles.gray]}>Poruke</Text>
-                    </Pressable>
-                    <Pressable style={styles.section} onPress={() => {setSelectedSection(3);}}>
-                        <Image source={selectedSection == 3 ? specialistsSelectedImage : specialistsImage} style={styles.sectionImage} />
-                        <Text style={[styles.sectionText, selectedSection == 3 ? styles.blue : styles.gray]}>Znalci</Text>
-                    </Pressable>
-                </View>
+                )}
+
+                <Pressable style={styles.section} onPress={() => {setSelectedSection(2);}}>
+                    <SvgXml
+                        width="30"
+                        height="20"
+                        xml={ChatIcon}
+                        fill={
+                            selectedSection === 2 ? themeColor : "#000"
+                        }
+                    />
+                    <Text style={[styles.sectionText, selectedSection === 2 ? {color: themeColor} : styles.black]}>Poruke</Text>
+                </Pressable>
+
+                <Pressable style={styles.section} onPress={() => {setSelectedSection(3);}}>
+                    <SvgXml
+                        width="30"
+                        height="20"
+                        xml={ExpertIcon}
+                        fill={
+                            selectedSection === 3 ? themeColor : "#000"
+                        }
+                    />
+                    <Text style={[styles.sectionText, selectedSection === 3 ? {color: themeColor} : styles.black]}>Znalci</Text>
+                </Pressable>
             </View>
-            <Pressable style={[styles.circleButton, buttonAddIsHovered ? styles.backgroundDarkBlue : styles.backgroundBlue]}
-                onPressIn={() => setButtonAddIsHovered(true)}
-                onPressOut={() => setButtonAddIsHovered(false)}
-                onPress={showDialog}
-            >
-                <View style={styles.plusLineHorizontal} />
-                <View style={styles.plusLineVertical} />
-            </Pressable>
             <AdSmallFixesDialog
                 isVisible={dialogVisible}
                 onClose={hideDialog}
-                onOption1Press={handleOption1Press}
+                onOption1Press={handleAddAdPress}
                 onOption2Press={handleOption2Press}
             />
         </View>
@@ -175,6 +144,10 @@ const styles = StyleSheet.create({
     navigation: {
         width: '100%',
         height: 90,
+        backgroundColor: 'white',
+        borderTopWidth: 1,
+        borderTopColor: '#afaeae',
+        padding: 10,
     },
     container: {
         display: 'flex',
@@ -185,28 +158,13 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         zIndex: 1,
     },
-    navigationLeftSide: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-    navigationRightSide: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
     circleButton: {
-        position: 'absolute',
-        width: 70,
-        height: 70,
+        width: 60,
+        height: 60,
         borderRadius: 100,
+        bottom: 10,
         borderColor: 'white',
         borderWidth: 4,
-        backgroundColor: '#209cee',
-        left: '50%',
-        bottom: 55,
-        zIndex: 3,
-        transform: [{ translateX: -35 }],
     },
     plusLineHorizontal: {
         position: 'absolute',
@@ -229,9 +187,8 @@ const styles = StyleSheet.create({
     section: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
-        margin: 10,
+        width: '20%',
     },
     sectionImage: {
         width: 50,
@@ -247,10 +204,19 @@ const styles = StyleSheet.create({
     gray: {
         color: "#b3b3b3",
     },
+    black: {
+        color: "#000",
+    },
     backgroundBlue: {
         backgroundColor: '#209cee',
     },
+    backgroundYellow: {
+        backgroundColor: '#cc9403',
+    },
     backgroundDarkBlue: {
         backgroundColor: '#085e96',
+    },
+    backgroundDarkYellow: {
+        backgroundColor: '#7c5a02',
     },
 });
