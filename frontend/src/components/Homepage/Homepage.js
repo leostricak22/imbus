@@ -53,7 +53,7 @@ export default function Homepage({navigation}) {
             <View style={styles.section}>
                 {
                     selectedSection === 0 ? (
-                        <HomepageSection userData={userData} dataLoading={dataLoading} onRefresh={onRefresh} refreshing={refreshing}></HomepageSection>
+                        <HomepageSection navigation={navigation} userData={userData} dataLoading={dataLoading} onRefresh={onRefresh} refreshing={refreshing} />
                     ) : selectedSection === 1 ? (
                         <Text>Posts</Text>
                     ) : selectedSection === 2 ? (

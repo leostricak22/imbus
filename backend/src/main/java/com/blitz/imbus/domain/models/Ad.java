@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -52,5 +53,8 @@ public class Ad {
 
     private String description;
 
-    // TODO: add attachments
+    @Lob
+    @ElementCollection
+    @Column(columnDefinition = "MEDIUMBLOB")
+    private List<byte[]> attachments;
 }

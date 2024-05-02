@@ -9,11 +9,13 @@ import {counties} from "../../data/Counties";
 import PhotoSlider from "./PhotoSlider";
 import OfferContainer from "../Homepage/Section/Ads/OfferContainer";
 import useAllOfferData from "../../hooks/useAllOfferData";
+import {useEffect, useState} from "react";
 
 export default function ViewAd({navigation, route}) {
     const { ad } = route.params;
 
     const { allOfferData, dataLoading, refetchAllOfferData } = useAllOfferData(ad.id);
+    const [images, setImages] = useState([]);
 
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -21,6 +23,12 @@ export default function ViewAd({navigation, route}) {
         const month = ('0' + (date.getMonth() + 1)).slice(-2);
         return `${day}.${month}.`;
     }
+
+    useEffect(() => {
+        setImages(ad.attachments.map(attachment => (
+            `data:image/jpeg;base64,${attachment}`
+        )));
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -46,7 +54,7 @@ export default function ViewAd({navigation, route}) {
                     </View>
                 </View>
 
-                <PhotoSlider images={["https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_640.jpg", "https://www.flexibleproduction.com/wp-content/uploads/2017/06/test-intelligenza-sociale.jpg"]} />
+                <PhotoSlider images={images} />
                 <Text style={styles.description}>{ad.description}</Text>
 
                 <View style={styles.adInfoText}>

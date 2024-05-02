@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -35,12 +36,23 @@ public class AdController {
         return ResponseEntity.ok(adService.getSpecificAd(id));
     }
 
+    /*
     @PreAuthorize("hasAuthority('CLIENT')")
     @PostMapping("/add")
     public ResponseEntity<AdResponse> addAd(
             @Valid @RequestBody AdRequest adRequest
     ) {
         return ResponseEntity.ok(adService.addAd(modelMapper.map(adRequest, Ad.class)));
+    }
+     */
+
+    @PreAuthorize("hasAuthority('CLIENT')")
+    @PostMapping("/add")
+    public ResponseEntity<AdResponse> addAd(
+            @RequestParam("attachments") List<MultipartFile> attachments,
+            @RequestParam("ad") String adRequest
+    ) {
+        return ResponseEntity.ok(adService.addAd(attachments, adRequest));
     }
 
     @PostMapping("/filter")

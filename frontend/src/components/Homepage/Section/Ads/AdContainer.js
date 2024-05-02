@@ -15,6 +15,7 @@ import OfferContainer from "./OfferContainer";
 export default function AdContainer({ad, navigation}) {
     const { allOfferData, dataLoading, refetchAllOfferData } = useAllOfferData(ad.id);
     const [parentWidth, setParentWidth] = useState(0);
+    const [images, setImages] = useState([]);
 
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -25,9 +26,14 @@ export default function AdContainer({ad, navigation}) {
 
     const onLayout = (event) => {
         const { width } = event.nativeEvent.layout;
-        console.log(width)
         setParentWidth(width);
     };
+
+    useEffect(() => {
+        setImages(ad.attachments.map(attachment => (
+            `data:image/jpeg;base64,${attachment}`
+        )));
+    }, []);
 
     return (
         <Pressable key={ad.creator.id} style={styles.itemContainer} onPress={() => navigation.navigate("view-ad", {"ad":ad})}>
@@ -77,7 +83,9 @@ export default function AdContainer({ad, navigation}) {
                     </View>
                 </View>
                 <View style={styles.gallery} onLayout={onLayout}>
-                    <PhotoSlider images={["https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_640.jpg", "https://www.flexibleproduction.com/wp-content/uploads/2017/06/test-intelligenza-sociale.jpg"]} parentWidth={parentWidth} />
+                    <PhotoSlider images={
+                        images
+                    } parentWidth={parentWidth} />
                 </View>
             </View>
             <View>
