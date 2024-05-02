@@ -10,6 +10,7 @@ import AdIcon from "../../svg/AdIcon";
 import SmallFixesIcon from "../../svg/SmallFixesIcon";
 import ChatIcon from "../../svg/ChatIcon";
 import ExpertIcon from "../../svg/ExpertIcon";
+import Calendar from "../../svg/Calendar";
 
 const homepageImage = require("../../../assets/icons/homepage/homepage.png");
 const homepageSelectedImage = require("../../../assets/icons/homepage/homepageSelected.png");
@@ -118,17 +119,32 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
                     <Text style={[styles.sectionText, selectedSection === 2 ? {color: themeColor} : styles.black]}>Poruke</Text>
                 </Pressable>
 
-                <Pressable style={styles.section} onPress={() => {setSelectedSection(3);}}>
-                    <SvgXml
-                        width="30"
-                        height="20"
-                        xml={ExpertIcon}
-                        fill={
-                            selectedSection === 3 ? themeColor : "#000"
-                        }
-                    />
-                    <Text style={[styles.sectionText, selectedSection === 3 ? {color: themeColor} : styles.black]}>Znalci</Text>
-                </Pressable>
+                { (userData && userData.role === 'CLIENT') ? (
+                    <Pressable style={styles.section} onPress={() => {setSelectedSection(3);}}>
+                        <SvgXml
+                            width="30"
+                            height="20"
+                            xml={ExpertIcon}
+                            fill={
+                                selectedSection === 3 ? themeColor : "#000"
+                            }
+                        />
+                        <Text style={[styles.sectionText, selectedSection === 3 ? {color: themeColor} : styles.black]}>Znalci</Text>
+                    </Pressable>
+                ) : (
+                    <Pressable style={styles.section} onPress={() => {setSelectedSection(4);}}>
+                        <SvgXml
+                            width="30"
+                            height="20"
+                            xml={Calendar}
+                            fill={
+                                selectedSection === 4 ? themeColor : "#000"
+                            }
+                        />
+                        <Text style={[styles.sectionText, selectedSection === 4 ? {color: themeColor} : styles.black]}>Kalendar</Text>
+                    </Pressable>
+                    )
+                }
             </View>
             <AdSmallFixesDialog
                 isVisible={dialogVisible}

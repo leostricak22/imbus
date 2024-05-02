@@ -60,6 +60,8 @@ export default function Homepage({navigation}) {
                         <Text>Messages</Text>
                     ) : selectedSection === 3 ? (
                         <ExpertsSection />
+                    ) : selectedSection === 4 ? (
+                        <Text>Calendar</Text>
                     ) : (
                         <AdSection navigation={navigation} />
                     )
