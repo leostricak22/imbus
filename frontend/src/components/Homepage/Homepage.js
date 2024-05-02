@@ -1,44 +1,74 @@
-import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, View, Text, TextInput, Image, Pressable, ImageBackground, ScrollView} from 'react-native';
-import { useState, useEffect } from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {useEffect, useState} from 'react';
+
+import React from 'react';
 
 import Header from './Header';
 import Navigation from './Navigation';
-import useAuthSessionData from '../../hooks/useAuthSessionData';
+import HomepageSection from './Section/HomepageSection';
+import ExpertsSection from './Section/Expert/ExpertsSection';
 
-export default function Homepage({ setIsLoggedIn }) {
+import useTokenValidation from '../../hooks/useTokenValidation';
+import useUserSessionData from "../../hooks/useUserSessionData";
+import {useFocusEffect} from "@react-navigation/native";
+import AdSection from "./Section/Ads/AdSection";
+export default function Homepage({navigation}) {
+    const [refreshing, setRefreshing] = useState(false);
+    const {userData, dataLoading, refetchUserData} = useUserSessionData()
     const [selectedSection, setSelectedSection] = useState(0);
+    const [firstFocus, setFirstFocus] = useState(true);
+
+    const validToken = useTokenValidation();
 
     useEffect(() => {
         console.log('Section changed to:', selectedSection);
     }, [selectedSection]);
 
-    const { authData, loading } = useAuthSessionData()
+    useEffect(() => {
+        if (validToken !== '' && !validToken) {
+            navigation.navigate('login');
+        }
+    }, [validToken, navigation]);
 
-    if (loading) {
-        return <Text>Loading...</Text>;
-    }
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await refetchUserData();
+        setRefreshing(false);
+    };
 
-    if (!authData) {
-        return <Text>No data available</Text>;
-    }
+    useFocusEffect(
+        React.useCallback(() => {
+            if (!firstFocus) {
+                onRefresh();
+            } else {
+                setFirstFocus(false);
+            }
+        }, [firstFocus])
+    );
+
 
     return (
         <View style={styles.container}>
-            <Header />
-            <ScrollView style={styles.container}>
-                {loading ? (
-                    <Text>Loading...</Text>
-                ) : (
-                    <>
-                        <Text>{authData.id}</Text>
-                        <Text>{authData.username}</Text>
-                        <Text>{authData.email}</Text>
-                    </>
-                )}
-            </ScrollView>
+            <Header navigation={navigation} userData={userData}/>
+            <View style={styles.section}>
+                {
+                    selectedSection === 0 ? (
+                        <HomepageSection navigation={navigation} userData={userData} dataLoading={dataLoading} onRefresh={onRefresh} refreshing={refreshing} />
+                    ) : selectedSection === 1 ? (
+                        <Text>Posts</Text>
+                    ) : selectedSection === 2 ? (
+                        <Text>Messages</Text>
+                    ) : selectedSection === 3 ? (
+                        <ExpertsSection />
+                    ) : selectedSection === 4 ? (
+                        <Text>Calendar</Text>
+                    ) : (
+                        <AdSection navigation={navigation} />
+                    )
+                }
+            </View>
             <View style={styles.navigation}>
-                <Navigation selectedSection={selectedSection} setSelectedSection={setSelectedSection} />
+                <Navigation navigation={navigation} selectedSection={selectedSection} setSelectedSection={setSelectedSection} userData={userData}/>
             </View>
         </View>
     );
@@ -46,15 +76,16 @@ export default function Homepage({ setIsLoggedIn }) {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%',
         flex: 1,
-        backgroundColor: 'lightblue',
     },
     navigation: {
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
+    },
+    section: {
+        flex: 1,
+        marginBottom: 70,
     },
 });

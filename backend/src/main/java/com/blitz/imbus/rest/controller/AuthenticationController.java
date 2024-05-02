@@ -9,12 +9,18 @@ import com.blitz.imbus.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
 @AllArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
@@ -24,7 +30,13 @@ public class AuthenticationController {
 
     @GetMapping("/sessionUser")
     public ResponseEntity<User> getAllUsers() {
-        return ResponseEntity.ok(userRepository.findByUsername("leostricak22").get());
+        return ResponseEntity.ok(authenticationService.findUserBySessionUsername());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/validate")
+    public ResponseEntity<Boolean> validateToken() {
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping("/register")
@@ -40,4 +52,5 @@ public class AuthenticationController {
     ) {
         return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
     }
+
 }

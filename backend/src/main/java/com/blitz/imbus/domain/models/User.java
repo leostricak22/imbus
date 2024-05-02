@@ -58,6 +58,11 @@ public class User implements UserDetails {
     )
     private Set<CategoryType> categories;
 
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
+    @Builder.Default
+    private byte[] profileImage = null;
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
