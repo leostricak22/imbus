@@ -8,7 +8,7 @@ export default function useAllAdData () {
 
     const fetchAllAdData = async () => {
         try {
-            const response = await fetch('http://192.168.73.191:8080/api/ad/filter', {
+            const response = await fetch('http://192.168.54.191:8080/api/ad/filter', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -10,7 +10,7 @@ export default function useTokenValidation () {
             try {
                 const token = await AsyncStorage.getItem('token');
                 if (token) {
-                    const response = await axios.get('http://192.168.73.191:8080/api/auth/validate', {
+                    const response = await axios.get('http://192.168.54.191:8080/api/auth/validate', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }

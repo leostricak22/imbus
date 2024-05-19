@@ -8,7 +8,7 @@ export default function useAllExpertData () {
 
     const fetchAllExpertData = async () => {
         try {
-            const response = await fetch('http://192.168.73.191:8080/api/expert/filter', {
+            const response = await fetch('http://192.168.54.191:8080/api/expert/filter', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

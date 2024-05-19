@@ -70,6 +70,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
                             selectedSection === 0 ? themeColor : "#000"
                         }
                     />
+                    {console.log(themeColor)}
                     <Text style={[styles.sectionText, selectedSection === 0 ? {color: themeColor} : styles.black]}>Naslovnica</Text>
                 </Pressable>
 
@@ -175,17 +176,17 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     circleButton: {
-        width: 60,
-        height: 60,
+        width: 45,
+        height: 45,
+        bottom: 4,
         borderRadius: 100,
-        bottom: 10,
         borderColor: 'white',
         borderWidth: 4,
     },
     plusLineHorizontal: {
         position: 'absolute',
         width: 30,
-        height: 4,
+        height: 3,
         backgroundColor: 'white',
         top: '50%',
         left: '50%',
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
     },
     plusLineVertical: {
         position: 'absolute',
-        width: 4,
+        width: 3,
         height: 30,
         backgroundColor: 'white',
         top: '50%',

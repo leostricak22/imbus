@@ -62,8 +62,6 @@ public class AdService {
             allAdResponse.add(modelMapper.map(ad, AdResponse.class));
         }
 
-        System.out.println(allAdResponse);
-
         return allAdResponse;
     }
 

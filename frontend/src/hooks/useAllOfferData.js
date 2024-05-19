@@ -8,7 +8,7 @@ export default function useAllOfferData (adId) {
     const fetchAllOfferData = async () => {
         try {
             console.log('http://192.168.73.191:8080/api/offer/'+adId)
-            const response = await fetch('http://192.168.73.191:8080/api/offer/'+adId, {
+            const response = await fetch('http://192.168.54.191:8080/api/offer/'+adId, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
