@@ -16,6 +16,8 @@ import com.blitz.imbus.rest.dto.UserResponse;
 import com.blitz.imbus.service.JwtService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +30,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
+
+    private static final Logger logger = LoggerFactory.getLogger(AdService.class);
 
     public UserResponse updateUser(MultipartFile image, String userRequestString) {
         UserRequest userRequest = parseUserRequest(userRequestString);
@@ -51,6 +55,7 @@ public class UserService {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(userRequestString, UserRequest.class);
         } catch (IOException ex) {
+            logger.error("Error parsing user request: " + ex.getMessage());
             throw new AppException(ErrorCode.BAD_REQUEST);
         }
     }
@@ -86,6 +91,7 @@ public class UserService {
                 user.setProfileImage(compressedImageBytes);
             }
         } catch (IOException e) {
+            logger.error("Error occurred while processing attachments: " + e.getMessage());
             throw new AppException(ErrorCode.BAD_REQUEST);
         }
     }

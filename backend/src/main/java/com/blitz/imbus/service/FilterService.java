@@ -10,6 +10,8 @@ import lombok.SneakyThrows;
 import org.hibernate.Filter;
 import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -19,6 +21,8 @@ import java.util.stream.IntStream;
 @AllArgsConstructor
 public class FilterService {
     private final ModelMapper modelMapper;
+
+    private static final Logger logger = LoggerFactory.getLogger(AdService.class);
 
     public <T> boolean checkFilter(List<FilterCriteria> filterList, T objectToBeFiltered){
         boolean filterLocationFound = checkIfFilterTypeExistsInJsonArray(filterList, FilterType.LOCATION);
@@ -62,6 +66,7 @@ public class FilterService {
             objectToBeFiltered.getClass().getMethod(method);
             return true;
         } catch (NoSuchMethodException e) {
+            logger.error("Error checking method existence: " + e.getMessage());
             return false;
         }
     }
