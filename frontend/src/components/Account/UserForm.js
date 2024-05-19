@@ -46,17 +46,7 @@ export default function UserForm({name, setName, surname, setSurname, username, 
                 />
             </View>
 
-            <View style={styles.formSection}>
-                <Text style={styles.label}>Lozinka</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={setPassword}
-                    value={password}
-                    placeholder="Lozinka"
-                    secureTextEntry={true}
-                />
-            </View>
-
+            {/*
             <Picker
                 selectedValue={role}
                 onValueChange={(itemValue) => setRole(itemValue)}
@@ -73,6 +63,7 @@ export default function UserForm({name, setName, surname, setSurname, username, 
             >
                 <Picker.Item label="Select Location" value="" />
             </Picker>
+            */}
         </View>
     );
 }

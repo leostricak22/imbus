@@ -22,7 +22,7 @@ export default function Form({formData, setFormData}) {
             </View>
 
             <View>
-                <Text style={styles.label}>Description</Text>
+                <Text style={styles.label}>Opis</Text>
                 <TextInput
                     style={[styles.input, {height: 100}]}
                     multiline

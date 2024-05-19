@@ -10,7 +10,7 @@ const useAddAd = () => {
         setError(null);
 
         try {
-            const response = await fetch('http://192.168.73.191:8080/api/ad/add', {
+            const response = await fetch('http://192.168.54.191:8080/api/ad/add', {
                 method: 'POST',
                 body: data,
                 headers: {

@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TextInput, Image, Pressable, ImageBackground } from 'react-native';
 import { useState, useRef } from 'react';
+import {SvgXml} from "react-native-svg";
+import AccountProfileImage from "../../svg/AccountProfileImage";
 
 const logoImage = require("../../../assets/icon.png");
 const notificationImage = require("../../../assets/icons/notification.png");
@@ -10,7 +12,19 @@ export default function Header({navigation, userData}) {
     return (
         <View style={styles.header}>
             <Pressable style={styles.defaultUserProfileContainer} onPress={() => navigation.navigate("accountsettings")}>
-                <Image source={{uri : `data:image/jpeg;base64,${userData && userData.profileImage}`}} style={styles.defaultUserProfileImage} />
+                {
+                    userData && userData.profileImage ? (
+                        <Image source={{uri : `data:image/jpeg;base64,${userData && userData.profileImage}`}} style={styles.defaultUserProfileImage} />
+                    ) : (
+                        <View style={styles.profileImage}>
+                            <SvgXml
+                                width="100%"
+                                height="100%"
+                                xml={AccountProfileImage}
+                            />
+                        </View>
+                    )
+                }
             </Pressable>
             <Image source={logoImage} style={styles.logoImage} />
             <Image source={notificationImage} style={styles.notification} />

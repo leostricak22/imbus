@@ -9,7 +9,7 @@ const useUpdateUser = () => {
         try {
             setUploading(true);
 
-            const response = await fetch('http://192.168.73.191:8080/user/', {
+            const response = await fetch('http://192.168.54.191:8080/user/', {
                 method: 'PUT',
                 body: formData,
                 headers: {

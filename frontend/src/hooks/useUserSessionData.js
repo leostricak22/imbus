@@ -7,7 +7,7 @@ export default function useUserSessionData () {
 
     const fetchUserData = async () => {
         try {
-            const response = await fetch('http://192.168.73.191:8080/api/auth/sessionUser', {
+            const response = await fetch('http://192.168.54.191:8080/api/auth/sessionUser', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${await AsyncStorage.getItem('token')}`

@@ -18,7 +18,7 @@ export default function Login({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://192.168.73.191:8080/api/auth/authenticate', { email, password });
+      const response = await axios.post('http://192.168.54.191:8080/api/auth/authenticate', { email, password });
       await AsyncStorage.setItem('token', response.data.token);
       navigation.navigate('homepage');
     } catch (error) {

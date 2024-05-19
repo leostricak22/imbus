@@ -11,7 +11,7 @@ export default function useValidateToken () {
         setLoading(true);
 
         try {
-            const response = await fetch('http://192.168.73.191:8080/api/auth/validate', {
+            const response = await fetch('http://192.168.54.191:8080/api/auth/validate', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

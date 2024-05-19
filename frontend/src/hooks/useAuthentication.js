@@ -12,13 +12,15 @@ export default function useAuthentication () {
         setLoading(true);
 
         try {
-            const response = await fetch('http://192.168.73.191:8080/api/auth/authenticate', {
+            const response = await fetch('http://192.168.54.191:8080/api/auth/authenticate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ "email": email, "password": password }),
             });
+
+            console.log(response)
 
             if (response.status === 401) throw new Error('Pogrešno korisničko ime ili lozinka!');
 
