@@ -17,6 +17,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +43,8 @@ public class AdService {
     private final UserService userService;
 
     private final ModelMapper modelMapper;
+
+    private static final Logger logger = LoggerFactory.getLogger(AdService.class);
 
     public List<AdResponse> getAdsFilter(FilterRequest filters) {
         List<Ad> allAds = adRepository.findAll();
@@ -95,6 +99,7 @@ public class AdService {
             return adRequest;
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+            logger.error("Error parsing ad request: " + ex.getMessage());
             throw new AppException(ErrorCode.BAD_REQUEST);
         }
     }
@@ -138,6 +143,7 @@ public class AdService {
 
             ad.setAttachments(attachmentsFinal);
         } catch (IOException e) {
+            logger.error("Error occurred while processing attachments: " + e.getMessage());
             throw new AppException(ErrorCode.BAD_REQUEST);
         }
     }
