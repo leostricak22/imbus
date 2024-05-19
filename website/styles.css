@@ -1,0 +1,65 @@
+* {
+    background-color: white;
+}
+
+h1 {
+    font-size: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logo {
+    width: 250px;
+    margin-left: 50px;
+}
+
+.download {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#googleplay {
+    width: 360px;
+    height: 140px;
+}
+
+#appstore {
+    width: 300px;
+    height: 95px;
+}
+
+.tekst {
+    margin-left: 33%;
+    margin-right: 33%;
+    font-size: 20px;
+}
+
+.tekst ul {
+    list-style-type: square;
+}
+
+.tekst li::marker {
+    color: orange;
+}
+
+.tekst a:link {
+    color: midnightblue;
+}
+
+.tekst a:visited {
+    color: midnightblue;
+}
+
+.tekst a:hover {
+    color: midnightblue;
+}
+
+.tekst a:active {
+    color: midnightblue;
+}
