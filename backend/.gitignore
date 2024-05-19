@@ -1,6 +1,5 @@
 HELP.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -34,5 +33,4 @@ build/
 
 /src/main/resources/.env
 /src/main/resources/application.properties
-/.mvn/
 /.idea/
