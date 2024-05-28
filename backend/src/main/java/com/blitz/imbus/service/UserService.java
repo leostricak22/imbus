@@ -9,8 +9,10 @@ import java.util.Optional;
 
 import com.blitz.imbus.domain.exception.AppException;
 import com.blitz.imbus.domain.exception.ErrorCode;
+import com.blitz.imbus.domain.models.Attachment;
 import com.blitz.imbus.domain.models.User;
 import com.blitz.imbus.repository.UserRepository;
+import com.blitz.imbus.rest.dto.UpdateUserRequest;
 import com.blitz.imbus.rest.dto.UserRequest;
 import com.blitz.imbus.rest.dto.UserResponse;
 import com.blitz.imbus.service.JwtService;
@@ -30,34 +32,62 @@ public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
+    private final AttachmentService attachmentService;
 
     private static final Logger logger = LoggerFactory.getLogger(AdService.class);
 
-    public UserResponse updateUser(MultipartFile image, String userRequestString) {
-        UserRequest userRequest = parseUserRequest(userRequestString);
-
-        if (image.isEmpty()) {
-            image = null;
-        }
-
-        User user = getUser(jwtService.getUsernameFromSession());
+    public UserResponse updateUser(UpdateUserRequest updateUserRequest) {
+        String username = jwtService.getUsernameFromSession();
+        User user = getUser(username);
         validateUser(user);
 
-        updateUserProfileImage(user, image);
-        updateUserDetails(user, userRequest);
+        updateUserDetails(user, updateUserRequest);
 
-        userRepository.save(user);
         return modelMapper.map(user, UserResponse.class);
     }
 
-    private UserRequest parseUserRequest(String userRequestString) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(userRequestString, UserRequest.class);
-        } catch (IOException ex) {
-            logger.error("Error parsing user request: " + ex.getMessage());
-            throw new AppException(ErrorCode.BAD_REQUEST);
-        }
+    private void updateUserDetails(User user, UpdateUserRequest updateUserRequest) {
+        Optional.ofNullable(updateUserRequest.getName())
+                .filter(name -> !name.isEmpty() && !name.equals(user.getName()))
+                .ifPresent(user::setName);
+
+        Optional.ofNullable(updateUserRequest.getSurname())
+                .filter(surname -> !surname.isEmpty() && !surname.equals(user.getSurname()))
+                .ifPresent(user::setSurname);
+
+        Optional.ofNullable(updateUserRequest.getUsername())
+                .filter(username -> !username.isEmpty() && !username.equals(user.getUsername()))
+                .ifPresent(user::setUsername);
+
+        Optional.ofNullable(updateUserRequest.getEmail())
+                .filter(email -> !email.isEmpty() && !email.equals(user.getEmail()))
+                .ifPresent(user::setEmail);
+
+        Optional.ofNullable(updateUserRequest.getPassword())
+                .filter(password -> !password.isEmpty() && !password.equals(user.getPassword()))
+                .ifPresent(user::setPassword);
+
+        Optional.ofNullable(updateUserRequest.getRole())
+                .filter(role -> role != user.getRole())
+                .ifPresent(user::setRole);
+
+        Optional.ofNullable(updateUserRequest.getLocation())
+                .filter(location -> location != user.getLocation())
+                .ifPresent(user::setLocation);
+
+        Optional.ofNullable(updateUserRequest.getCategories())
+                .filter(categories -> !categories.equals(user.getCategories()))
+                .ifPresent(user::setCategories);
+
+        Optional.ofNullable(updateUserRequest.getAttachment())
+                .map(Attachment::getValue)
+                .filter(attachmentBase64 -> {
+                    validateAttachmentImage(attachmentBase64);
+                    return !attachmentBase64.equals(user.getProfileImage());
+                })
+                .ifPresent(user::setProfileImage);
+
+        userRepository.save(user);
     }
 
     private User getUser(String username) {
@@ -72,34 +102,9 @@ public class UserService {
         }
     }
 
-    private void updateUserProfileImage(User user, MultipartFile image) {
-        try {
-            if (image != null) {
-                byte[] imageBytes = image.getBytes();
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
-                BufferedImage originalImage = ImageIO.read(inputStream);
-
-                int newWidth = 200;
-                int newHeight = 200;
-                BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, originalImage.getType());
-                resizedImage.createGraphics().drawImage(originalImage, 0, 0, newWidth, newHeight, null);
-
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                ImageIO.write(resizedImage, "jpg", outputStream);
-                byte[] compressedImageBytes = outputStream.toByteArray();
-
-                user.setProfileImage(compressedImageBytes);
-            }
-        } catch (IOException e) {
-            logger.error("Error occurred while processing attachments: " + e.getMessage());
+    private void validateAttachmentImage(String attachmentBase64) {
+        if (!attachmentService.isAttachmentImage(attachmentBase64)) {
             throw new AppException(ErrorCode.BAD_REQUEST);
         }
-    }
-
-    private void updateUserDetails(User user, UserRequest userRequest) {
-        user.setName(userRequest.getName());
-        user.setSurname(userRequest.getSurname());
-        user.setCategories(userRequest.getCategories());
-        user.setLocation(userRequest.getLocation());
     }
 }

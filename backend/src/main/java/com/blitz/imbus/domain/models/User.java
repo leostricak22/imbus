@@ -61,7 +61,7 @@ public class User implements UserDetails {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     @Builder.Default
-    private byte[] profileImage = null;
+    private String profileImage = null;
 
     @Override
     public boolean isAccountNonExpired() {

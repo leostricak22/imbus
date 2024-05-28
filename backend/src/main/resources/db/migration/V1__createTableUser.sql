@@ -1,4 +1,4 @@
-CREATE TABLE `imbus`.`user` (
+CREATE TABLE user (
      `id` int(11) NOT NULL,
      `name` varchar(50) NOT NULL,
      `surname` varchar(50) NOT NULL,
@@ -10,10 +10,10 @@ CREATE TABLE `imbus`.`user` (
      `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8mb3_general_ci;
 
-ALTER TABLE `imbus`.`user`
+ALTER TABLE user
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `email` (`email`),
     ADD UNIQUE KEY `username` (`username`);
 
-ALTER TABLE `imbus`.`user`
+ALTER TABLE user
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
