@@ -1,5 +1,7 @@
 package com.blitz.imbus.service;
 
+import com.blitz.imbus.domain.exception.AppException;
+import com.blitz.imbus.domain.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,12 @@ public class AttachmentService {
             return image != null;
         } catch (IllegalArgumentException | IOException e) {
             return false;
+        }
+    }
+
+    public void validateAttachmentImage(String attachmentBase64) {
+        if (!isAttachmentImage(attachmentBase64)) {
+            throw new AppException(ErrorCode.BAD_REQUEST);
         }
     }
 }

@@ -6,6 +6,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import com.blitz.imbus.domain.exception.AppException;
 import com.blitz.imbus.domain.exception.ErrorCode;
@@ -47,42 +49,19 @@ public class UserService {
     }
 
     private void updateUserDetails(User user, UpdateUserRequest updateUserRequest) {
-        Optional.ofNullable(updateUserRequest.getName())
-                .filter(name -> !name.isEmpty() && !name.equals(user.getName()))
-                .ifPresent(user::setName);
-
-        Optional.ofNullable(updateUserRequest.getSurname())
-                .filter(surname -> !surname.isEmpty() && !surname.equals(user.getSurname()))
-                .ifPresent(user::setSurname);
-
-        Optional.ofNullable(updateUserRequest.getUsername())
-                .filter(username -> !username.isEmpty() && !username.equals(user.getUsername()))
-                .ifPresent(user::setUsername);
-
-        Optional.ofNullable(updateUserRequest.getEmail())
-                .filter(email -> !email.isEmpty() && !email.equals(user.getEmail()))
-                .ifPresent(user::setEmail);
-
-        Optional.ofNullable(updateUserRequest.getPassword())
-                .filter(password -> !password.isEmpty() && !password.equals(user.getPassword()))
-                .ifPresent(user::setPassword);
-
-        Optional.ofNullable(updateUserRequest.getRole())
-                .filter(role -> role != user.getRole())
-                .ifPresent(user::setRole);
-
-        Optional.ofNullable(updateUserRequest.getLocation())
-                .filter(location -> location != user.getLocation())
-                .ifPresent(user::setLocation);
-
-        Optional.ofNullable(updateUserRequest.getCategories())
-                .filter(categories -> !categories.equals(user.getCategories()))
-                .ifPresent(user::setCategories);
+        updateField(updateUserRequest.getName(), user::getName, user::setName);
+        updateField(updateUserRequest.getSurname(), user::getSurname, user::setSurname);
+        updateField(updateUserRequest.getUsername(), user::getUsername, user::setUsername);
+        updateField(updateUserRequest.getEmail(), user::getEmail, user::setEmail);
+        updateField(updateUserRequest.getPassword(), user::getPassword, user::setPassword);
+        updateField(updateUserRequest.getRole(), user::getRole, user::setRole);
+        updateField(updateUserRequest.getLocation(), user::getLocation, user::setLocation);
+        updateField(updateUserRequest.getCategories(), user::getCategories, user::setCategories);
 
         Optional.ofNullable(updateUserRequest.getAttachment())
                 .map(Attachment::getValue)
                 .filter(attachmentBase64 -> {
-                    validateAttachmentImage(attachmentBase64);
+                    attachmentService.validateAttachmentImage(attachmentBase64);
                     return !attachmentBase64.equals(user.getProfileImage());
                 })
                 .ifPresent(user::setProfileImage);
@@ -102,9 +81,9 @@ public class UserService {
         }
     }
 
-    private void validateAttachmentImage(String attachmentBase64) {
-        if (!attachmentService.isAttachmentImage(attachmentBase64)) {
-            throw new AppException(ErrorCode.BAD_REQUEST);
-        }
+    private <T> void updateField(T newValue, Supplier<T> getter, Consumer<T> setter) {
+        Optional.ofNullable(newValue)
+                .filter(value -> !value.equals(getter.get()))
+                .ifPresent(setter);
     }
 }
