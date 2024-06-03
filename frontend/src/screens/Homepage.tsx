@@ -1,31 +1,35 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
-import Header from './Header';
-import Navigation from './Navigation';
-import HomepageSection from './Section/HomepageSection';
-import ExpertsSection from './Section/Expert/ExpertsSection';
+import Header from '../components/Homepage/Header';
+import Navigation from '../components/Homepage/Navigation';
+import HomepageSection from '../components/Homepage/Section/HomepageSection';
+import ExpertsSection from '../components/Homepage/Section/Expert/ExpertsSection';
 
-import useTokenValidation from '../../hooks/useTokenValidation';
-import useUserSessionData from "../../hooks/useUserSessionData";
+import validateToken from '../services/validateToken';
+import userSessionData from "../services/userSessionData";
 import {useFocusEffect} from "@react-navigation/native";
-import AdSection from "./Section/Ads/AdSection";
+import AdSection from "../components/Homepage/Section/Ads/AdSection";
+import {NavigationProp} from "@react-navigation/core";
+import {valid} from "@react-native-community/cli-platform-android/build/config/__fixtures__/android";
+import {NavigationParameter} from "@/src/types/NavigationParameter";
 
-export default function Homepage({navigation}:any) {
+export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState(false);
-    const {userData, dataLoading, refetchUserData} = useUserSessionData()
+    const {userData, dataLoading, refetchUserData} = userSessionData()
     const [selectedSection, setSelectedSection] = useState(0);
     const [firstFocus, setFirstFocus] = useState(true);
 
-    const validToken = useTokenValidation();
+    const {validToken, checkTokenValidity} = validateToken();
 
     useEffect(() => {
+        checkTokenValidity();
         console.log('Section changed to:', selectedSection);
     }, [selectedSection]);
 
     useEffect(() => {
-        // @ts-ignore
-        if (validToken !== '' && !validToken) {
+        console.log(validToken)
+        if (validToken !== null && !validToken) {
             navigation.navigate('login');
         }
     }, [validToken, navigation]);

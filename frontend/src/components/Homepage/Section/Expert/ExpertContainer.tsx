@@ -1,5 +1,4 @@
 import {Image, StyleSheet, Text, View} from "react-native";
-import StarRating from 'react-native-star-rating';
 
 import React from 'react';
 
@@ -13,7 +12,7 @@ const location = require("../../../../../assets/icons/location.png");
 
 export default function ExpertContainer({expert}:any) {
     return (
-        <View key={expert.id} style={styles.itemContainer}>
+        <View style={styles.itemContainer}>
             {
                 expert.profileImage ? (
                     <Image source={{uri: `data:image/jpeg;base64,${expert.profileImage}`}} style={styles.profileImage} />

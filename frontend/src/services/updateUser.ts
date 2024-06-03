@@ -1,18 +1,18 @@
-import {useState} from "react";
+import { useState } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import envVars from "@/src/utils/envVars";
 
-const useAddAd = () => {
+export default function updateUser(formData: any) {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(null);
 
-    const addAd = async (data: any) => {
-        setUploading(true);
-        setError(null);
-
+    const updateUser = async (formData: any) => {
         try {
-            const response = await fetch('http://192.168.54.191:8080/api/ad/add', {
-                method: 'POST',
-                body: data,
+            setUploading(true);
+
+            const response = await fetch(`${envVars.API_ENDPOINT}/user/`, {
+                method: 'PUT',
+                body: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${await AsyncStorage.getItem('token')}`
@@ -20,10 +20,8 @@ const useAddAd = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to add ad!');
+                throw new Error('Failed to update user!');
             }
-
-            console.log('Ad added successfully!');
         } catch (error) {
             // @ts-ignore
             setError(error);
@@ -32,7 +30,5 @@ const useAddAd = () => {
         }
     };
 
-    return {addAd, uploading, error};
-}
-
-export default useAddAd;
+    return { updateUser, uploading, error };
+};

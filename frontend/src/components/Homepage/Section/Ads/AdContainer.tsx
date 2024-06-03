@@ -6,12 +6,13 @@ import PhotoSlider from "../../../Ad/PhotoSlider";
 import location from "../../../../../assets/icons/location.png";
 import {counties} from "@/src/data/Counties";
 import Calendar from "../../../../svg/Calendar";
-import useAllOfferData from "../../../../hooks/useAllOfferData";
+import getOffers from "../../../../services/getOffers";
 import {useEffect, useState} from "react";
 import OfferContainer from "./OfferContainer";
 
 export default function AdContainer({ad, navigation}:any) {
-    const { allOfferData, dataLoading, refetchAllOfferData } = useAllOfferData(ad.id);
+    let allOfferData: any, dataLoading: any, refetchAllOfferData: any;
+    ({allOfferData, dataLoading, refetchAllOfferData} = allOfferData(ad.id));
     const [parentWidth, setParentWidth] = useState(0);
     const [images, setImages] = useState([]);
 
@@ -95,7 +96,7 @@ export default function AdContainer({ad, navigation}:any) {
                         <Text style={styles.noOffers}>Nema ponuda.</Text>
                     ) : (
                         <>
-                            {allOfferData.map(offer => (
+                            {allOfferData.map((offer: any) => (
                                 <OfferContainer offer={offer} />
                             ))}
                         </>

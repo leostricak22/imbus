@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import envVars from "@/src/utils/envVars";
 
-export default function useAllOfferData (adId: string) {
+export default function getOffers (adId: string) {
     const [allOfferData, setAllOfferData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const fetchAllOfferData = async () => {
         try {
-            const response = await fetch('http://192.168.54.191:8080/api/offer/'+adId, {
+            const response = await fetch(`${envVars.API_ENDPOINT}/api/offer/${adId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

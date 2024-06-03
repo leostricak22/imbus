@@ -1,12 +1,12 @@
 import {ActivityIndicator, Image, Modal, Pressable, RefreshControl, ScrollView, StyleSheet, TextInput, View} from "react-native";
 import React, {useEffect, useState} from "react";
-import useAllExpertData from "../../../../hooks/useAllExpertData";
+import getExperts from "../../../../services/getExperts";
 import Filter from "../../../Filter/Filter";
 import ExpertContainer from "./ExpertContainer";
 import {Expert} from "@/src/interface/Expert";
 
 export default function HomepageSection({ navigation }: any) {
-    const { allExpertData, dataLoading, refetchAllExpertData, filters, setFilters } = useAllExpertData();
+    const { allExpertData, dataLoading, refetchAllExpertData, filters, setFilters } = getExperts();
     const [refreshing, setRefreshing] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
 
@@ -55,7 +55,7 @@ export default function HomepageSection({ navigation }: any) {
                     ) : (
                         <>
                             {allExpertData.map((expert: any) => (
-                                <ExpertContainer expert={expert} />
+                                <ExpertContainer key={expert.id} expert={expert} />
                             ))}
                         </>
                     )

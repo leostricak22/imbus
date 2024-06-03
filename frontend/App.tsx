@@ -7,11 +7,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Login from './src/components/Login';
-import Homepage from './src/components/Homepage/Homepage';
-import AccountSettings from "./src/components/Account/AccountSettings";
-import AddAd from "./src/components/Ad/AddAd";
-import ViewAd from "./src/components/Ad/ViewAd";
+import {Login} from '@/src/screens/Login';
+import {Homepage} from '@/src/screens/Homepage';
+import {AccountSettings} from "@/src/screens/AccountSettings";
+import {AddAd} from "@/src/screens/AddAd";
+import {ViewAd} from "@/src/screens/ViewAd";
 
 const Stack = createStackNavigator();
 

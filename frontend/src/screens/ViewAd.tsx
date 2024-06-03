@@ -1,20 +1,22 @@
 import {Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
-import Header from "../Partials/Header";
+import Header from "../components/Partials/Header";
 import {SvgXml} from "react-native-svg";
-import AccountProfileImage from "../../svg/AccountProfileImage";
-import Calendar from "../../svg/Calendar";
+import AccountProfileImage from "../svg/AccountProfileImage";
+import Calendar from "../svg/Calendar";
 // @ts-ignore
-import location from "../../../assets/icons/location.png";
-import {counties} from "../../data/Counties";
-import PhotoSlider from "./PhotoSlider";
-import OfferContainer from "../Homepage/Section/Ads/OfferContainer";
-import useAllOfferData from "../../hooks/useAllOfferData";
-import {useEffect, useState} from "react";
+import location from "../../assets/icons/location.png";
+import {counties} from "../data/Counties";
+import PhotoSlider from "../components/Ad/PhotoSlider";
+import OfferContainer from "../components/Homepage/Section/Ads/OfferContainer";
+import getOffers from "../services/getOffers";
+import React, {useEffect, useState} from "react";
+import {NavigationParameter} from "@/src/types/NavigationParameter";
 
-export default function ViewAd({navigation, route}:any) {
+export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
     const { ad } = route.params;
 
-    const { allOfferData, dataLoading, refetchAllOfferData } = useAllOfferData(ad.id);
+    let allOfferData: any, dataLoading: any, refetchAllOfferData: any;
+    ({allOfferData, dataLoading, refetchAllOfferData} = allOfferData(ad.id));
     const [images, setImages] = useState([]);
 
     function formatDate(dateString: string | number | Date) {
@@ -92,7 +94,7 @@ export default function ViewAd({navigation, route}:any) {
                             <Text style={styles.noOffers}>Nema ponuda.</Text>
                         ) : (
                             <>
-                                {allOfferData.map(offer => (
+                                {allOfferData.map((offer: any) => (
                                     <OfferContainer offer={offer} />
                                 ))}
                             </>

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-export default function useAuthentication () {
+import envVars from "@/src/utils/envVars";
+
+export default function authenticate () {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -12,7 +14,7 @@ export default function useAuthentication () {
         setLoading(true);
 
         try {
-            const response = await fetch('http://192.168.54.191:8080/api/auth/authenticate', {
+            const response = await fetch(`${envVars.API_ENDPOINT}/api/auth/authenticate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

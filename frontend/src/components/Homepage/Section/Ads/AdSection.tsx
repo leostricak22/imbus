@@ -11,11 +11,11 @@ import {
 } from "react-native";
 import Filter from "../../../Filter/Filter";
 import {useEffect, useState} from "react";
-import useAllAdData from "../../../../hooks/useAllAdData";
+import getAds from "../../../../services/getAds";
 import AdContainer from "./AdContainer";
 
 export default function AdSection({navigation}:any) {
-    const { allAdData, dataLoading, refetchAllAdData, filters, setFilters } = useAllAdData();
+    const { allAdData, dataLoading, refetchAllAdData, filters, setFilters } = getAds();
     const [refreshing, setRefreshing] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
 

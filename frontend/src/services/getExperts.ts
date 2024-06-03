@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-export default function useAllAdData () {
-    const [allAdData, setAllAdData] = useState([]);
+import envVars from "@/src/utils/envVars";
+export default function getExperts () {
+    const [allExpertData, setAllExpertData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState( {});
 
-    const fetchAllAdData = async () => {
+    const fetchAllExpertData = async () => {
         try {
-            const response = await fetch('http://192.168.54.191:8080/api/ad/filter', {
+            const response = await fetch(`${envVars.API_ENDPOINT}/api/expert/filter`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export default function useAllAdData () {
                 throw new Error('Error fetching data');
             }
             const data = await response.json();
-            setAllAdData(data);
+            setAllExpertData(data);
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
@@ -30,8 +30,8 @@ export default function useAllAdData () {
     };
 
     useEffect(() => {
-        fetchAllAdData();
+        fetchAllExpertData();
     }, []);
 
-    return { allAdData, dataLoading:loading, refetchAllAdData: fetchAllAdData, filters, setFilters };
+    return { allExpertData, dataLoading: loading, refetchAllExpertData: fetchAllExpertData, filters, setFilters };
 };

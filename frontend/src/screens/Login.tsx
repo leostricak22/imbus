@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, TextInput, Image, Pressable, ImageBackground } from 'react-native';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -10,7 +10,11 @@ const facebookLogoImage = require("../../assets/icons/facebookLogo.png");
 const backgroundIconsImage = require("../../assets/icons/backgroundIcons.png");
 const screwImage = require("../../assets/icons/screw.png");
 
-export default function Login({ navigation }:any) {
+import envVars from "@/src/utils/envVars";
+import {NavigationProp} from "@react-navigation/core";
+import {NavigationParameter} from "@/src/types/NavigationParameter";
+
+export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,10 +22,23 @@ export default function Login({ navigation }:any) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://192.168.54.191:8080/api/auth/authenticate', { email, password });
-      await AsyncStorage.setItem('token', response.data.token);
+      const response = await fetch(`${envVars.API_ENDPOINT}/api/auth/authenticate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      console.log(data);
+
+      await AsyncStorage.setItem('token', data.token);
+
       navigation.navigate('homepage');
     } catch (error) {
+      console.log(error);
       setError("Pogrešno korisničko ime ili lozinka!");
     }
   };

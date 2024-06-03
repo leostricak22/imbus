@@ -1,11 +1,12 @@
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import Header from "../Partials/Header";
-import {useState} from "react";
-import PhotoSliderEdit from "./PhotoSliderEdit";
-import Form from "./Form";
-import useAddAd from "../../hooks/useAddAd";
+import Header from "../components/Partials/Header";
+import React, {useState} from "react";
+import PhotoSliderEdit from "../components/Ad/PhotoSliderEdit";
+import Form from "../components/Ad/Form";
+import addAd from "../services/addAd";
+import {NavigationParameter} from "@/src/types/NavigationParameter";
 
-const AddAd = ({navigation}:any) => {
+export const AddAd: React.FC<NavigationParameter> = ({ navigation }) => {
     const [images, setImages] = useState([]);
     const [formData, setFormData] = useState({
         do_the_job_from: new Date(),
@@ -17,7 +18,8 @@ const AddAd = ({navigation}:any) => {
         showFromPicker: false,
         showToPicker: false,
     });
-    const { addAd, uploading, error } = useAddAd();
+
+    const { addAd:any, uploading, error } = addAd({});
 
     const handleSubmit = async () => {
         const requestData:any = new FormData();
@@ -32,7 +34,7 @@ const AddAd = ({navigation}:any) => {
 
         requestData.append("ad", JSON.stringify(formData));
 
-        await addAd(requestData);
+        addAd(requestData);
 
         if(!error) navigation.goBack()
     };

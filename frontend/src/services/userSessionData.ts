@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {UserData} from "@expo/config/build/getUserState";
+import envVars from "@/src/utils/envVars";
 
-export default function useUserSessionData () {
+export default function userSessionData () {
     const [userData, setUserData] = useState<UserData>({} as UserData);
     const [loading, setLoading] = useState<boolean>(true);
 
     const fetchUserData = async () => {
         try {
-            const response = await fetch('http://192.168.54.191:8080/api/auth/sessionUser', {
+            const response = await fetch(`${envVars.API_ENDPOINT}/api/auth/sessionUser`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${await AsyncStorage.getItem('token')}`

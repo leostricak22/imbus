@@ -1,19 +1,20 @@
 import { View, StyleSheet, Image, Button, Pressable, ScrollView, ActivityIndicator, Text } from "react-native";
-import Header from "../Partials/Header";
+import Header from "../components/Partials/Header";
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useEffect } from "react";
-import UserForm from "./UserForm";
+import UserForm from "../components/Account/UserForm";
 
-import useUpdateUser from '../../hooks/useUpdateUser';
-import useUserSessionData from "../../hooks/useUserSessionData";
+import updateUser from '../services/updateUser';
+import userSessionData from "../services/userSessionData";
 import {UserData} from "@expo/config/build/getUserState";
+import {NavigationParameter} from "@/src/types/NavigationParameter";
 
-const defaultUserProfileImage = require("../../../assets/icons/defaultUserProfile.png");
+const defaultUserProfileImage = require("../../assets/icons/defaultUserProfile.png");
 
-export default function AccountSettings({ navigation }:any) {
+export const AccountSettings: React.FC<NavigationParameter> = ({ navigation }) => {
     const [image, setImage] = useState("");
-    const {userData, setUserData, dataLoading, refetchUserData } = useUserSessionData()
-    const { updateUser, uploading, error } = useUpdateUser();
+    const {userData, setUserData, dataLoading, refetchUserData } = userSessionData();
+    const { updateUser:any, uploading, error } = updateUser({});
 
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -44,6 +45,7 @@ export default function AccountSettings({ navigation }:any) {
 
         try {
             const formData:any = new FormData();
+
             formData.append('image', {
                 uri: image,
                 type: 'image/jpeg',
@@ -65,7 +67,7 @@ export default function AccountSettings({ navigation }:any) {
 
             console.log('Uploading image:', formData)
 
-            await updateUser(formData);
+            updateUser(formData);
         } catch (error) {
             console.error('Error uploading image:', error);
         }
