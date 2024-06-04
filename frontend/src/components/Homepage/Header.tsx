@@ -1,10 +1,14 @@
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {SvgXml} from "react-native-svg";
-import AccountProfileImage from "../../../assets/icons/AccountProfileImage";
 
 const logoImage = require("../../../assets/icon.png");
-const notificationImage = require("../../../assets/icons/notification.png");
-const defaultUserProfileImage = require("../../../assets/icons/defaultUserProfile.png");
+
+import notification from "@/assets/icons/header/notification"
+import AccountProfileImage from "../../../assets/icons/Account/AccountProfileImage";
+import logoClient from "@/assets/icons/logoClient";
+import logoExpert from "@/assets/icons/logoExpert";
+import logoClientBold from "@/assets/icons/header/logoClientBold";
+import logoExpertBold from "@/assets/icons/header/logoExpertBold";
 
 export default function Header({navigation, userData}:any) {
     return (
@@ -24,8 +28,22 @@ export default function Header({navigation, userData}:any) {
                     )
                 }
             </Pressable>
-            <Image source={logoImage} style={styles.logoImage} />
-            <Image source={notificationImage} style={styles.notification} />
+            <View style={styles.logoImage}>
+                <SvgXml
+                    width="75%"
+                    height="75%"
+                    xml={
+                        userData.role === 'CLIENT' ? logoClientBold : logoExpertBold
+                    }
+                />
+            </View>
+            <View style={styles.notification}>
+                <SvgXml
+                    width="100%"
+                    height="100%"
+                    xml={notification}
+                />
+            </View>
         </View>
     );
 }
@@ -44,6 +62,9 @@ const styles = StyleSheet.create({
     logoImage: {
         width: 60,
         height: 60,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     defaultUserProfileImage: {
         position: 'absolute',

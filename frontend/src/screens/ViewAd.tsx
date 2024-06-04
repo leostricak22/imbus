@@ -1,7 +1,7 @@
 import {Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
 import Header from "../components/Partials/Header";
 import {SvgXml} from "react-native-svg";
-import AccountProfileImage from "../../assets/icons/AccountProfileImage";
+import AccountProfileImage from "../../assets/icons/Account/AccountProfileImage";
 import Calendar from "../svg/Calendar";
 // @ts-ignore
 import location from "../../assets/icons/location.png";

@@ -2,25 +2,6 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {useEffect, useState} from 'react';
 import AdSmallFixesDialog from "./AdSmallFixesDialog";
 import {SvgXml} from "react-native-svg";
-import HomepageIcon from "../../svg/HomepageIcon";
-
-import AdIcon from "../../svg/AdIcon";
-import SmallFixesIcon from "../../svg/SmallFixesIcon";
-import ChatIcon from "../../svg/ChatIcon";
-import ExpertIcon from "../../svg/ExpertIcon";
-import Calendar from "../../svg/Calendar";
-
-const homepageImage = require("../../../assets/icons/homepage/homepage.png");
-const homepageSelectedImage = require("../../../assets/icons/homepage/homepageSelected.png");
-
-const postsImage = require("../../../assets/icons/homepage/posts.png");
-const postsSelectedImage = require("../../../assets/icons/homepage/postsSelected.png");
-
-const messagesImage = require("../../../assets/icons/homepage/messages.png");
-const messagesSelectedImage = require("../../../assets/icons/homepage/messagesSelected.png");
-
-const specialistsImage = require("../../../assets/icons/homepage/specialists.png");
-const specialistsSelectedImage = require("../../../assets/icons/homepage/specialistsSelected.png");
 
 import home from "@/assets/icons/navigation/home"
 import home_client from "@/assets/icons/navigation/home_client"
@@ -45,6 +26,7 @@ import calendar_expert from "@/assets/icons/navigation/calendar_expert";
 
 import post_client from "@/assets/icons/navigation/post_client";
 import post_client_hover from "@/assets/icons/navigation/post_client_hover";
+
 import {button} from "@/src/styles/button";
 
 export default function Navigation({ navigation, selectedSection, setSelectedSection, userData}:any ) {

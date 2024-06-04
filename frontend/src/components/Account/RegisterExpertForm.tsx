@@ -3,7 +3,7 @@ import {NavigationParameter} from "@/src/types/NavigationParameter";
 import {View, Text, StyleSheet, TextInput, Pressable} from "react-native";
 import {SvgXml} from "react-native-svg";
 import mail from "@/assets/icons/login/mail";
-import accountProfileImage from "@/assets/icons/AccountProfileImage";
+import accountProfileImage from "@/assets/icons/Account/AccountProfileImage";
 import lock from "@/assets/icons/login/lock";
 import visibility from "@/assets/icons/login/visibility";
 
