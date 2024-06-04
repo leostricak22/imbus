@@ -23,7 +23,7 @@ const styles = {
     picker: {
         borderWidth: 1,
         borderColor: 'black',
-        borderRadius: 100,
+        borderRadius: 50,
         color: "black",
     }
 }

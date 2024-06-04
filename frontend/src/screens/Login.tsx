@@ -16,6 +16,10 @@ import facebook from "@/assets/icons/companies/facebook";
 import google from "@/assets/icons/companies/google";
 import useKeyboard from "@/src/hooks/useKeyboard";
 
+import {button} from "@/src/styles/button";
+import {colors} from "@/src/styles/colors";
+import {input} from "@/src/styles/input";
+
 export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
   const [hoverStates, setHoverStates] = useState({
     login: false,
@@ -79,9 +83,9 @@ export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
         </View>
 
         <View style={styles.loginForm}>
-          <Text style={[styles.red, {marginBottom:5}]}>{error}</Text>
-          <View style={styles.inputContainer}>
-            <View style={styles.inputIcon}>
+          <Text style={[colors.red, {marginBottom:5}]}>{error}</Text>
+          <View style={input.inputContainer}>
+            <View style={input.inputIcon}>
               <SvgXml
                   width="100%"
                   height="100%"
@@ -89,18 +93,17 @@ export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
               />
             </View>
             <TextInput
-                style={styles.input}
+                style={input.input}
                 value={email}
                 onChangeText={setEmail}
                 placeholder="E-mail"
-                placeholderTextColor="#000"
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
           </View>
 
-          <View style={styles.inputContainer}>
-            <View style={styles.inputIcon}>
+          <View style={input.inputContainer}>
+            <View style={input.inputIcon}>
               <SvgXml
                   width="100%"
                   height="100%"
@@ -108,14 +111,13 @@ export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
               />
             </View>
             <TextInput
-                style={styles.inputShowHide}
+                style={input.inputShowHide}
                 value={password}
                 onChangeText={setPassword}
                 placeholder="Lozinka"
-                placeholderTextColor="#000"
                 secureTextEntry={isPasswordHidden}
             />
-            <Pressable style={styles.inputIcon}
+            <Pressable style={input.inputIcon}
                        onPress={() => setIsPasswordHidden(!isPasswordHidden)}>
               <SvgXml
                   width="100%"
@@ -127,53 +129,53 @@ export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
 
           <Text style={[styles.smallText, styles.spaceBottom, styles.stickToRight]}>Zaboravili ste lozinku?</Text>
           <Pressable
-              style={[styles.buttonContainer, hoverStates.login ? styles.backgroundDarkBlue : styles.backgroundBlue]}
+              style={[button.buttonContainer, hoverStates.login ? colors.backgroundDarkBlue : colors.backgroundBlue]}
               onPress={handleLogin}
               onPressIn={() => setHoverStateTrue("login")}
               onPressOut={() => setHoverStateFalse("login")}
           >
-            <Text style={styles.buttonText}>Prijava</Text>
+            <Text style={button.buttonText}>Prijava</Text>
           </Pressable>
 
           <Text style={styles.smallText}>ili</Text>
 
           <Pressable
-              style={[styles.buttonContainer, styles.borderBlack,
-                hoverStates.thirdParty1 ? styles.backgroundGray : styles.backgroundWhite]}
+              style={[button.buttonContainer, styles.borderBlack,
+                hoverStates.thirdParty1 ? colors.backgroundGray : colors.backgroundWhite]}
               onPress={handleLogin}
               onPressIn={() => setHoverStateTrue('thirdParty1')}
               onPressOut={() => setHoverStateFalse('thirdParty1')}
           >
-            <View style={styles.buttonIcon}>
+            <View style={button.buttonIcon}>
               <SvgXml xml={facebook} width="100%" height="100%" />
             </View>
-            <Text style={[styles.buttonText, styles.black]}>Facebook</Text>
+            <Text style={[button.buttonText, colors.black]}>Facebook</Text>
           </Pressable>
 
           <Pressable
-              style={[styles.buttonContainer, styles.borderBlack,
-                hoverStates.thirdParty2 ? styles.backgroundGray : styles.backgroundWhite]}
+              style={[button.buttonContainer, styles.borderBlack,
+                hoverStates.thirdParty2 ? colors.backgroundGray : colors.backgroundWhite]}
               onPress={handleLogin}
               onPressIn={() => setHoverStateTrue('thirdParty2')}
               onPressOut={() => setHoverStateFalse('thirdParty2')}
           >
-            <View style={styles.buttonIcon}>
+            <View style={button.buttonIcon}>
               <SvgXml xml={google} width="100%" height="100%" />
             </View>
-            <Text style={[styles.buttonText, styles.black]}>Google</Text>
+            <Text style={[button.buttonText, colors.black]}>Google</Text>
           </Pressable>
         </View>
         {
           keyboardVisible ? null : (
               <View style={styles.noAccountContainer}>
                 <Text style={styles.smallText}>Nemaš račun?</Text>
-                <Pressable style={[styles.buttonContainer, styles.spaceTop, hoverStates.register ? styles.backgroundDarkOrange : styles.backgroundOrange]}
+                <Pressable style={[button.buttonContainer, styles.spaceTop, hoverStates.register ? colors.backgroundDarkOrange : colors.backgroundOrange]}
                            onPress={() => navigation.navigate('register')}
                            onPressIn={() => setHoverStateTrue('register')}
                            onPressOut={() => setHoverStateFalse('register')}
                 >
 
-                  <Text style={styles.buttonText}>Registracija</Text>
+                  <Text style={button.buttonText}>Registracija</Text>
                 </Pressable>
               </View>
             )
@@ -211,38 +213,6 @@ const styles = StyleSheet.create({
     width: '90%',
 
   },
-  inputContainer: {
-    width: '100%',
-    backgroundColor: '#fff',
-    borderRadius: 100,
-    borderColor: '#000',
-    borderWidth: 1,
-    marginBottom: 10,
-    height: 40,
-    display: 'flex',
-    flexDirection: 'row',
-    paddingLeft: 5,
-  },
-  input: {
-    width: '85%',
-    padding: 10,
-    paddingLeft: 0,
-    height: 40,
-  },
-  inputShowHide: {
-    width: '65%',
-    padding: 10,
-    paddingLeft: 0,
-    height: 40,
-  },
-  inputIcon: {
-    width: 45,
-    padding: 10,
-  },
-  buttonIcon: {
-    width: 45,
-    padding: 5,
-  },
   smallText: {
     fontSize: 14,
   },
@@ -259,26 +229,6 @@ const styles = StyleSheet.create({
     width: '80%',
     alignItems: 'center',
   },
-  buttonContainer: {
-    borderRadius: 100,
-    width: '100%',
-    height: 40,
-    justifyContent: 'center',
-    backgroundColor: '#0478ca',
-    color: 'white',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 4,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
   noAccountContainer: {
     position: 'absolute',
     bottom: 10,
@@ -286,12 +236,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   thirdPartyIconsContainer: {
     flexDirection: 'row',
@@ -302,36 +246,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginHorizontal: 5,
-  },
-  blue: {
-    color:"#209cee",
-  },
-  red: {
-    color:"#ff0d0d",
-  },
-  black: {
-    color:"#000",
-  },
-  backgroundBlue: {
-    backgroundColor: '#209cee',
-  },
-  backgroundDarkBlue: {
-    backgroundColor: '#085e96',
-  },
-  backgroundBlack: {
-    backgroundColor: '#000',
-  },
-  backgroundWhite: {
-    backgroundColor: '#fff',
-  },
-  backgroundGray: {
-    backgroundColor: '#c0bbbb',
-  },
-  backgroundOrange: {
-    backgroundColor: '#ffbf49',
-  },
-  backgroundDarkOrange: {
-    backgroundColor: '#e09717',
   },
   borderBlack: {
     borderColor: '#000',

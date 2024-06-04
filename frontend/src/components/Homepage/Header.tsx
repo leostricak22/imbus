@@ -1,6 +1,6 @@
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {SvgXml} from "react-native-svg";
-import AccountProfileImage from "../../svg/AccountProfileImage";
+import AccountProfileImage from "../../../assets/icons/AccountProfileImage";
 
 const logoImage = require("../../../assets/icon.png");
 const notificationImage = require("../../../assets/icons/notification.png");

@@ -5,7 +5,7 @@ import React from 'react';
 import {categoryTypes} from "@/src/data/CategoryTypes";
 import {counties} from "@/src/data/Counties";
 import {SvgXml} from 'react-native-svg';
-import AccountProfileImage from "../../../../svg/AccountProfileImage";
+import AccountProfileImage from "../../../../../assets/icons/AccountProfileImage";
 
 const frenchKeyIcon = require("../../../../../assets/icons/french-key.png");
 const location = require("../../../../../assets/icons/location.png");
