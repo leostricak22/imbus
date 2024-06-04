@@ -6,6 +6,7 @@ export default function DropdownInput({handleChange, items, formData, formDataIt
         <View style={styles.container}>
             <View style={styles.picker}>
                 <RNPickerSelect
+                    placeholder={{label: "Odaberi..."}}
                     onValueChange={(value) => handleChange(formDataItem, value)}
                     items={items}
                     value={formData[formDataItem]}
@@ -22,7 +23,7 @@ const styles = {
     picker: {
         borderWidth: 1,
         borderColor: 'black',
-        borderRadius: 5,
+        borderRadius: 100,
         color: "black",
     }
 }

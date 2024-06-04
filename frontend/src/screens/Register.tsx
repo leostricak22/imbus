@@ -6,6 +6,8 @@ import logo from "@/assets/icons/logo";
 import DropdownInput from "@/src/components/InputTypes/DropdownInput";
 import {counties} from "@/src/data/Counties";
 import {roles} from "@/src/data/Roles";
+import logoClient from "@/assets/icons/logoClient";
+import logoExpert from "@/assets/icons/logoExpert";
 
 export const Register: React.FC<NavigationParameter> = ({ navigation }) => {
     const [pickedRole, setPickedRole] = React.useState("");
@@ -20,14 +22,20 @@ export const Register: React.FC<NavigationParameter> = ({ navigation }) => {
                     <SvgXml
                         width="100%"
                         height="100%"
-                        xml={logo}
+                        xml={pickedRole == 'CLIENT' ? logoClient : (pickedRole == 'EXPERT' ? logoExpert : logo)}
                     />
                 </View>
             </View>
-            <View style={{width:'100%'}}>
-                <DropdownInput handleChange={handleChange} items={roles} formData={{}}
-                           formDataItem={"location"}/>
+            <View style={styles.rolePick}>
+                <DropdownInput handleChange={handleChange} items={roles} formData={{}} formDataItem={"location"}/>
             </View>
+
+            {pickedRole == 'CLIENT' ? (
+                    <Text>Client</Text>
+                ) : pickedRole == 'EXPERT' ? (
+                    <Text>Expert</Text>
+                ) : null
+            }
         </View>
     );
 }
@@ -48,4 +56,9 @@ const styles = StyleSheet.create({
         height: 70,
         marginBottom: 30,
     },
+    rolePick: {
+        width: '80%',
+        height: 40,
+        marginBottom: 40,
+    }
 });

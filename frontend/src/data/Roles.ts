@@ -5,6 +5,6 @@ export const roles = [
     },
     {
         "value": "EXPERT",
-        "label": "Znalac"
+        "label": "Znalac / Majstor"
     },
 ]
