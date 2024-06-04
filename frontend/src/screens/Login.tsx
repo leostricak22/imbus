@@ -14,6 +14,7 @@ import visibility from "@/assets/icons/login/visibility";
 import lock from "@/assets/icons/login/lock";
 import facebook from "@/assets/icons/companies/facebook";
 import google from "@/assets/icons/companies/google";
+import useKeyboard from "@/src/hooks/useKeyboard";
 
 export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
   const [hoverStates, setHoverStates] = useState({
@@ -27,6 +28,8 @@ export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+
+  const keyboardVisible = useKeyboard();
 
   const handleLogin = async () => {
     try {
@@ -160,17 +163,21 @@ export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
             <Text style={[styles.buttonText, styles.black]}>Google</Text>
           </Pressable>
         </View>
-        <View style={styles.noAccountContainer}>
-          <Text style={styles.smallText}>Nemaš račun?</Text>
-          <Pressable style={[styles.buttonContainer, styles.spaceTop, hoverStates.register ? styles.backgroundDarkOrange : styles.backgroundOrange]}
-                     onPressIn={() => setHoverStateTrue('register')}
-                     onPressOut={() => setHoverStateFalse('register')}
-                     onPress={() => { console.log("register"); }}
-          >
+        {
+          keyboardVisible ? null : (
+              <View style={styles.noAccountContainer}>
+                <Text style={styles.smallText}>Nemaš račun?</Text>
+                <Pressable style={[styles.buttonContainer, styles.spaceTop, hoverStates.register ? styles.backgroundDarkOrange : styles.backgroundOrange]}
+                           onPress={() => navigation.navigate('register')}
+                           onPressIn={() => setHoverStateTrue('register')}
+                           onPressOut={() => setHoverStateFalse('register')}
+                >
 
-            <Text style={styles.buttonText}>Registracija</Text>
-          </Pressable>
-        </View>
+                  <Text style={styles.buttonText}>Registracija</Text>
+                </Pressable>
+              </View>
+            )
+        }
       </View>
   );
 }
