@@ -60,7 +60,7 @@ export default function AdSection({navigation}:any) {
             }>
                 {
                     dataLoading || !allAdData ? (
-                        <ActivityIndicator size="large" color="#209cee" />
+                        <ActivityIndicator size="large" color="#0478ca" />
                     ) : (
                         <>
                             {allAdData.map((ad: any) => (

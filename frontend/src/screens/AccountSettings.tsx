@@ -92,9 +92,9 @@ export const AccountSettings: React.FC<NavigationParameter> = ({ navigation }) =
     return (
         <View style={styles.container}>
             <Header navigation={navigation}></Header>
-            {(!userData) && <ActivityIndicator style={styles.loaderFull} size="large" color="#209cee" />}
+            {(!userData) && <ActivityIndicator style={styles.loaderFull} size="large" color="#0478ca" />}
             <ScrollView style={styles.scrollContainer}>
-                {uploading && <ActivityIndicator style={styles.loader} size="large" color="#209cee" />}
+                {uploading && <ActivityIndicator style={styles.loader} size="large" color="#0478ca" />}
                 <View style={styles.profilePicture}>
                     <Pressable style={styles.profilePictureImage} onPress={pickImage}>
                         {image ? <Image source={{ uri: image }} style={styles.image} />

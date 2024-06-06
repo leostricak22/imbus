@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     addPhoto: {
         fontSize: 75,
         color: "white",
-        backgroundColor: "#209cee",
+        backgroundColor: "#0478ca",
         borderRadius: 100,
         width: 100,
         height: 100,

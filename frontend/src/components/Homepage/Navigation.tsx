@@ -33,7 +33,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
     const [buttonAddIsHovered, setButtonAddIsHovered] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
     const [role, setRole] = useState("")
-    const [themeColor, setThemeColor] = useState("#209cee");
+    const [themeColor, setThemeColor] = useState("#0478ca");
     const [themeColorDark, setThemeColorDark] = useState("#085e96");
 
     const showDialog = () => {
@@ -61,7 +61,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
             setThemeColorDark("#7c5a02");
         } else if (userData && userData.role === 'CLIENT'){
             setRole('CLIENT')
-            setThemeColor("#209cee");
+            setThemeColor("#0478ca");
             setThemeColorDark("#085e96");
         }
     }
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     blue: {
-        color:"#209cee",
+        color:"#0478ca",
     },
     gray: {
         color: "#b3b3b3",
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
         color: "#000",
     },
     backgroundBlue: {
-        backgroundColor: '#209cee',
+        backgroundColor: '#0478ca',
     },
     backgroundYellow: {
         backgroundColor: '#cc9403',
