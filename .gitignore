@@ -33,3 +33,6 @@ frontend/.env*.local
 
 # typescript
 frontend/*.tsbuildinfo
+backend/src/main/resources/application.properties
+backend/src/main/resources/application-local.properties
+frontend/.env
