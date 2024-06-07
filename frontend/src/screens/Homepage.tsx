@@ -81,6 +81,7 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white',
     },
     navigation: {
         position: 'absolute',

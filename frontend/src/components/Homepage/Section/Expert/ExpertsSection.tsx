@@ -79,7 +79,7 @@ export default function ExpertSection({ navigation }: any) {
                         </View>
                     </Pressable>
                 </View>
-                {filters && <AppliedFilters filters={filters}/>}
+                {filters && filters.length > 0 &&  <AppliedFilters filters={filters}/>}
             </View>
 
             <ScrollView style={styles.scrollViewContainer} refreshControl={
@@ -107,6 +107,8 @@ export default function ExpertSection({ navigation }: any) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: '90%',
+        margin: 'auto',
     },
     scrollViewContainer: {
         flex: 1,
@@ -116,7 +118,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightblue',
         padding: 15,
         borderRadius: 5,
-        width: '90%',
         alignSelf: 'center',
     },
     text: {
@@ -126,7 +127,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '90%',
         margin: 'auto',
     },
     filterIconsContainer: {

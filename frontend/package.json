@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@rneui/themed": "^4.0.0-rc.8",
     "@types/react-native-star-rating": "^1.1.6"
   },
   "private": true
