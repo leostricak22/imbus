@@ -39,7 +39,6 @@ const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {
 
             <View style={styles.filterContainer}>
                 <View style={styles.search}>
-
                     <View style={input.inputContainer}>
                         <View style={input.inputIcon}>
                             <SvgXml
@@ -75,7 +74,9 @@ const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {
                         </View>
                     </Pressable>
                 </View>
-                {filters && filters.length > 0 &&  <AppliedFilters filters={filters}/>}
+                <View style={styles.appliedFiltersContainer}>
+                    {filters && filters.length > 0 &&  <AppliedFilters filters={filters}/>}
+                </View>
             </View>
 
             <ScrollView style={styles.scrollViewContainer} refreshControl={
@@ -89,7 +90,7 @@ const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {
                         <ActivityIndicator size="large" color="#0478ca" />
                     ) : (
                         <>
-                            {allExpertData.map((expert: any) => (
+                            {allExpertData.map((expert: Expert) => (
                                 <ExpertContainer key={expert.id} expert={expert} navigation={navigation} />
                             ))}
                         </>
@@ -139,6 +140,11 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
     },
+    appliedFiltersContainer: {
+        width: '90%',
+        alignSelf: 'flex-start',
+        marginVertical: 5,
+    }
 });
 
 export default ExpertSection;

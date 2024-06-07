@@ -16,7 +16,7 @@ export const expertinfo = StyleSheet.create({
 
     },
     expertInfoContainer: {
-        marginTop: 20,
+        marginTop: 15,
         padding: 15,
         borderRadius: 5,
         width: '80%',
@@ -31,11 +31,13 @@ export const expertinfo = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         marginTop: 10,
+        width: '60%',
     },
     location: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 5,
+        marginTop: 10,
+        width: '40%',
     },
     textTitle: {
         fontSize: 20,
@@ -58,6 +60,6 @@ export const expertinfo = StyleSheet.create({
     icon: {
         width: 20,
         height: 20,
-        marginRight: 5,
+        marginRight: 0,
     }
 });

@@ -1,57 +1,122 @@
-import React, {useState} from 'react';
-import {Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
-import {button} from "@/src/styles/button";
-import {colors} from "@/src/styles/colors";
+import React, { useState, useRef, useEffect } from 'react';
+import { Animated, Modal, Pressable, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { button } from "@/src/styles/button";
+import { colors } from "@/src/styles/colors";
+import { SvgXml } from "react-native-svg";
+import post_client_hover from "@/assets/icons/navigation/post_client_hover";
+import post_client from "@/assets/icons/navigation/post_client";
+import AdSmallFixesDialogProps from "@/src/types/AdSmallFixesDialogProps";
 
-const AdSmallFixesDialog = ({ isVisible, onClose, onOption1Press, onOption2Press }:any) => {
+const AdSmallFixesDialog: React.FC<AdSmallFixesDialogProps> = ({ isVisible, onClose, onOption1Press, onOption2Press }) => {
     const [hoverStates, setHoverStates] = useState({
         ad: false,
         smallFixes: false,
+        cancel: false,
     });
 
-    const setHoverStateTrue = (key: any) => {
-        setHoverStates(prevState => ({ ...prevState, [key]: true }));
-    }
+    const [showModal, setShowModal] = useState(isVisible);
+    const slideAnim = useRef(new Animated.Value(0)).current;
+    const rotateAnim = useRef(new Animated.Value(0)).current;
 
-    const setHoverStateFalse = (key: any) => {
-        setHoverStates(prevState => ({ ...prevState, [key]: false }));
-    }
+    useEffect(() => {
+        if (isVisible) {
+            setShowModal(true);
+            Animated.parallel([
+                Animated.timing(slideAnim, {
+                    toValue: 1,
+                    duration: 350,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(rotateAnim, {
+                    toValue: 1,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+            ]).start();
+        } else {
+            Animated.parallel([
+                Animated.timing(slideAnim, {
+                    toValue: 0,
+                    duration: 350,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(rotateAnim, {
+                    toValue: 0,
+                    duration: 350,
+                    useNativeDriver: true,
+                }),
+            ]).start(() => setShowModal(false));
+        }
+    }, [isVisible]);
+
+    const setHoverState = (key: keyof typeof hoverStates, value: boolean) => {
+        setHoverStates(prevState => ({ ...prevState, [key]: value }));
+    };
+
+    const slideUp = slideAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [350, 0],
+    });
+
+    const rotate = rotateAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '45deg'],
+    });
 
     return (
-        isVisible &&
         <Modal
-            animationType="slide"
+            animationType="none"
             transparent={true}
-            visible={isVisible}
+            visible={showModal}
             onRequestClose={onClose}
         >
             <TouchableWithoutFeedback onPress={onClose}>
                 <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
+                    <Animated.View style={[styles.modalView, { transform: [{ translateY: slideUp }] }]}>
                         <View style={styles.options}>
-                            <Pressable
-                                style={[button.buttonContainer, styles.borderBlack, hoverStates.smallFixes ? colors.backgroundGray : colors.backgroundWhite]}
-                                onPress={
-                                    onOption1Press
-                                }
-                                onPressIn={() => setHoverStateTrue("smallFixes")}
-                                onPressOut={() => setHoverStateFalse("smallFixes")}
-                            >
-                                <Text style={[button.buttonText, colors.black]}>Sitan kvar</Text>
-                            </Pressable>
-
-                            <Pressable
-                                style={[button.buttonContainer, hoverStates.ad ? colors.backgroundDarkBlue : colors.backgroundBlue]}
-                                onPress={
-                                    onOption1Press
-                                }
-                                onPressIn={() => setHoverStateTrue("ad")}
-                                onPressOut={() => setHoverStateFalse("ad")}
-                            >
-                                <Text style={button.buttonText}>Novi oglas</Text>
-                            </Pressable>
+                            <View style={styles.option}>
+                                <Pressable
+                                    style={[
+                                        button.buttonContainer,
+                                        styles.borderBlack,
+                                        hoverStates.smallFixes ? colors.backgroundGray : colors.backgroundWhite
+                                    ]}
+                                    onPress={onOption1Press}
+                                    onPressIn={() => setHoverState("smallFixes", true)}
+                                    onPressOut={() => setHoverState("smallFixes", false)}
+                                >
+                                    <Text style={[button.buttonText, colors.black]}>Sitan kvar</Text>
+                                </Pressable>
+                            </View>
+                            <View style={styles.option}>
+                                <Pressable
+                                    style={[
+                                        button.buttonContainer,
+                                        hoverStates.ad ? colors.backgroundDarkBlue : colors.backgroundBlue
+                                    ]}
+                                    onPress={onOption2Press}
+                                    onPressIn={() => setHoverState("ad", true)}
+                                    onPressOut={() => setHoverState("ad", false)}
+                                >
+                                    <Text style={button.buttonText}>Novi oglas</Text>
+                                </Pressable>
+                            </View>
                         </View>
-                    </View>
+                        <Pressable
+                            style={styles.cancelButton}
+                            onPress={onClose}
+                            onPressIn={() => setHoverState("cancel", true)}
+                            onPressOut={() => setHoverState("cancel", false)}
+                        >
+                            <Animated.View style={{ transform: [{ rotate }] }}>
+                                <SvgXml
+                                    width="45"
+                                    height="45"
+                                    xml={hoverStates.cancel ? post_client_hover : post_client}
+                                />
+                            </Animated.View>
+                        </Pressable>
+                    </Animated.View>
                 </View>
             </TouchableWithoutFeedback>
         </Modal>
@@ -59,20 +124,11 @@ const AdSmallFixesDialog = ({ isVisible, onClose, onOption1Press, onOption2Press
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    openModalButton: {
-        fontSize: 20,
-        color: 'blue',
-    },
     centeredView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        width: '100%',
     },
     modalView: {
         position: 'absolute',
@@ -81,28 +137,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        padding: 35,
         alignItems: 'center',
-        elevation: 5,
-
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
-        fontSize: 20,
-    },
-    optionButton: {
-        backgroundColor: '#2196F3',
-        borderRadius: 10,
-        padding: 10,
-        elevation: 2,
-        marginVertical: 5,
-        width: 200,
-        alignItems: 'center',
-    },
-    optionText: {
-        fontSize: 18,
-        color: 'white',
+        paddingTop: 15,
+        elevation: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 5, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 10,
     },
     borderBlack: {
         borderColor: 'black',
@@ -110,9 +151,16 @@ const styles = StyleSheet.create({
     },
     options: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         width: '100%',
-    }
+    },
+    option: {
+        width: '45%',
+    },
+    cancelButton: {
+        marginTop: 15,
+        paddingBottom: 10,
+    },
 });
 
 export default AdSmallFixesDialog;

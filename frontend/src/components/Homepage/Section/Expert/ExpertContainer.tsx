@@ -33,7 +33,8 @@ const ExpertContainer: React.FC<ExpertContainerProps> = ({ navigation , expert})
 
 const styles = StyleSheet.create({
     container: {
-        margin: '5%',
+        marginHorizontal: '5%',
+        marginVertical: 5,
     },
     pressable: {
         display: 'flex',
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         backgroundColor: 'white',
-        
+
         shadowColor: "#000000",
         shadowOffset: {
             width: 0,
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity:  0.20,
         shadowRadius: 5.62,
-        elevation: 8
+        elevation: 4
     },
 
 });
