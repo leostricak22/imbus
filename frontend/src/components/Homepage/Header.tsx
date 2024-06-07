@@ -1,16 +1,13 @@
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {SvgXml} from "react-native-svg";
 
-const logoImage = require("../../../assets/icon.png");
-
 import notification from "@/assets/icons/header/notification"
 import AccountProfileImage from "../../../assets/icons/Account/AccountProfileImage";
-import logoClient from "@/assets/icons/logoClient";
-import logoExpert from "@/assets/icons/logoExpert";
-import logoClientBold from "@/assets/icons/header/logoClientBold";
-import logoExpertBold from "@/assets/icons/header/logoExpertBold";
+import React from "react";
+import UserContainerProps from "@/src/types/UserContainerProps";
+import LogoUserImage from "@/src/components/Partials/LogoUserImage";
 
-export default function Header({navigation, userData}:any) {
+const Header: React.FC<UserContainerProps> = ({ navigation, userData}) => {
     return (
         <View style={styles.header}>
             <Pressable style={styles.defaultUserProfileContainer} onPress={() => navigation.navigate("accountsettings")}>
@@ -28,15 +25,8 @@ export default function Header({navigation, userData}:any) {
                     )
                 }
             </Pressable>
-            <View style={styles.logoImage}>
-                <SvgXml
-                    width="75%"
-                    height="75%"
-                    xml={
-                        userData.role === 'CLIENT' ? logoClientBold : logoExpertBold
-                    }
-                />
-            </View>
+            <LogoUserImage userDataRole={userData.role}/>
+
             <View style={styles.notification}>
                 <SvgXml
                     width="100%"
@@ -58,13 +48,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
-    },
-    logoImage: {
-        width: 60,
-        height: 60,
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     defaultUserProfileImage: {
         position: 'absolute',
@@ -88,3 +71,5 @@ const styles = StyleSheet.create({
         height: 25,
     },
 });
+
+export default Header;

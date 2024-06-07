@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {UserData} from "@expo/config/build/getUserState";
 import envVars from "@/src/utils/envVars";
+import UserData from "@/src/interface/UserData";
 
 export default function userSessionData () {
     const [userData, setUserData] = useState<UserData>({} as UserData);

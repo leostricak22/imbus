@@ -1,15 +1,19 @@
 import {Image, Pressable, StyleSheet, View} from 'react-native';
+import React from "react";
+import UserContainerProps from "@/src/types/UserContainerProps";
+import {NavigationParameter} from "@/src/types/NavigationParameter";
+import LogoUserImage from "@/src/components/Partials/LogoUserImage";
 
 const logoImage = require("../../../assets/icon.png");
 const backIconImage = require("../../../assets/icons/back.png");
 
-export default function Header({navigation}:any) {
+const Header: React.FC<UserContainerProps> = ({ navigation, userData}) => {
     return (
         <View style={styles.header}>
             <Pressable style={styles.backIconContainer} onPress={() => navigation.goBack()}>
                 <Image source={backIconImage} style={styles.backIconImage} />
             </Pressable>
-            <Image source={logoImage} style={styles.logoImage} />
+            <LogoUserImage userDataRole={userData.role} />
         </View>
     );
 }
@@ -42,3 +46,5 @@ const styles = StyleSheet.create({
         height: 30,
     },
 });
+
+export default Header;

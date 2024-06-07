@@ -50,7 +50,6 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
         }, [firstFocus])
     );
 
-
     return (
         <View style={styles.container}>
             <Header navigation={navigation} userData={userData}/>

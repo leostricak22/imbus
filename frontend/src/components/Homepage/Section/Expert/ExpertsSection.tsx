@@ -11,9 +11,10 @@ import search from "@/assets/icons/filters/search";
 import filter from "@/assets/icons/filters/filter";
 import sort from "@/assets/icons/filters/sort";
 import {AppliedFilters} from "@/src/components/Filter/AppliedFilters";
+import {NavigationParameter} from "@/src/types/NavigationParameter";
 
 
-export default function ExpertSection({ navigation }: any) {
+const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {
     const { allExpertData, dataLoading, refetchAllExpertData, filters, setFilters } = getExperts();
     const [refreshing, setRefreshing] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
@@ -94,7 +95,7 @@ export default function ExpertSection({ navigation }: any) {
                     ) : (
                         <>
                             {allExpertData.map((expert: any) => (
-                                <ExpertContainer key={expert.id} expert={expert} />
+                                <ExpertContainer key={expert.id} expert={expert} navigation={navigation} />
                             ))}
                         </>
                     )
@@ -144,3 +145,5 @@ const styles = StyleSheet.create({
         width: 20,
     },
 });
+
+export default ExpertSection;

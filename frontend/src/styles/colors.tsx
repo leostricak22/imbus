@@ -19,6 +19,9 @@ export const colors = StyleSheet.create({
     backgroundBlack: {
         backgroundColor: '#000',
     },
+    backgroundDarkGray: {
+        backgroundColor: '#484646',
+    },
     backgroundWhite: {
         backgroundColor: '#fff',
     },
