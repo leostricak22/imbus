@@ -10,7 +10,6 @@ export default function getExperts () {
 
     const fetchAllExpertData = async () => {
         try {
-            console.log(JSON.stringify({"filters":filters}))
             const response = await fetch(`${envVars.API_ENDPOINT}/api/expert/filter`, {
                 method: 'POST',
                 headers: {

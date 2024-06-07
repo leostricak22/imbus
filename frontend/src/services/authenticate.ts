@@ -22,8 +22,6 @@ export default function authenticate () {
                 body: JSON.stringify({ "email": email, "password": password }),
             });
 
-            console.log(response)
-
             if (response.status === 401) throw new Error('Pogrešno korisničko ime ili lozinka!');
 
             if (!response.ok) throw new Error('Greška u prijavi!');

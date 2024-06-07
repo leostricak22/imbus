@@ -26,11 +26,6 @@ const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {
         setRefreshing(false);
     };
 
-    useEffect(() => {
-        console.log(filters)
-        refresh();
-    }, [filters]);
-
     return (
         <View style={styles.container}>
             <Modal
@@ -108,7 +103,7 @@ const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: '90%',
+        width: '100%',
         margin: 'auto',
     },
     scrollViewContainer: {
@@ -133,11 +128,11 @@ const styles = StyleSheet.create({
     filterIconsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '100%',
+        width: '90%',
         padding: 5,
     },
     search: {
-        width: '100%',
+        width: '90%',
         marginTop: 15,
     },
     icon: {

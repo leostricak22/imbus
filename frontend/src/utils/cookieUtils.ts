@@ -3,7 +3,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const saveCookie = async (key: string, value: string) => {
     try {
         await AsyncStorage.setItem(key, value);
-        console.log('Cookie saved successfully!');
     } catch (error) {
         console.error('Error saving cookie:', error);
     }

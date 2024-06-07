@@ -21,28 +21,40 @@ const ExpertContainer: React.FC<ExpertContainerProps> = ({ navigation , expert})
     }
 
     return (
-        <Pressable style={styles.container}
-            onPress={openUserPage}
-        >
-            <ExpertInfo navigation={navigation} expert={expert} />
-        </Pressable>
+        <View style={styles.container}>
+            <Pressable style={styles.pressable}
+                onPress={openUserPage}
+            >
+                <ExpertInfo navigation={navigation} expert={expert} />
+            </Pressable>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
+        margin: '5%',
+    },
+    pressable: {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
         alignSelf: 'center',
-        marginTop: 20,
         borderStyle: 'solid',
         borderWidth: 2,
         borderColor: '#0478ca',
         borderRadius: 20,
         padding: 10,
         backgroundColor: 'white',
-
+        
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 6,
+        },
+        shadowOpacity:  0.20,
+        shadowRadius: 5.62,
+        elevation: 8
     },
 
 });

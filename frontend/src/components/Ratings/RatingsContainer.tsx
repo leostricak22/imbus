@@ -3,7 +3,7 @@ import { NavigationParameter } from "@/src/types/NavigationParameter";
 import {View, Text, StyleSheet, ScrollView, Pressable} from "react-native";
 import ExpertContainerProps from "@/src/types/ExpertContainerProps";
 
-const RatingsContainer: React.FC<ExpertContainerProps> = ({ navigation, expert }) => {
+const RatingsContainer: React.FC<ExpertContainerProps> = ({ navigation, expert}) => {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Recenzije:</Text>

@@ -91,7 +91,7 @@ export const AccountSettings: React.FC<NavigationParameter> = ({ navigation }) =
 
     return (
         <View style={styles.container}>
-            <Header navigation={navigation}></Header>
+            <Header navigation={navigation} userData={userData}></Header>
             {(!userData) && <ActivityIndicator style={styles.loaderFull} size="large" color="#0478ca" />}
             <ScrollView style={styles.scrollContainer}>
                 {uploading && <ActivityIndicator style={styles.loader} size="large" color="#0478ca" />}

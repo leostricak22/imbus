@@ -25,7 +25,6 @@ export default function addAd(requestData: any) {
                 throw new Error('Failed to add ad!');
             }
 
-            console.log('Ad added successfully!');
         } catch (error) {
             // @ts-ignore
             setError(error);

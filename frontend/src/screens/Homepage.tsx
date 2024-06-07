@@ -24,11 +24,9 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
 
     useEffect(() => {
         checkTokenValidity();
-        console.log('Section changed to:', selectedSection);
     }, [selectedSection]);
 
     useEffect(() => {
-        console.log(validToken)
         if (validToken !== null && !validToken) {
             navigation.navigate('login');
         }

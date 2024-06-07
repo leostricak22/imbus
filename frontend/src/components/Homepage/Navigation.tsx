@@ -50,7 +50,6 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
     };
 
     const handleOption2Press = () => {
-        // Do something for Option 2
         hideDialog();
     };
 

@@ -28,10 +28,6 @@ export const Register: React.FC<NavigationParameter> = ({ navigation }) => {
         category: "",
     });
 
-    useEffect(() => {
-        console.log(form);
-    }, [form]);
-
     const [hoverStates, setHoverStates] = useState({
         register: false,
     });

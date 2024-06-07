@@ -1,7 +1,22 @@
-import React from 'react';
-import {Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
+import React, {useState} from 'react';
+import {Modal, Pressable, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
+import {button} from "@/src/styles/button";
+import {colors} from "@/src/styles/colors";
 
 const AdSmallFixesDialog = ({ isVisible, onClose, onOption1Press, onOption2Press }:any) => {
+    const [hoverStates, setHoverStates] = useState({
+        ad: false,
+        smallFixes: false,
+    });
+
+    const setHoverStateTrue = (key: any) => {
+        setHoverStates(prevState => ({ ...prevState, [key]: true }));
+    }
+
+    const setHoverStateFalse = (key: any) => {
+        setHoverStates(prevState => ({ ...prevState, [key]: false }));
+    }
+
     return (
         isVisible &&
         <Modal
@@ -13,22 +28,29 @@ const AdSmallFixesDialog = ({ isVisible, onClose, onOption1Press, onOption2Press
             <TouchableWithoutFeedback onPress={onClose}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <TouchableOpacity
-                            style={styles.optionButton}
-                            onPress={
-                                onOption1Press
-                            }
-                        >
-                            <Text style={styles.optionText}>Oglas</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.optionButton}
-                            onPress={
-                                onOption2Press
-                            }
-                        >
-                            <Text style={styles.optionText}>Prijavi sitan kvar</Text>
-                        </TouchableOpacity>
+                        <View style={styles.options}>
+                            <Pressable
+                                style={[button.buttonContainer, styles.borderBlack, hoverStates.smallFixes ? colors.backgroundGray : colors.backgroundWhite]}
+                                onPress={
+                                    onOption1Press
+                                }
+                                onPressIn={() => setHoverStateTrue("smallFixes")}
+                                onPressOut={() => setHoverStateFalse("smallFixes")}
+                            >
+                                <Text style={[button.buttonText, colors.black]}>Sitan kvar</Text>
+                            </Pressable>
+
+                            <Pressable
+                                style={[button.buttonContainer, hoverStates.ad ? colors.backgroundDarkBlue : colors.backgroundBlue]}
+                                onPress={
+                                    onOption1Press
+                                }
+                                onPressIn={() => setHoverStateTrue("ad")}
+                                onPressOut={() => setHoverStateFalse("ad")}
+                            >
+                                <Text style={button.buttonText}>Novi oglas</Text>
+                            </Pressable>
+                        </View>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -53,12 +75,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.2)',
     },
     modalView: {
-        margin: 20,
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
         backgroundColor: 'white',
-        borderRadius: 20,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
         padding: 35,
         alignItems: 'center',
         elevation: 5,
+
     },
     modalText: {
         marginBottom: 15,
@@ -78,6 +104,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'white',
     },
+    borderBlack: {
+        borderColor: 'black',
+        borderWidth: 1,
+    },
+    options: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    }
 });
 
 export default AdSmallFixesDialog;
