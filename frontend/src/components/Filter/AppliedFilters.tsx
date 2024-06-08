@@ -2,15 +2,16 @@ import {SvgXml} from "react-native-svg";
 import React from "react";
 import {StyleSheet, View, Text, ScrollView, ActivityIndicator} from "react-native";
 
-import close from "@/assets/icons/filters/close";
+import close_client from "@/assets/icons/filters/close_client";
 import {NavigationParameter} from "@/src/types/NavigationParameter";
 import {FiltersProps} from "@/src/types/FiltersProps";
 import ExpertContainer from "@/src/components/Homepage/Section/Expert/ExpertContainer";
 import Filter from "@/src/interface/Filter";
 import {categoryTypes} from "@/src/data/CategoryTypes";
 import {counties} from "@/src/data/Counties";
+import close_expert from "@/assets/icons/filters/close_expert";
 
-export const AppliedFilters: React.FC<FiltersProps> = ({ filters }) => {
+export const AppliedFilters: React.FC<FiltersProps> = ({ filters, color="#0478ca" }) => {
 
     function getFilterText(filter: Filter) {
         if(filter.name === "LOCATION")
@@ -34,13 +35,13 @@ export const AppliedFilters: React.FC<FiltersProps> = ({ filters }) => {
             >
                 {filters && filters.map((filter: Filter, index: number) => (
                     <View key={index} style={[styles.appliedFiltersContainer, { width: getContainerWidth(getFilterText(filter)) }]}>
-                        <View style={styles.appliedFilter}>
-                            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.appliedFilterText}>{getFilterText(filter)}</Text>
+                        <View style={[styles.appliedFilter, {borderColor:color}]}>
+                            <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.appliedFilterText, {color:color}]}>{getFilterText(filter)}</Text>
                             <View style={styles.appliedFilterRemove}>
                                 <SvgXml
                                     width="50%"
                                     height="50%"
-                                    xml={close}
+                                    xml={color == "#0478ca" ? close_client : close_expert}
                                 />
                             </View>
                         </View>
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
         borderColor: "#0478ca",
         borderRadius: 50,
         borderWidth: 1,
-        paddingHorizontal: 10, // Adjust padding as needed
+        paddingHorizontal: 10,
     },
     appliedFilterText: {
         flex: 1,
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     appliedFilterRemove: {
-        width: 30, // Adjust width as needed
+        width: 30,
         justifyContent: 'center',
         alignItems: 'center',
     },

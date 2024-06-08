@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import envVars from "@/src/utils/envVars";
+import Filter from "@/src/interface/Filter";
 export default function getAds () {
     const [allAdData, setAllAdData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filters, setFilters] = useState( {});
+    const [filters, setFilters] = useState<Filter[]>([]);
 
     const fetchAllAdData = async () => {
         try {
@@ -14,7 +15,7 @@ export default function getAds () {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${await AsyncStorage.getItem('token')}`
                 },
-                body: JSON.stringify(filters)
+                body: JSON.stringify({"filters":filters})
             });
 
             console.log(response)
