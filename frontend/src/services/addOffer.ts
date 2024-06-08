@@ -1,23 +1,24 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import envVars from "@/src/utils/envVars";
+import AdSmallFixesDialogProps from "@/src/types/DialogProps";
 
-export default function addAd(requestData: any) {
+const addOffer = ({ requestData }: AddOfferProps) => {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(null);
 
-    const addAd = async (data: any) => {
+    const publishOffer = async (data: any) => {
         setUploading(true);
         setError(null);
 
         try {
-            console.log(123)
-            const response = await fetch(`${envVars.API_ENDPOINT}/api/ad/add`, {
+            console.log("data is",JSON.stringify(data))
+            const response = await fetch(`${envVars.API_ENDPOINT}/api/offer/`, {
                 method: 'POST',
-                body: data,
+                body: JSON.stringify(data),
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${await AsyncStorage.getItem('token')}`
                 }
             });
@@ -34,5 +35,7 @@ export default function addAd(requestData: any) {
         }
     };
 
-    return {publishAd:addAd, uploading, error};
+    return {publishOffer, uploading, error};
 }
+
+export default addOffer;

@@ -35,9 +35,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     profileImage: {
-        width: 40,
-        height: 40,
+        width: 35,
+        height: 35,
         borderRadius: 50,
+        marginTop: 5,
         marginRight: 10,
     },
     textTitle: {

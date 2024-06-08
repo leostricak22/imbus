@@ -1,6 +1,6 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {useEffect, useState} from 'react';
-import AdSmallFixesDialog from "./AdSmallFixesDialog";
+import AdSmallFixesDialog from "../Dialogs/AdSmallFixesDialog";
 import {SvgXml} from "react-native-svg";
 
 import home from "@/assets/icons/navigation/home"

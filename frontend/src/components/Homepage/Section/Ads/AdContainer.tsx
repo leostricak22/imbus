@@ -1,4 +1,4 @@
-import {Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
 import {SvgXml} from "react-native-svg";
 import AccountProfileImage from "../../../../../assets/icons/Account/AccountProfileImage";
 import PhotoSlider from "../../../Ad/PhotoSlider";
@@ -16,17 +16,32 @@ import calendar_expert from "@/assets/icons/navigation/calendar_expert";
 import location from "@/assets/icons/info/location";
 import location_expert from "@/assets/icons/info/location_expert";
 import { colors } from "@/src/styles/colors";
+import AdSmallFixesDialog from "@/src/components/Dialogs/AdSmallFixesDialog";
+import OfferDialog from "@/src/components/Dialogs/OfferDialog";
+import addAd from "@/src/services/addAd";
+import addOffer from "@/src/services/addOffer";
 
-const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation }) => {
+const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing }) => {
     const {allOfferData, dataLoading, refetchAllOfferData} = getOffers(ad.id);
 
     const [parentWidth, setParentWidth] = useState(0);
     const [images, setImages] = useState([]);
 
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const [offer, setOffer] = useState(0);
+
+    const { publishOffer, uploading, error } = addOffer({} as AddOfferProps);
+
+    const [publishingOffer, setPublishingOffer] = useState(false);
+
     const [hoverStates, setHoverStates] = useState({
         chat: false,
         offer: false,
     });
+
+    useEffect(() => {
+        refetchAllOfferData();
+    }, [refreshing]);
 
     const setHoverState = (key: keyof typeof hoverStates, value: boolean) => {
         setHoverStates(prevState => ({ ...prevState, [key]: value }));
@@ -39,6 +54,14 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation }) => {
         return `${day}.${month}.`;
     }
 
+    const showDialog = () => {
+        setDialogVisible(true);
+    };
+
+    const hideDialog = () => {
+        setDialogVisible(false);
+    };
+
     const onLayout = (event: any) => {
         const { width } = event.nativeEvent.layout;
         setParentWidth(width);
@@ -50,9 +73,21 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation }) => {
         )));
     }, []);
 
-    function openOfferDialog() {
-        
-    }
+    const handleSubmit = async () => {
+        const requestData = {
+            "adId": ad.id,
+            "price": offer,
+        };
+
+        try {
+            setPublishingOffer(true);
+            await publishOffer(requestData);
+            setPublishingOffer(false);
+            if(!error) navigation.navigate("view-ad", {"ad":ad});
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -133,13 +168,27 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation }) => {
                     <Text style={styles.white}>Poruka</Text>
                 </Pressable>
                 <Pressable style={[styles.option, styles.borderRightBottom, hoverStates.offer ? colors.backgroundDarkOrange : colors.backgroundOrange ]}
-                           onPress={() => openOfferDialog()}
+                           onPress={showDialog}
                            onPressIn={() => setHoverState("offer", true)}
                            onPressOut={() => setHoverState("offer", false)}
                 >
-                    <Text style={styles.white}>Ponuda</Text>
+                    <Text style={styles.black}>Ponuda</Text>
                 </Pressable>
             </View>
+            <OfferDialog
+                isVisible={dialogVisible}
+                onClose={hideDialog}
+                onOption1Press={hideDialog}
+                onOption2Press={handleSubmit}
+                value={offer}
+                setValue={setOffer}
+            />
+            {
+                publishingOffer &&
+                <View style={styles.loading}>
+                    <ActivityIndicator size="large" color="#00ff00" />
+                </View>
+            }
         </View>
     );
 }
@@ -255,6 +304,10 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
+    black: {
+        color: 'black',
+        textAlign: 'center',
+    },
     backgroundBlack: {
         backgroundColor: '#000',
     },
@@ -270,6 +323,16 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginTop: 10,
+    },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999,
     }
 })
 

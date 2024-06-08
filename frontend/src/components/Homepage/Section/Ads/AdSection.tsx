@@ -21,18 +21,30 @@ import sort from "@/assets/icons/filters/sort";
 import {AppliedFilters} from "@/src/components/Filter/AppliedFilters";
 import ExpertContainerProps from "@/src/types/ExpertContainerProps";
 import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {useFocusEffect} from "@react-navigation/native";
 
 const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {
     const { allAdData, dataLoading, refetchAllAdData, filters, setFilters } = getAds();
     const [refreshing, setRefreshing] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
     const [searchText, setSearchText] = useState({});
+    const [firstFocus, setFirstFocus] = useState(true);
 
     const refresh = async () => {
         setRefreshing(true);
         await refetchAllAdData();
         setRefreshing(false);
     };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (!firstFocus) {
+                refresh();
+            } else {
+                setFirstFocus(false);
+            }
+        }, [firstFocus])
+    );
 
     useEffect(() => {
         refresh();
@@ -101,7 +113,7 @@ const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {
                     !dataLoading && allAdData && (
                         <>
                             {allAdData.map((ad: any) => (
-                                <AdContainer key={ad.id} ad={ad} navigation={navigation} />
+                                <AdContainer key={ad.id} ad={ad} navigation={navigation} refreshing={refreshing} />
                             ))}
                         </>
                     )

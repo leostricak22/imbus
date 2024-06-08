@@ -18,8 +18,6 @@ export default function getAds () {
                 body: JSON.stringify({"filters":filters})
             });
 
-            console.log(response)
-
             if (!response.ok) {
                 throw new Error('Info fetching data');
             }
