@@ -16,9 +16,8 @@ import PhotoSlider from "@/src/components/Ad/PhotoSlider";
 import calendar from "@/assets/icons/navigation/calendar";
 import {SvgXml} from "react-native-svg";
 import calendar_client from "@/assets/icons/navigation/calendar_client";
-import AdDetails from "@/src/components/Ad/AdDetails";
 
-export const AdFormStep4: React.FC<ViewAdProps> = ({ navigation, adForm, images }) => {
+export const AdDetails: React.FC<ViewAdProps> = ({ navigation, adForm, images }) => {
     const [parentWidth, setParentWidth] = useState(0);
 
     const onLayout = (event: any) => {
@@ -34,11 +33,34 @@ export const AdFormStep4: React.FC<ViewAdProps> = ({ navigation, adForm, images 
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.heading}>
-                Izgled oglasa
+        <View>
+            {images && images.length > 0 && <View style={styles.photoEdit} onLayout={onLayout}>
+                <PhotoSlider images={images} parentWidth={parentWidth}/>
+            </View>}
+            <Text style={styles.description}>
+                {adForm.description}
             </Text>
-            <AdDetails images={images} adForm={adForm} navigation={navigation} />
+
+            <View style={styles.info}>
+                <View style={styles.icon}>
+                    <SvgXml xml={calendar_client} width="100%" height="100%"/>
+                </View>
+                <Text>
+                    {formatDate(adForm.do_the_job_from)} - {formatDate(adForm.do_the_job_to)}
+                </Text>
+            </View>
+
+            <View style={styles.info}>
+                <View style={styles.icon}>
+                    <SvgXml xml={location} width="100%" height="100%"/>
+                </View>
+                <Text>
+                    {counties.find(item => item.value === adForm.location)?.label ?? ''}
+                    {adForm.postal_code && ` (${adForm.postal_code})`}
+                    {adForm.address && `, ${adForm.address}`}
+                </Text>
+            </View>
+
         </View>
     );
 }
@@ -68,12 +90,14 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 16,
         marginTop: 10,
+        paddingHorizontal: 15,
     },
     info: {
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 10,
         height: 30,
+        paddingHorizontal: 15,
     },
     icon: {
         width: 20,
@@ -82,4 +106,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AdFormStep4;
+export default AdDetails;

@@ -12,6 +12,9 @@ import getOffers from "../services/getOffers";
 import React, {useEffect, useState} from "react";
 import {NavigationParameter} from "@/src/types/NavigationParameter";
 import UserData from "@/src/interface/UserData";
+import AdFormStep4 from "@/src/components/Ad/Form/AdFormStep4";
+import AdDetails from "@/src/components/Ad/AdDetails";
+import {timeAgo} from "@/src/utils/dateFormat";
 
 export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
     const { ad } = route.params;
@@ -35,6 +38,12 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
         )));
     }, []);
 
+    const adCreatedAt = ad.created_at ? new Date(ad.created_at) : null;
+    let timeAgoString:string = "";
+    if (adCreatedAt) {
+        timeAgoString = timeAgo(adCreatedAt);
+    }
+
     return (
         <View style={styles.container}>
             <Header navigation={navigation} userData={userData} />
@@ -55,40 +64,16 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
                     }
                     <View>
                         <Text style={styles.textTitle}>{ad.creator.name} {ad.creator.surname}</Text>
-                        <Text style={styles.uploadedDate}>2h</Text>
+                        <Text style={styles.uploadedDate}>{timeAgoString}</Text>
                     </View>
                 </View>
 
-                <PhotoSlider images={images} />
-                <Text style={styles.description}>{ad.description}</Text>
-
-                <View style={styles.adInfoText}>
-                    <View style={styles.textWithIcon}>
-                        <SvgXml
-                            width="25"
-                            height="25"
-                            xml={Calendar}
-                        />
-                        <View>
-                            <Text style={styles.textInfo}>
-                                {formatDate(ad.do_the_job_from)} - {formatDate(ad.do_the_job_to)}
-                            </Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.textWithIcon}>
-                        <Image source={location} style={{width: 25, height: 25, marginTop: 2}}/>
-                        <View>
-                            <Text style={styles.textInfo}>
-                                {counties.find(item => item.value === ad.location)?.label ?? ""}
-                            </Text>
-                        </View>
-                    </View>
+                <View style={styles.form}>
+                    <AdDetails navigation={navigation} adForm={ad} images={images}/>
                 </View>
-
 
                 <View style={styles.offers}>
-                    <Text style={styles.textTitle}>Ponude</Text>
+                    <Text style={styles.textTitle}>Ponude:</Text>
                     {
                         dataLoading || !allOfferData ? (
                             <Text style={styles.noOffers}>Loading</Text>
@@ -97,7 +82,7 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
                         ) : (
                             <>
                                 {allOfferData.map((offer: any) => (
-                                    <OfferContainer offer={offer} />
+                                    <OfferContainer key={offer.id} offer={offer} />
                                 ))}
                             </>
                         )
@@ -119,6 +104,7 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white',
     },
     itemContainer: {
         width: '100%',
@@ -129,11 +115,12 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 50,
         backgroundColor: 'white',
-        margin: 15,
+        margin: 10,
         marginRight: 10,
     },
     textTitle: {
         fontSize: 20,
+        fontWeight: 'bold',
         marginBottom: 5,
     },
     userInfo: {
@@ -208,5 +195,7 @@ const styles = StyleSheet.create({
     },
     offers: {
         margin: 15,
+    },
+    form : {
     }
 })

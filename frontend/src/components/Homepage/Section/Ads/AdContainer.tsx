@@ -20,6 +20,7 @@ import AdSmallFixesDialog from "@/src/components/Dialogs/AdSmallFixesDialog";
 import OfferDialog from "@/src/components/Dialogs/OfferDialog";
 import addAd from "@/src/services/addAd";
 import addOffer from "@/src/services/addOffer";
+import {timeAgo} from "@/src/utils/dateFormat";
 
 const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing }) => {
     const {allOfferData, dataLoading, refetchAllOfferData} = getOffers(ad.id);
@@ -89,6 +90,13 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing })
         }
     };
 
+    const adCreatedAt = ad.created_at ? new Date(ad.created_at) : null;
+    let timeAgoString:string = "";
+    if (adCreatedAt) {
+        timeAgoString = timeAgo(adCreatedAt);
+    }
+
+
     return (
         <View style={styles.container}>
             <Pressable key={ad.creator.id} style={styles.itemContainer} onPress={() => navigation.navigate("view-ad", {"ad":ad})}>
@@ -108,7 +116,11 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing })
                     }
                     <View>
                         <Text style={styles.textTitle}>{ad.creator.name} {ad.creator.surname}</Text>
-                        <Text style={styles.uploadedDate}>2h</Text>
+                        <Text style={styles.uploadedDate}>
+                            {
+                                timeAgoString
+                            }
+                        </Text>
                     </View>
                 </View>
                 <View style={styles.adInfo}>
@@ -153,7 +165,7 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing })
                         ) : (
                             <>
                                 {allOfferData.map((offer: any) => (
-                                    <OfferContainer offer={offer} />
+                                    <OfferContainer key={offer.id} offer={offer} />
                                 ))}
                             </>
                         )

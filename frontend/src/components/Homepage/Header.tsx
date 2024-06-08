@@ -55,8 +55,6 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         borderRadius: 100,
-        borderWidth: 1,
-        borderColor: '#000',
     },
     defaultUserProfileContainer: {
         position: 'absolute',
