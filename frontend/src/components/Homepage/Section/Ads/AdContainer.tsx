@@ -9,10 +9,11 @@ import Calendar from "../../../../svg/Calendar";
 import getOffers from "../../../../services/getOffers";
 import {useEffect, useState} from "react";
 import OfferContainer from "./OfferContainer";
+import getAds from "@/src/services/getAds";
 
 export default function AdContainer({ad, navigation}:any) {
-    let allOfferData: any, dataLoading: any, refetchAllOfferData: any;
-    ({allOfferData, dataLoading, refetchAllOfferData} = allOfferData(ad.id));
+    const {allOfferData, dataLoading, refetchAllOfferData} = getOffers(ad.id);
+
     const [parentWidth, setParentWidth] = useState(0);
     const [images, setImages] = useState([]);
 

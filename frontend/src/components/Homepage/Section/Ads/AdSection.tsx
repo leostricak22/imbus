@@ -64,7 +64,7 @@ export default function AdSection({navigation}:any) {
                     ) : (
                         <>
                             {allAdData.map((ad: any) => (
-                                <AdContainer ad={ad} navigation={navigation} />
+                                <AdContainer key={ad.id} ad={ad} navigation={navigation} />
                             ))}
                         </>
                     )

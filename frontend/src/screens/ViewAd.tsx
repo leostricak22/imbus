@@ -11,13 +11,15 @@ import OfferContainer from "../components/Homepage/Section/Ads/OfferContainer";
 import getOffers from "../services/getOffers";
 import React, {useEffect, useState} from "react";
 import {NavigationParameter} from "@/src/types/NavigationParameter";
+import UserData from "@/src/interface/UserData";
 
 export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
     const { ad } = route.params;
 
-    let allOfferData: any, dataLoading: any, refetchAllOfferData: any;
-    ({allOfferData, dataLoading, refetchAllOfferData} = allOfferData(ad.id));
+    const {allOfferData, dataLoading, refetchAllOfferData} = getOffers(ad.id);
     const [images, setImages] = useState([]);
+
+    const [userData, setUserData] = useState<UserData>({} as UserData);
 
     function formatDate(dateString: string | number | Date) {
         const date = new Date(dateString);
@@ -35,7 +37,7 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
 
     return (
         <View style={styles.container}>
-            <Header navigation={navigation} />
+            <Header navigation={navigation} userData={userData} />
             <ScrollView style={styles.itemContainer}>
                 <View style={styles.userInfo}>
                     {
