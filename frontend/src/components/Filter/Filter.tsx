@@ -2,10 +2,11 @@ import {Button, Image, Pressable, ScrollView, StyleSheet, Text, View} from "reac
 import React, {useState} from "react";
 import FilterCategoryList from "./FilterCategoryList";
 import FilterCountyList from "./FilterCountyList";
+import FilterManipulationProps from "@/src/types/FilterManipulationProps";
 
 const downArrowImage = require("../../../assets/icons/down-arrow.png");
 
-export default function Filter({ setShowFilter, setFilters }:any) {
+export const Filter: React.FC<FilterManipulationProps> = ({ setShowFilter, setFilters }) => {
     const [showCategoryList, setShowCategoryList] = useState(false);
     const [showCountyList, setShowCountyList] = useState(false);
 
@@ -21,13 +22,13 @@ export default function Filter({ setShowFilter, setFilters }:any) {
     };
 
     const applyFilter = () => {
-        let allFilters:any = {"filters":[]};
+        let allFilters:any = [];
 
         for(let i = 0; i < selectedCategoryTypes.length; i++)
-            allFilters.filters.push({"name":"CATEGORY", "value":selectedCategoryTypes[i]});
+            allFilters.push({"name":"CATEGORY", "value":selectedCategoryTypes[i]});
 
         for(let i = 0; i < selectedCounty.length; i++)
-            allFilters.filters.push({"name":"LOCATION", "value":selectedCounty[i]});
+            allFilters.push({"name":"LOCATION", "value":selectedCounty[i]});
 
         setFilters(allFilters);
 
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 10,
         margin: 5,
-        backgroundColor: '#209cee',
+        backgroundColor: '#0478ca',
         borderRadius: 5,
         display: 'flex',
         flexDirection: 'row',
@@ -110,3 +111,5 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 })
+
+export default Filter;

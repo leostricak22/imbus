@@ -1,7 +1,11 @@
 import {Platform, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import React from "react";
+import FormProps from "@/src/types/FormProps";
 
-export default function DateTimeInput({formData, setFormData, formDataItem}:any) {
+export const DateTimeInput: React.FC<FormProps> = ({ form, setForm, formDataItem }) => {
+    const [showPicker, setShowPicker] = React.useState(false);
+
     const formatDateString = (date:Date) => {
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -10,38 +14,51 @@ export default function DateTimeInput({formData, setFormData, formDataItem}:any)
     };
 
     const handlePickerChange = (event: any, selectedDate: any) => {
-        const currentDate = selectedDate || formData[formDataItem];
+        if (!formDataItem)
+            return;
 
-        setFormData((prevFormData: any) => ({
+        const currentDate = selectedDate || form[formDataItem];
+
+        setForm((prevFormData: any) => ({
             ...prevFormData,
             [formDataItem]: currentDate,
-            showPicker: Platform.OS === 'ios'
         }));
+
+        if (Platform.OS === 'android') {
+            setShowPicker(false);
+        } else if (selectedDate) {
+            setShowPicker(false);
+        }
     };
 
     const showDatePicker = () => {
-        setFormData({ ...formData, showPicker: true });
+        setShowPicker(true);
     };
 
 
     return (
         <View>
-            <TouchableOpacity onPress={showDatePicker}>
-                <TextInput
-                    style={styles.dateTimeInput}
-                    editable={false}
-                    value={formatDateString(formData[formDataItem])}
-                />
-            </TouchableOpacity>
-            {formData.showPicker && (
-                <DateTimePicker
-                    testID={`${formDataItem}DateTimePicker`}
-                    value={formData[formDataItem]}
-                    mode="date"
-                    display="default"
-                    onChange={handlePickerChange}
-                />
-            )}
+            {
+                formDataItem &&
+                <>
+                    <TouchableOpacity onPress={showDatePicker}>
+                        <TextInput
+                            style={styles.dateTimeInput}
+                            editable={false}
+                            value={form[formDataItem] && formatDateString(form[formDataItem])}
+                        />
+                    </TouchableOpacity>
+                    {showPicker && (
+                        <DateTimePicker
+                            testID={`${formDataItem}DateTimePicker`}
+                            value={form[formDataItem] instanceof Date ? form[formDataItem] : new Date()}
+                            mode="date"
+                            display="default"
+                            onChange={handlePickerChange}
+                        />
+                    )}
+                </>
+            }
         </View>
     )
 }
@@ -57,3 +74,5 @@ const styles = StyleSheet.create({
         width: '100%'
     },
 });
+
+export default DateTimeInput;

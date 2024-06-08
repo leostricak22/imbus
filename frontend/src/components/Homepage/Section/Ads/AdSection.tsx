@@ -10,20 +10,41 @@ import {
     View
 } from "react-native";
 import Filter from "../../../Filter/Filter";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import getAds from "../../../../services/getAds";
 import AdContainer from "./AdContainer";
+import {input} from "@/src/styles/input";
+import {SvgXml} from "react-native-svg";
+import search from "@/assets/icons/filters/search";
+import filter from "@/assets/icons/filters/filter";
+import sort from "@/assets/icons/filters/sort";
+import {AppliedFilters} from "@/src/components/Filter/AppliedFilters";
+import ExpertContainerProps from "@/src/types/ExpertContainerProps";
+import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {useFocusEffect} from "@react-navigation/native";
 
-export default function AdSection({navigation}:any) {
+const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {
     const { allAdData, dataLoading, refetchAllAdData, filters, setFilters } = getAds();
     const [refreshing, setRefreshing] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
+    const [searchText, setSearchText] = useState({});
+    const [firstFocus, setFirstFocus] = useState(true);
 
     const refresh = async () => {
         setRefreshing(true);
         await refetchAllAdData();
         setRefreshing(false);
     };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (!firstFocus) {
+                refresh();
+            } else {
+                setFirstFocus(false);
+            }
+        }, [firstFocus])
+    );
 
     useEffect(() => {
         refresh();
@@ -41,14 +62,44 @@ export default function AdSection({navigation}:any) {
             </Modal>
 
             <View style={styles.filterContainer}>
-                <TextInput style={styles.input} placeholder="Pretraži oglase..."></TextInput>
+                <View style={styles.search}>
+                    <View style={input.inputContainer}>
+                        <View style={input.inputIcon}>
+                            <SvgXml
+                                width="100%"
+                                height="100%"
+                                xml={search}
+                            />
+                        </View>
+                        <TextInput
+                            style={input.input}
+                            placeholder="Pretraži oglase..."
+                            onChangeText={(text:string) => setSearchText(text)}
+                        />
+                    </View>
+                </View>
                 <View style={styles.filterIconsContainer}>
                     <Pressable onPress={() => setShowFilter(true)}>
-                        <Image source={require('../../../../../assets/icons/filter.png')} style={{ width: 25, height: 25 }} />
+                        <View style={styles.icon}>
+                            <SvgXml
+                                width="100%"
+                                height="100%"
+                                xml={filter}
+                            />
+                        </View>
                     </Pressable>
                     <Pressable>
-                        <Image source={require('../../../../../assets/icons/list.png')} style={{ width: 25, height: 25 }} />
+                        <View style={styles.icon}>
+                            <SvgXml
+                                width="100%"
+                                height="100%"
+                                xml={sort}
+                            />
+                        </View>
                     </Pressable>
+                </View>
+                <View style={styles.appliedFiltersContainer}>
+                    {filters && filters.length > 0 &&  <AppliedFilters filters={filters} color={"#ffbf49"}/>}
                 </View>
             </View>
 
@@ -59,12 +110,10 @@ export default function AdSection({navigation}:any) {
                 />
             }>
                 {
-                    dataLoading || !allAdData ? (
-                        <ActivityIndicator size="large" color="#209cee" />
-                    ) : (
+                    !dataLoading && allAdData && (
                         <>
                             {allAdData.map((ad: any) => (
-                                <AdContainer ad={ad} navigation={navigation} />
+                                <AdContainer key={ad.id} ad={ad} navigation={navigation} refreshing={refreshing} />
                             ))}
                         </>
                     )
@@ -107,11 +156,27 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
+        margin: 'auto',
     },
     filterIconsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '80%',
-        marginTop: 10,
+        width: '90%',
+        padding: 5,
     },
+    search: {
+        width: '90%',
+        marginTop: 15,
+    },
+    icon: {
+        height: 20,
+        width: 20,
+    },
+    appliedFiltersContainer: {
+        width: '90%',
+        alignSelf: 'flex-start',
+        marginVertical: 5,
+    }
 });
+
+export default AdSection;

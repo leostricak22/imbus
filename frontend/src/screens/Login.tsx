@@ -47,13 +47,10 @@ export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
 
       const data = await response.json();
 
-      console.log(data);
-
       await AsyncStorage.setItem('token', data.token);
 
       navigation.navigate('homepage');
     } catch (error) {
-      console.log(error);
       setError("Pogrešno korisničko ime ili lozinka!");
     }
   };

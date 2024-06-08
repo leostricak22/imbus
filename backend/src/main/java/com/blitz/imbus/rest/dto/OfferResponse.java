@@ -12,7 +12,7 @@ public class OfferResponse {
 
     private AdResponse ad;
 
-    private Float price;
+    private Integer price;
 
     private Boolean selected;
 }

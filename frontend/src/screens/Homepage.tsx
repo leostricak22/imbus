@@ -24,11 +24,9 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
 
     useEffect(() => {
         checkTokenValidity();
-        console.log('Section changed to:', selectedSection);
     }, [selectedSection]);
 
     useEffect(() => {
-        console.log(validToken)
         if (validToken !== null && !validToken) {
             navigation.navigate('login');
         }
@@ -49,7 +47,6 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
             }
         }, [firstFocus])
     );
-
 
     return (
         <View style={styles.container}>
@@ -81,6 +78,7 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white',
     },
     navigation: {
         position: 'absolute',

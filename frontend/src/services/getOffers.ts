@@ -17,13 +17,13 @@ export default function getOffers (adId: string) {
             });
 
             if (!response.ok) {
-                throw new Error('Error fetching data');
+                throw new Error('Info fetching data');
             }
             const data = await response.json();
 
             setAllOfferData(data);
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Info fetching data:', error);
         } finally {
             setLoading(false);
         }

@@ -27,7 +27,7 @@ public class Offer {
     @JoinColumn(name = "ad")
     private Ad ad;
 
-    private Float price;
+    private Integer price;
 
     @Builder.Default
     private Boolean selected=false;

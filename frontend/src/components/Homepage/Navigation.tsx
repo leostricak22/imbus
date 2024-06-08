@@ -1,6 +1,6 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {useEffect, useState} from 'react';
-import AdSmallFixesDialog from "./AdSmallFixesDialog";
+import AdSmallFixesDialog from "../Dialogs/AdSmallFixesDialog";
 import {SvgXml} from "react-native-svg";
 
 import home from "@/assets/icons/navigation/home"
@@ -33,7 +33,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
     const [buttonAddIsHovered, setButtonAddIsHovered] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
     const [role, setRole] = useState("")
-    const [themeColor, setThemeColor] = useState("#209cee");
+    const [themeColor, setThemeColor] = useState("#0478ca");
     const [themeColorDark, setThemeColorDark] = useState("#085e96");
 
     const showDialog = () => {
@@ -49,8 +49,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
         hideDialog();
     };
 
-    const handleOption2Press = () => {
-        // Do something for Option 2
+    const handleSmallFixesPress = () => {
         hideDialog();
     };
 
@@ -61,7 +60,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
             setThemeColorDark("#7c5a02");
         } else if (userData && userData.role === 'CLIENT'){
             setRole('CLIENT')
-            setThemeColor("#209cee");
+            setThemeColor("#0478ca");
             setThemeColorDark("#085e96");
         }
     }
@@ -199,8 +198,8 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
             <AdSmallFixesDialog
                 isVisible={dialogVisible}
                 onClose={hideDialog}
-                onOption1Press={handleAddAdPress}
-                onOption2Press={handleOption2Press}
+                onOption1Press={handleSmallFixesPress}
+                onOption2Press={handleAddAdPress}
             />
         </View>
     );
@@ -244,7 +243,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     blue: {
-        color:"#209cee",
+        color:"#0478ca",
     },
     gray: {
         color: "#b3b3b3",
@@ -253,7 +252,7 @@ const styles = StyleSheet.create({
         color: "#000",
     },
     backgroundBlue: {
-        backgroundColor: '#209cee',
+        backgroundColor: '#0478ca',
     },
     backgroundYellow: {
         backgroundColor: '#cc9403',

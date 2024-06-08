@@ -29,7 +29,7 @@ export default function HomepageSection({navigation, userData, dataLoading, onRe
         }>
             {
                 dataLoading || !userData ? (
-                    <ActivityIndicator size="large" color="#209cee"/>
+                    <ActivityIndicator size="large" color="#0478ca"/>
                 ) : (
                     <>
                         <Text style={styles.title}>Pozdrav, {userData.name}</Text>

@@ -11,13 +11,26 @@ import OfferContainer from "../components/Homepage/Section/Ads/OfferContainer";
 import getOffers from "../services/getOffers";
 import React, {useEffect, useState} from "react";
 import {NavigationParameter} from "@/src/types/NavigationParameter";
+import UserData from "@/src/interface/UserData";
+import AdFormStep4 from "@/src/components/Ad/Form/AdFormStep4";
+import AdDetails from "@/src/components/Ad/AdDetails";
+import {timeAgo} from "@/src/utils/dateFormat";
+import userSessionData from "@/src/services/userSessionData";
+import {button} from "@/src/styles/button";
+import {colors} from "@/src/styles/colors";
 
 export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
     const { ad } = route.params;
 
-    let allOfferData: any, dataLoading: any, refetchAllOfferData: any;
-    ({allOfferData, dataLoading, refetchAllOfferData} = allOfferData(ad.id));
+    const {allOfferData, dataLoading, refetchAllOfferData} = getOffers(ad.id);
     const [images, setImages] = useState([]);
+
+    const {userData, setUserData, dataLoading:dataLoadingSession, refetchUserData } = userSessionData();
+
+    const [hoverStates, setHoverStates] = useState({
+        chat: false,
+        offer: false,
+    });
 
     function formatDate(dateString: string | number | Date) {
         const date = new Date(dateString);
@@ -33,9 +46,23 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
         )));
     }, []);
 
+    const adCreatedAt = ad.created_at ? new Date(ad.created_at) : null;
+    let timeAgoString:string = "";
+    if (adCreatedAt) {
+        timeAgoString = timeAgo(adCreatedAt);
+    }
+
+    useEffect(() => {
+        console.log("a" , userData)
+    }, [userData]);
+
+    const setHoverState = (key: keyof typeof hoverStates, value: boolean) => {
+        setHoverStates(prevState => ({ ...prevState, [key]: value }));
+    };
+
     return (
         <View style={styles.container}>
-            <Header navigation={navigation} />
+            <Header navigation={navigation} userData={userData} />
             <ScrollView style={styles.itemContainer}>
                 <View style={styles.userInfo}>
                     {
@@ -53,40 +80,16 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
                     }
                     <View>
                         <Text style={styles.textTitle}>{ad.creator.name} {ad.creator.surname}</Text>
-                        <Text style={styles.uploadedDate}>2h</Text>
+                        <Text style={styles.uploadedDate}>{timeAgoString}</Text>
                     </View>
                 </View>
 
-                <PhotoSlider images={images} />
-                <Text style={styles.description}>{ad.description}</Text>
-
-                <View style={styles.adInfoText}>
-                    <View style={styles.textWithIcon}>
-                        <SvgXml
-                            width="25"
-                            height="25"
-                            xml={Calendar}
-                        />
-                        <View>
-                            <Text style={styles.textInfo}>
-                                {formatDate(ad.do_the_job_from)} - {formatDate(ad.do_the_job_to)}
-                            </Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.textWithIcon}>
-                        <Image source={location} style={{width: 25, height: 25, marginTop: 2}}/>
-                        <View>
-                            <Text style={styles.textInfo}>
-                                {counties.find(item => item.value === ad.location)?.label ?? ""}
-                            </Text>
-                        </View>
-                    </View>
+                <View style={styles.form}>
+                    <AdDetails navigation={navigation} adForm={ad} images={images} role={userData && userData.role} />
                 </View>
-
 
                 <View style={styles.offers}>
-                    <Text style={styles.textTitle}>Ponude</Text>
+                    <Text style={styles.textTitle}>Ponude:</Text>
                     {
                         dataLoading || !allOfferData ? (
                             <Text style={styles.noOffers}>Loading</Text>
@@ -95,21 +98,38 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
                         ) : (
                             <>
                                 {allOfferData.map((offer: any) => (
-                                    <OfferContainer offer={offer} />
+                                    <OfferContainer key={offer.id} offer={offer} />
                                 ))}
                             </>
                         )
                     }
                 </View>
-                <View style={styles.options}>
-                    <Pressable style={[styles.option, styles.backgroundBlack]}>
-                        <Text style={styles.white}>Poruka</Text>
-                    </Pressable>
-                    <Pressable style={[styles.option, styles.backgroundOrange]}>
-                        <Text style={styles.white}>Ponuda</Text>
-                    </Pressable>
-                </View>
             </ScrollView>
+            <View style={styles.options}>
+                <Pressable
+                    style={[
+                        button.buttonContainer,
+                        styles.option,
+                        hoverStates.chat ? colors.backgroundDarkGray : colors.backgroundBlack
+                    ]}
+                    onPressIn={() => setHoverState("chat", true)}
+                    onPressOut={() => setHoverState("chat", false)}
+                >
+                    <Text style={button.buttonText}>Poruka</Text>
+                </Pressable>
+
+                <Pressable
+                    style={[
+                        button.buttonContainer,
+                        styles.option,
+                        hoverStates.offer ? colors.backgroundDarkOrange : colors.backgroundOrange
+                    ]}
+                    onPressIn={() => setHoverState("offer", true)}
+                    onPressOut={() => setHoverState("offer", false)}
+                >
+                    <Text style={button.buttonText}>Ponuda</Text>
+                </Pressable>
+            </View>
         </View>
     );
 }
@@ -117,21 +137,24 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white',
     },
     itemContainer: {
         width: '100%',
         alignSelf: 'center',
+        marginBottom: 70,
     },
     profileImage: {
         width: 50,
         height: 50,
         borderRadius: 50,
         backgroundColor: 'white',
-        margin: 15,
+        margin: 10,
         marginRight: 10,
     },
     textTitle: {
         fontSize: 20,
+        fontWeight: 'bold',
         marginBottom: 5,
     },
     userInfo: {
@@ -185,14 +208,30 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        margin: 15,
-        marginTop: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 5.84,
+        elevation: 15,
+        backgroundColor: 'white',
+
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+
     },
     option: {
-        backgroundColor: '#209cee',
-        padding: 10,
-        borderRadius: 5,
-        width: '45%',
+        width: '48%',
     },
     white: {
         color: 'white',
@@ -206,5 +245,7 @@ const styles = StyleSheet.create({
     },
     offers: {
         margin: 15,
+    },
+    form : {
     }
 })

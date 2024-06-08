@@ -1,15 +1,34 @@
 import {Image, Pressable, StyleSheet, View} from 'react-native';
+import React from "react";
+import UserContainerProps from "@/src/types/UserContainerProps";
+import {NavigationParameter} from "@/src/types/NavigationParameter";
+import LogoUserImage from "@/src/components/Partials/LogoUserImage";
+import {SvgXml} from "react-native-svg";
+import AccountProfileImage from "@/assets/icons/Account/AccountProfileImage";
+import arrow_back from "@/assets/icons/header/arrow_back";
+import notification from "@/assets/icons/header/notification";
 
 const logoImage = require("../../../assets/icon.png");
 const backIconImage = require("../../../assets/icons/back.png");
 
-export default function Header({navigation}:any) {
+const Header: React.FC<UserContainerProps> = ({ navigation, userData}) => {
     return (
         <View style={styles.header}>
             <Pressable style={styles.backIconContainer} onPress={() => navigation.goBack()}>
-                <Image source={backIconImage} style={styles.backIconImage} />
+                <SvgXml
+                    width="100%"
+                    height="100%"
+                    xml={arrow_back}
+                />
             </Pressable>
-            <Image source={logoImage} style={styles.logoImage} />
+            <LogoUserImage userDataRole={userData.role} />
+            <View style={styles.notification}>
+                <SvgXml
+                    width="100%"
+                    height="100%"
+                    xml={notification}
+                />
+            </View>
         </View>
     );
 }
@@ -38,7 +57,16 @@ const styles = StyleSheet.create({
     backIconContainer: {
         position: 'absolute',
         left: 15,
+        padding: 5,
         width: 30,
         height: 30,
     },
+    notification: {
+        position: 'absolute',
+        right: 15,
+        width: 25,
+        height: 25,
+    },
 });
+
+export default Header;

@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from "react-native";
+import {Image, Pressable, StyleSheet, Text, View} from "react-native";
 
 import React from 'react';
 
@@ -6,109 +6,58 @@ import {categoryTypes} from "@/src/data/CategoryTypes";
 import {counties} from "@/src/data/Counties";
 import {SvgXml} from 'react-native-svg';
 import AccountProfileImage from "../../../../../assets/icons/Account/AccountProfileImage";
+import StarRating from "@/src/components/Ratings/StarRating";
+import facebook from "@/assets/icons/companies/facebook";
+import build from "@/assets/icons/info/build";
+import location from "@/assets/icons/info/location";
+import {NavigationParameter} from "@/src/types/NavigationParameter";
+import ExpertContainerProps from "@/src/types/ExpertContainerProps";
+import {expertinfo} from "@/src/styles/expertinfo";
+import ExpertInfo from "@/src/components/Homepage/Section/Expert/ExpertInfo";
 
-const frenchKeyIcon = require("../../../../../assets/icons/french-key.png");
-const location = require("../../../../../assets/icons/location.png");
+const ExpertContainer: React.FC<ExpertContainerProps> = ({ navigation , expert}) => {
+    const openUserPage = () => {
+        navigation.navigate("user-page", {expert: expert});
+    }
 
-export default function ExpertContainer({expert}:any) {
     return (
-        <View style={styles.itemContainer}>
-            {
-                expert.profileImage ? (
-                    <Image source={{uri: `data:image/jpeg;base64,${expert.profileImage}`}} style={styles.profileImage} />
-                ) : (
-                    <View style={styles.profileImage}>
-                        <SvgXml
-                            width="100%"
-                            height="100%"
-                            xml={AccountProfileImage}
-                        />
-                    </View>
-                )
-            }
-
-            <View>
-                <Text style={styles.textTitle}>{expert.name} {expert.surname}</Text>
-                <View style={styles.rating}>
-                    <Text>4.6</Text>
-                    {
-                        //TODO: Add rating
-                    }
-                </View>
-                <View>
-                    <View style={styles.categories}>
-                        <Image source={frenchKeyIcon} style={{width: 15, height: 15, marginTop: 2}}/>
-                        <View>
-                            {expert.categories.map((category: React.Key | null | undefined) => (
-                                <Text key={category} style={styles.textInfo}>
-                                    {categoryTypes.find(item => item.value === category)?.label ?? ''}
-                                </Text>
-                            ))}
-                        </View>
-                    </View>
-                    <View style={styles.location}>
-                        <Image source={location} style={{width: 15, height: 15, marginTop: 2}}/>
-                        <View>
-                            <Text style={styles.textInfo}>
-                                {counties.find(item => item.value === expert.location)?.label ?? ''}
-                            </Text>
-                        </View>
-                    </View>
-
-                </View>
-            </View>
+        <View style={styles.container}>
+            <Pressable style={styles.pressable}
+                onPress={openUserPage}
+            >
+                <ExpertInfo navigation={navigation} expert={expert} />
+            </Pressable>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    itemContainer: {
+    container: {
+        marginHorizontal: '5%',
+        marginVertical: 5,
+    },
+    pressable: {
         display: 'flex',
-        flexDirection: 'row',
-        width: '80%',
+        flexDirection: 'column',
+        width: '100%',
         alignSelf: 'center',
-        marginTop: 20,
         borderStyle: 'solid',
-        borderWidth: 1,
+        borderWidth: 2,
+        borderColor: '#0478ca',
+        borderRadius: 20,
+        padding: 10,
         backgroundColor: 'white',
-        padding: 5,
+
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 6,
+        },
+        shadowOpacity:  0.20,
+        shadowRadius: 5.62,
+        elevation: 4
     },
-    profileImage: {
-        width: 75,
-        height: 75,
-        borderRadius: 100,
-        borderWidth: 1,
-        borderColor: 'black',
-        marginRight: 5,
-    },
-    expertInfoContainer: {
-        marginTop: 20,
-        padding: 15,
-        borderRadius: 5,
-        width: '80%',
-        alignSelf: 'center',
-    },
-    rating: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    categories: {
-        display: 'flex',
-        flexDirection: 'row',
-        marginTop: 10,
-    },
-    location: {
-        display: 'flex',
-        flexDirection: 'row',
-        marginTop: 5,
-    },
-    textTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    textInfo: {
-        marginLeft: 5,
-    }
+
 });
+
+export default ExpertContainer;

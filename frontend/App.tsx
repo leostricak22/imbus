@@ -13,6 +13,7 @@ import {Homepage} from '@/src/screens/Homepage';
 import {AccountSettings} from "@/src/screens/AccountSettings";
 import {AddAd} from "@/src/screens/AddAd";
 import {ViewAd} from "@/src/screens/ViewAd";
+import UserPage from "@/src/screens/UserPage";
 
 const Stack = createStackNavigator();
 
@@ -51,6 +52,12 @@ export default function App() {
                         component={ViewAd}
                         options={{ headerShown: false }}
                     />
+                    <Stack.Screen
+                        name="user-page"
+                        component={UserPage}
+                        options={{ headerShown: false }}
+                    />
+
                 </Stack.Navigator>
             </SafeAreaView>
         </NavigationContainer>

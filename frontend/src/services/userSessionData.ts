@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {UserData} from "@expo/config/build/getUserState";
 import envVars from "@/src/utils/envVars";
+import UserData from "@/src/interface/UserData";
 
 export default function userSessionData () {
     const [userData, setUserData] = useState<UserData>({} as UserData);
@@ -20,10 +20,10 @@ export default function userSessionData () {
                 const data = await response.json();
                 setUserData(data);
             } else {
-                throw new Error('Error fetching data');
+                throw new Error('Info fetching data');
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Info fetching data:', error);
         } finally {
             setLoading(false);
         }

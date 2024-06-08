@@ -14,5 +14,5 @@ public class OfferRequest {
     private Integer adId;
 
     @NotNull
-    private Float price;
+    private Integer price;
 }
