@@ -12,6 +12,7 @@ export default function addAd(requestData: any) {
         setError(null);
 
         try {
+            console.log(123)
             const response = await fetch(`${envVars.API_ENDPOINT}/api/ad/add`, {
                 method: 'POST',
                 body: data,
@@ -20,6 +21,8 @@ export default function addAd(requestData: any) {
                     Authorization: `Bearer ${await AsyncStorage.getItem('token')}`
                 }
             });
+
+            console.log(response);
 
             if (!response.ok) {
                 throw new Error('Failed to add ad!');
@@ -33,5 +36,5 @@ export default function addAd(requestData: any) {
         }
     };
 
-    return {addAd, uploading, error};
+    return {publishAd:addAd, uploading, error};
 }

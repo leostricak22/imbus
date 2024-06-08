@@ -20,10 +20,10 @@ export default function userSessionData () {
                 const data = await response.json();
                 setUserData(data);
             } else {
-                throw new Error('Error fetching data');
+                throw new Error('Info fetching data');
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Info fetching data:', error);
         } finally {
             setLoading(false);
         }

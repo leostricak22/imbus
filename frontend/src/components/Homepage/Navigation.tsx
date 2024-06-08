@@ -49,7 +49,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
         hideDialog();
     };
 
-    const handleOption2Press = () => {
+    const handleSmallFixesPress = () => {
         hideDialog();
     };
 
@@ -198,8 +198,8 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
             <AdSmallFixesDialog
                 isVisible={dialogVisible}
                 onClose={hideDialog}
-                onOption1Press={handleAddAdPress}
-                onOption2Press={handleOption2Press}
+                onOption1Press={handleSmallFixesPress}
+                onOption2Press={handleAddAdPress}
             />
         </View>
     );

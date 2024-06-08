@@ -37,7 +37,7 @@ export const RegisterExpertForm: React.FC<FormParameter> = ({ form, setForm }) =
     return (
         <View style={styles.container}>
             <View style={styles.dropdownForm}>
-                <DropdownInput handleChange={handleChangeCategory} items={categoryTypes} formData={{}} formDataItem={"location"}/>
+                <DropdownInput handleChange={handleChangeCategory} items={categoryTypes} formData={{}} formDataItem={"categories"}/>
             </View>
             <View style={styles.dropdownForm}>
                 <DropdownInput handleChange={handleChangeLocation} items={counties} formData={{}} formDataItem={"location"}/>

@@ -69,7 +69,7 @@ export const AccountSettings: React.FC<NavigationParameter> = ({ navigation }) =
 
             updateUser(formData);
         } catch (error) {
-            console.error('Error uploading image:', error);
+            console.error('Info uploading image:', error);
         }
     };
 

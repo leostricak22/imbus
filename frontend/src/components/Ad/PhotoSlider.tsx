@@ -24,14 +24,17 @@ const PhotoSlider = ({images, parentWidth=Dimensions.get('window').width}:any) =
                 style={{ width, height }}
             >
                 {images.map((image: any, index: React.Key | null | undefined) => (
-                    <Image key={index} source={{ uri: image }} style={{ width, height, resizeMode: 'cover' }} />
+                    <View key={index} style={{ width, height }}>
+                        <Image key={index} source={{ uri: image }} style={{ width, height, resizeMode: 'cover' }} />
+                        <Text
+                            style={styles.imageNumber}
+                        >
+                            {parseInt(index as string) + 1}/{images.length}
+                        </Text>
+                    </View>
                 ))}
+
             </ScrollView>
-            <View style={styles.pagination}>
-                {images.map((i: any, k: React.Key | null | undefined) => (
-                    <Text key={k} style={k === active ? styles.activeDot : styles.dot}>⬤</Text>
-                ))}
-            </View>
         </View>
     );
 };
@@ -51,6 +54,20 @@ const styles = StyleSheet.create({
         color: 'white',
         margin: 3,
     },
+
+    imageNumber: {
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        color: 'black',
+        fontSize: 14,
+
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        borderRadius: 20,
+        borderColor: 'black',
+        padding: 5,
+        textAlign: 'center',
+    }
 });
 
 export default PhotoSlider;
