@@ -16,14 +16,18 @@ import PhotoSlider from "@/src/components/Ad/PhotoSlider";
 import calendar from "@/assets/icons/navigation/calendar";
 import {SvgXml} from "react-native-svg";
 import calendar_client from "@/assets/icons/navigation/calendar_client";
+import calendar_expert from "@/assets/icons/navigation/calendar_expert";
+import location_expert from "@/assets/icons/info/location_expert";
 
-export const AdDetails: React.FC<ViewAdProps> = ({ navigation, adForm, images }) => {
+export const AdDetails: React.FC<ViewAdProps> = ({ navigation, adForm, images, role="CLIENT" }) => {
     const [parentWidth, setParentWidth] = useState(0);
 
     const onLayout = (event: any) => {
         const { width } = event.nativeEvent.layout;
         setParentWidth(width);
     };
+
+    console.log(role)
 
     function formatDate(dateString: string | number | Date) {
         const date = new Date(dateString);
@@ -43,7 +47,7 @@ export const AdDetails: React.FC<ViewAdProps> = ({ navigation, adForm, images })
 
             <View style={styles.info}>
                 <View style={styles.icon}>
-                    <SvgXml xml={calendar_client} width="100%" height="100%"/>
+                    <SvgXml xml={role == "CLIENT" ? calendar_client : calendar_expert} width="100%" height="100%"/>
                 </View>
                 <Text>
                     {formatDate(adForm.do_the_job_from)} - {formatDate(adForm.do_the_job_to)}
@@ -52,7 +56,7 @@ export const AdDetails: React.FC<ViewAdProps> = ({ navigation, adForm, images })
 
             <View style={styles.info}>
                 <View style={styles.icon}>
-                    <SvgXml xml={location} width="100%" height="100%"/>
+                    <SvgXml xml={role == "CLIENT" ? location : location_expert} width="100%" height="100%"/>
                 </View>
                 <Text>
                     {counties.find(item => item.value === adForm.location)?.label ?? ''}

@@ -15,6 +15,9 @@ import UserData from "@/src/interface/UserData";
 import AdFormStep4 from "@/src/components/Ad/Form/AdFormStep4";
 import AdDetails from "@/src/components/Ad/AdDetails";
 import {timeAgo} from "@/src/utils/dateFormat";
+import userSessionData from "@/src/services/userSessionData";
+import {button} from "@/src/styles/button";
+import {colors} from "@/src/styles/colors";
 
 export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
     const { ad } = route.params;
@@ -22,7 +25,12 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
     const {allOfferData, dataLoading, refetchAllOfferData} = getOffers(ad.id);
     const [images, setImages] = useState([]);
 
-    const [userData, setUserData] = useState<UserData>({} as UserData);
+    const {userData, setUserData, dataLoading:dataLoadingSession, refetchUserData } = userSessionData();
+
+    const [hoverStates, setHoverStates] = useState({
+        chat: false,
+        offer: false,
+    });
 
     function formatDate(dateString: string | number | Date) {
         const date = new Date(dateString);
@@ -43,6 +51,14 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
     if (adCreatedAt) {
         timeAgoString = timeAgo(adCreatedAt);
     }
+
+    useEffect(() => {
+        console.log("a" , userData)
+    }, [userData]);
+
+    const setHoverState = (key: keyof typeof hoverStates, value: boolean) => {
+        setHoverStates(prevState => ({ ...prevState, [key]: value }));
+    };
 
     return (
         <View style={styles.container}>
@@ -69,7 +85,7 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
                 </View>
 
                 <View style={styles.form}>
-                    <AdDetails navigation={navigation} adForm={ad} images={images}/>
+                    <AdDetails navigation={navigation} adForm={ad} images={images} role={userData && userData.role} />
                 </View>
 
                 <View style={styles.offers}>
@@ -88,15 +104,32 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
                         )
                     }
                 </View>
-                <View style={styles.options}>
-                    <Pressable style={[styles.option, styles.backgroundBlack]}>
-                        <Text style={styles.white}>Poruka</Text>
-                    </Pressable>
-                    <Pressable style={[styles.option, styles.backgroundOrange]}>
-                        <Text style={styles.white}>Ponuda</Text>
-                    </Pressable>
-                </View>
             </ScrollView>
+            <View style={styles.options}>
+                <Pressable
+                    style={[
+                        button.buttonContainer,
+                        styles.option,
+                        hoverStates.chat ? colors.backgroundDarkGray : colors.backgroundBlack
+                    ]}
+                    onPressIn={() => setHoverState("chat", true)}
+                    onPressOut={() => setHoverState("chat", false)}
+                >
+                    <Text style={button.buttonText}>Poruka</Text>
+                </Pressable>
+
+                <Pressable
+                    style={[
+                        button.buttonContainer,
+                        styles.option,
+                        hoverStates.offer ? colors.backgroundDarkOrange : colors.backgroundOrange
+                    ]}
+                    onPressIn={() => setHoverState("offer", true)}
+                    onPressOut={() => setHoverState("offer", false)}
+                >
+                    <Text style={button.buttonText}>Ponuda</Text>
+                </Pressable>
+            </View>
         </View>
     );
 }
@@ -109,6 +142,7 @@ const styles = StyleSheet.create({
     itemContainer: {
         width: '100%',
         alignSelf: 'center',
+        marginBottom: 70,
     },
     profileImage: {
         width: 50,
@@ -174,14 +208,30 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        margin: 15,
-        marginTop: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 5.84,
+        elevation: 15,
+        backgroundColor: 'white',
+
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+
     },
     option: {
-        backgroundColor: '#0478ca',
-        padding: 10,
-        borderRadius: 5,
-        width: '45%',
+        width: '48%',
     },
     white: {
         color: 'white',

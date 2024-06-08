@@ -4,4 +4,5 @@ export type ViewAdProps = {
     navigation: NavigationProp<any>;
     adForm: AdForm;
     images: string[];
+    role?: string;
 };

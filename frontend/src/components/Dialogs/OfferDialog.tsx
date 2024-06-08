@@ -22,7 +22,7 @@ import {input} from "@/src/styles/input";
 const ValueDialog: React.FC<DialogProps> = ({ isVisible, onClose, onOption1Press, onOption2Press, value, setValue }) => {
     const [hoverStates, setHoverStates] = useState({
         cancel: false,
-        confirm: true,
+        confirm: false,
     });
 
     const [showModal, setShowModal] = useState(isVisible);
