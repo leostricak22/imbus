@@ -36,21 +36,23 @@ const App = () => {
 
         if (!firstDate) {
             setFirstDate(selected);
-            setMarkedDates({ [selected]: { startingDay: true, color: '#0478ca', textColor: 'white' } });
+            const newMarkedDates = { ...markedDates, [selected]: { startingDay: true, color: '#0478ca', textColor: 'white' } };
+            setMarkedDates(newMarkedDates);
         } else if (!secondDate) {
             setSecondDate(selected);
-            setMarkedDates({ ...markedDates, [selected]: { endingDay: true, color: '#0478ca', selected: true, textColor: 'white' } });
+            const newMarkedDates = { ...markedDates, [selected]: { endingDay: true, color: '#0478ca', selected: true, textColor: 'white' } };
+            setMarkedDates(newMarkedDates);
         } else {
             setFirstDate('');
             setSecondDate('');
-            setMarkedDates({});
+            setMarkedDates({ ...disabledDate, ...disabledSundays() });
         }
 
         setSelectedDate(selected);
     };
 
     const disabledDate = {
-        '2024-06-07': { disabled: true },
+        /*'2024-06-07': { disabled: true },
         '2024-06-10': { disabled: true },
         '2024-06-15': { disabled: true },
         '2024-06-21': { disabled: true },
@@ -58,7 +60,7 @@ const App = () => {
         '2024-06-24': { disabled: true },
         '2024-06-25': { disabled: true },
         '2024-06-28': { disabled: true },
-        '2024-06-30': { disabled: true },
+        '2024-06-30': { disabled: true },*/
     };
 
     const formatDate = (dateString) => {
@@ -81,7 +83,7 @@ const App = () => {
                 const date = new Date(year, month, day);
                 if (date.getDay() === 1) {
                     const dateString = date.toISOString().split('T')[0];
-                    dates[dateString] = { disabled: true, textColor: 'red' };
+                    dates[dateString] = { disabled: false, textColor: 'red' };
                 }
             }
         }
