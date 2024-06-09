@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {NavigationParameter} from "@/src/types/NavigationParameter";
-import {StyleSheet, View, Text, Pressable} from "react-native";
+import {StyleSheet, View, Text, Pressable, Image} from "react-native";
 import ChatProps from "@/src/types/ChatProps";
 import {colors} from "@/src/styles/colors";
 import {SvgXml} from "react-native-svg";
@@ -9,8 +9,12 @@ import arrow_back from "@/assets/icons/header/arrow_back";
 import arrow_back_client from "@/assets/icons/chat/arrow_back_client";
 import more_vert_client from "@/assets/icons/chat/more_vert_client";
 import ChatHeaderProps from "@/src/types/ChatHeaderProps";
+import userSessionData from "@/src/services/userSessionData";
+import userFromUsername from "@/src/services/userFromUsername";
 
-export const ChatHeader: React.FC<ChatHeaderProps> = ({navigation, userData  }) => {
+export const ChatHeader: React.FC<ChatHeaderProps> = ({navigation, userData  , otherUser}) => {
+    const { userFromUsernameData } = userFromUsername(otherUser);
+
     return (
         <View style={[styles.container, userData.role == "CLIENT" ? colors.backgroundBlue : colors.backgroundOrange]}>
             <View style={styles.iconContainer}>
@@ -26,9 +30,9 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({navigation, userData  }) 
             </View>
             <View style={styles.userInfo}>
                 <View style={styles.profileImage}>
-
+                    <Image source={{uri: `data:image/jpeg;base64,${userFromUsernameData.profileImage}`}} style={styles.profileImage} />
                 </View>
-                <Text style={[styles.userNameSurname, userData.role == "CLIENT" ? colors.white : colors.black]}>{userData.name} {userData.surname}</Text>
+                <Text style={[styles.userNameSurname, userData.role == "CLIENT" ? colors.white : colors.black]}>{userFromUsernameData.name} {userFromUsernameData.surname}</Text>
             </View>
             <View style={styles.iconContainer}>
                 <Pressable style={styles.icon}>
@@ -68,7 +72,6 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 50,
-        backgroundColor: 'gray',
         marginRight: 10,
     },
     userNameSurname: {

@@ -22,6 +22,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, submit
                 <TextInput
                     style={styles.input}
                     placeholder="Napiši poruku..."
+                    value={message}
                     onChangeText={(text) => setMessage(text)}
                 />
                 <View style={styles.iconContainer}>
@@ -35,6 +36,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, submit
                 </View>
             </View>
             <Pressable style={[styles.send, role == 'CLIENT' ? (hoverStates.send ? colors.backgroundDarkBlue : colors.backgroundBlue) : (hoverStates.send ? colors.backgroundDarkOrange : colors.backgroundOrange)]}
+                       onPress={() => {
+                                submit();
+                                setMessage("");
+                            }
+                       }
                        onPressIn={() => setHoverState("send", true)}
                        onPressOut={() => setHoverState("send", false)}
             >

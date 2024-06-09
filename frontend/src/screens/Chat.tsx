@@ -65,7 +65,7 @@ const Chat: React.FC<NavigationParameter> = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <ChatHeader navigation={navigation} userData={userData} />
+            <ChatHeader navigation={navigation} userData={userData} otherUser={chatUser} />
             <ScrollView
                 style={styles.messagesContainer}
                 ref={scrollViewRef}

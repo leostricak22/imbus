@@ -5,11 +5,14 @@ import ChatUserProps from "@/src/types/ChatUserProps";
 import Message from "@/src/interface/Message";
 import {timeAgo} from "@/src/utils/dateFormat";
 import {colors} from "@/src/styles/colors";
+import userFromUsername from "@/src/services/userFromUsername";
 
 export const ChatUserContainer: React.FC<ChatUserProps> = ({navigation, chat, username, role, messages, refetchMessages  }) => {
     const [hoverStates, setHoverStates] = useState({
         chat: false,
     });
+
+    const { userFromUsernameData } = userFromUsername(username !== chat.senderName ? chat.senderName : chat.receiverName);
 
     const setHoverState = (key: any, value: any) => {
         setHoverStates(prevState => ({ ...prevState, [key]: value }));
@@ -22,10 +25,10 @@ export const ChatUserContainer: React.FC<ChatUserProps> = ({navigation, chat, us
                     onPressOut={() => setHoverState("chat", false)}
         >
             <View style={styles.profileImage}>
-
+                <Image source={{uri: `data:image/jpeg;base64,${userFromUsernameData.profileImage}`}} style={styles.profileImage} />
             </View>
             <View style={styles.messageInfo}>
-                <Text style={styles.messageSender}>{username !== chat.senderName ? chat.senderName : chat.receiverName}</Text>
+                <Text style={styles.messageSender}>{userFromUsernameData.name} {userFromUsernameData.surname}</Text>
                 <Text style={styles.messageContent}>
                     {chat.message.length > 20 ? chat.message.slice(0, 30) + '...' : chat.message}
                 </Text>

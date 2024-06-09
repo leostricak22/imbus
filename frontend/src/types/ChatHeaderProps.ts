@@ -5,7 +5,7 @@ import Message from "@/src/interface/Message";
 export type ChatProps = {
     navigation: NavigationProp<any>;
     userData: UserData;
-
+    otherUser: string;
 }
 
 export default ChatProps;

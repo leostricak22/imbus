@@ -1,5 +1,6 @@
 package com.blitz.imbus.rest.controller;
 
+import com.blitz.imbus.domain.models.User;
 import com.blitz.imbus.repository.UserRepository;
 import com.blitz.imbus.rest.dto.UpdateUserRequest;
 import com.blitz.imbus.service.UserService;
@@ -33,4 +34,10 @@ public class UserController {
     ) {
         return ResponseEntity.ok(userService.updateUser(updateUserRequest));
     }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUserFromUsername(@PathVariable String username) {
+        return ResponseEntity.ok(userRepository.findByUsername(username).get());
+    }
+
 }

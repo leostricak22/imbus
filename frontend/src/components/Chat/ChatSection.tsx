@@ -8,6 +8,7 @@ import {useFocusEffect} from "@react-navigation/native";
 import chat from "@/assets/icons/navigation/chat";
 import ChatUserContainer from "@/src/components/Chat/ChatUserContainer";
 import Message from "@/src/interface/Message";
+import userFromUsername from "@/src/services/userFromUsername";
 
 export const ChatSection: React.FC<ChatProps> = ({ navigation, userData }) => {
     const {messages, setMessages, dataLoading, refetchMessages } = getMessages();
