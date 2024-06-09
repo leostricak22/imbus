@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import FormProps from "@/src/types/form/FormProps";
 import {Text, View, StyleSheet, TextInput} from "react-native";
@@ -10,22 +10,33 @@ import {counties} from "@/src/data/Counties";
 import CheckboxWithText from "@/src/components/InputTypes/CheckboxWithText";
 import {input} from "@/src/styles/input";
 import DateTimeInput from "@/src/components/InputTypes/DateTimeInput";
+import CalendarMultipleDays from "@/src/components/Calendar/CalendarMultipleDays";
 
 export const AdFormStep2: React.FC<FormProps> = ({ form, setForm }) => {
+    const [firstDate, setFirstDate] = useState(null);
+    const [secondDate, setSecondDate] = useState(null);
+
+    useEffect(() => {
+        console.log(form)
+    }, [form]);
+
+    useEffect(() => {
+        setForm({
+            ...form,
+            do_the_job_from: firstDate,
+            do_the_job_to: secondDate,
+        });
+
+        console.log(form)
+    }, [firstDate, secondDate]);
+
     return (
         <View style={styles.container}>
             <Text style={styles.heading}>
                 Kada se posao može obaviti?
             </Text>
             <View style={styles.dateContainerFields}>
-                <View style={styles.dateInputContainer}>
-                    <Text>Od</Text>
-                    <DateTimeInput form={form} setForm={setForm} formDataItem={"do_the_job_from"}/>
-                </View>
-                <View style={styles.dateInputContainer}>
-                    <Text>Do</Text>
-                    <DateTimeInput form={form} setForm={setForm} formDataItem={"do_the_job_to"}/>
-                </View>
+                <CalendarMultipleDays firstDate={firstDate} secondDate={secondDate} setFirstDate={setFirstDate} setSecondDate={setSecondDate}/>
             </View>
         </View>
     );

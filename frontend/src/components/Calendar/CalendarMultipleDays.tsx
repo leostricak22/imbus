@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import FormProps from "@/src/types/form/FormProps";
 
 LocaleConfig.locales['hr'] = {
     monthNames: [
@@ -25,10 +26,8 @@ LocaleConfig.locales['hr'] = {
 
 LocaleConfig.defaultLocale = 'hr';
 
-const App = () => {
+const CalendarMultipleDays : React.FC<CalendarMultipleDaysProps>  = ({firstDate, secondDate, setFirstDate, setSecondDate}) => {
     const [selectedDate, setSelectedDate] = useState('');
-    const [firstDate, setFirstDate] = useState('');
-    const [secondDate, setSecondDate] = useState('');
     const [markedDates, setMarkedDates] = useState({});
 
     const onDayPress = (day) => {
@@ -179,4 +178,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default App;
+export default CalendarMultipleDays;

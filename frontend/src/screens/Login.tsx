@@ -36,6 +36,7 @@ export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
   const keyboardVisible = useKeyboard();
 
   const handleLogin = async () => {
+    console.log(`${envVars.API_ENDPOINT}/api/auth/authenticate`)
     try {
       const response = await fetch(`${envVars.API_ENDPOINT}/api/auth/authenticate`, {
         method: 'POST',

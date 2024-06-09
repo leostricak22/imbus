@@ -14,6 +14,7 @@ import post_expert_hover from "@/assets/icons/navigation/post_expert_hover";
 import post_expert from "@/assets/icons/navigation/post_expert";
 import Message from "@/src/interface/Message";
 import useSendMessageSuggestion from "@/src/services/chat/useSendMessageSuggestion";
+import CalendarMultipleDays from "@/src/components/Calendar/CalendarMultipleDays";
 
 export const CalendarDialog: React.FC<CalendarDialogProps> = ({ modalVisible, closeCalendar, role, otherUser }) => {
     const { form, setForm, confirm, loading, error } = useSendMessageSuggestion(otherUser);
@@ -109,12 +110,17 @@ export const CalendarDialog: React.FC<CalendarDialogProps> = ({ modalVisible, cl
             <TouchableWithoutFeedback onPress={closeCalendar}>
                 <View style={styles.modalBackground}>
                     <Animated.View style={[styles.modalContainer, { transform: [{ translateY: slideUp }] }]}>
-                        <DateTimeInput form={form} setForm={setForm} formDataItem={"date"} />
+                        <View style={styles.calendar}>
+                            <CalendarMultipleDays />
+                        </View>
+
+                        {//<DateTimeInput form={form} setForm={setForm} formDataItem={"date"} />
+                            }
                         <View style={styles.dropdownForm}>
                             <DropdownInput handleChange={handleChangeTime} items={time} formData={form} formDataItem={"time"} icon={schedule}/>
                         </View>
 
-                        <Text style={styles.error}>{errorText}</Text>
+                        {errorText && <Text style={styles.error}>{errorText}</Text>}
 
                         <Pressable
                             style={[button.buttonContainer, colors.backgroundGray, (hoverStates.confirm ? (role == "CLIENT" ? colors.backgroundDarkBlue : colors.backgroundDarkOrange) : (role == "CLIENT" ? colors.backgroundBlue : colors.backgroundOrange))]}
@@ -153,12 +159,9 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         width: '100%',
-        paddingHorizontal: 20,
-        paddingTop: 15,
         backgroundColor: 'white',
         borderRadius: 15,
         alignItems: 'center',
-        flexDirection: 'column',
         shadowColor: "#000000",
         shadowOffset: {
             width: 0,
@@ -183,6 +186,10 @@ const styles = StyleSheet.create({
     error: {
         color: 'red',
         marginBottom: 10,
+    },
+    calendar: {
+        width: '100%',
+        aspectRatio: 1,
     }
 });
 
