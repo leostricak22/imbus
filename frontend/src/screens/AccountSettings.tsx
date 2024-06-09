@@ -4,10 +4,10 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useEffect } from "react";
 import UserForm from "../components/Account/UserForm";
 
-import updateUser from '../services/updateUser';
-import userSessionData from "../services/userSessionData";
+import updateUser from '../services/user/updateUser';
+import userSessionData from "../services/user/userSessionData";
 import {UserData} from "@expo/config/build/getUserState";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 
 const defaultUserProfileImage = require("../../assets/icons/defaultUserProfile.png");
 

@@ -1,7 +1,7 @@
 import React from "react";
-import { NavigationParameter } from "@/src/types/NavigationParameter";
+import { NavigationParameter } from "@/src/types/navigation/NavigationParameter";
 import {View, Text, StyleSheet, ScrollView, Pressable} from "react-native";
-import ExpertContainerProps from "@/src/types/ExpertContainerProps";
+import ExpertContainerProps from "@/src/types/expert/ExpertContainerProps";
 
 const RatingsContainer: React.FC<ExpertContainerProps> = ({ navigation, expert}) => {
     return (

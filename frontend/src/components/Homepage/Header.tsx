@@ -4,7 +4,7 @@ import {SvgXml} from "react-native-svg";
 import notification from "@/assets/icons/header/notification"
 import AccountProfileImage from "../../../assets/icons/Account/AccountProfileImage";
 import React from "react";
-import UserContainerProps from "@/src/types/UserContainerProps";
+import UserContainerProps from "@/src/types/user/UserContainerProps";
 import LogoUserImage from "@/src/components/Partials/LogoUserImage";
 
 const Header: React.FC<UserContainerProps> = ({ navigation, userData}) => {

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {View, Text, StyleSheet, TextInput, Pressable} from "react-native";
 import {SvgXml} from "react-native-svg";
 import mail from "@/assets/icons/login/mail";
@@ -8,7 +8,7 @@ import lock from "@/assets/icons/login/lock";
 import visibility from "@/assets/icons/login/visibility";
 
 import {input} from "@/src/styles/input";
-import {FormParameter} from "@/src/types/FormParameter";
+import {FormParameter} from "@/src/types/form/FormParameter";
 
 export const RegisterClientForm: React.FC<FormParameter> = ({ form, setForm }) => {
     const [isPasswordHidden1, setIsPasswordHidden1] = useState(true);

@@ -10,8 +10,8 @@ import StarRating from "@/src/components/Ratings/StarRating";
 import facebook from "@/assets/icons/companies/facebook";
 import build from "@/assets/icons/info/build";
 import location from "@/assets/icons/info/location";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
-import ExpertContainerProps from "@/src/types/ExpertContainerProps";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
+import ExpertContainerProps from "@/src/types/expert/ExpertContainerProps";
 import {expertinfo} from "@/src/styles/expertinfo";
 
 const ExpertInfo: React.FC<ExpertContainerProps> = ({ navigation , expert}) => {

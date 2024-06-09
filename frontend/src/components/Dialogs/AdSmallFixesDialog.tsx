@@ -5,7 +5,7 @@ import { colors } from "@/src/styles/colors";
 import { SvgXml } from "react-native-svg";
 import post_client_hover from "@/assets/icons/navigation/post_client_hover";
 import post_client from "@/assets/icons/navigation/post_client";
-import AdSmallFixesDialogProps from "@/src/types/DialogProps";
+import AdSmallFixesDialogProps from "@/src/types/dialog/DialogProps";
 
 const AdSmallFixesDialog: React.FC<AdSmallFixesDialogProps> = ({ isVisible, onClose, onOption1Press, onOption2Press }) => {
     const [hoverStates, setHoverStates] = useState({

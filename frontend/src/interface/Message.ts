@@ -6,6 +6,8 @@ interface Message {
     senderName: string;
     status: any;
     opened: boolean;
+    suggestion: boolean;
+    suggestionStatus: string;
 }
 
 export default Message;

@@ -2,7 +2,7 @@ import {Button, Image, Pressable, ScrollView, StyleSheet, Text, View} from "reac
 import React, {useState} from "react";
 import FilterCategoryList from "./FilterCategoryList";
 import FilterCountyList from "./FilterCountyList";
-import FilterManipulationProps from "@/src/types/FilterManipulationProps";
+import FilterManipulationProps from "@/src/types/filter/FilterManipulationProps";
 
 const downArrowImage = require("../../../assets/icons/down-arrow.png");
 

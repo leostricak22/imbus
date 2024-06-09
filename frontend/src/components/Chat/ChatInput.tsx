@@ -1,23 +1,41 @@
-import {Pressable, TextInput, View, Text, StyleSheet} from "react-native";
+// ChatInput.js
+import {Pressable, TextInput, View, StyleSheet} from "react-native";
 import {SvgXml} from "react-native-svg";
 import calendar from "@/assets/icons/navigation/calendar";
 import {colors} from "@/src/styles/colors";
 import send from "@/assets/icons/chat/send";
-import React, {useState} from "react";
-import {ChatInputProps} from "@/src/types/ChatInputProps";
+import React, {useEffect, useState} from "react";
+import {ChatInputProps} from "@/src/types/chat/ChatInputProps";
+import CalendarModal from "@/src/components/Dialogs/CalendarDialog";
 
-export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, submit, role}) => {
+export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, submit, role, otherUser, calendarTrigger, setCalendarTrigger}) => {
     const [hoverStates, setHoverStates] = useState({
         send: false,
     });
-
+    const [modalVisible, setModalVisible] = useState(false);
 
     const setHoverState = (key: keyof typeof hoverStates, value: boolean) => {
         setHoverStates(prevState => ({ ...prevState, [key]: value }));
     };
 
+    function openCalendar() {
+        setModalVisible(true);
+    }
+
+    function closeCalendar() {
+        setModalVisible(false);
+        setCalendarTrigger(false);
+    }
+
+    useEffect(() => {
+        if (calendarTrigger) {
+            openCalendar();
+        }
+    }, [calendarTrigger]);
+
     return (
         <View style={styles.sendContainer}>
+            <CalendarModal modalVisible={modalVisible} closeCalendar={closeCalendar} role={role} otherUser={otherUser} />
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
@@ -26,7 +44,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, submit
                     onChangeText={(text) => setMessage(text)}
                 />
                 <View style={styles.iconContainer}>
-                    <Pressable style={styles.icon}>
+                    <Pressable style={styles.icon}
+                               onPress={openCalendar}
+                    >
                         <SvgXml
                             width="100%"
                             height="100%"
@@ -37,9 +57,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, submit
             </View>
             <Pressable style={[styles.send, role == 'CLIENT' ? (hoverStates.send ? colors.backgroundDarkBlue : colors.backgroundBlue) : (hoverStates.send ? colors.backgroundDarkOrange : colors.backgroundOrange)]}
                        onPress={() => {
-                                submit();
-                                setMessage("");
-                            }
+                           submit();
+                           setMessage("");
+                       }
                        }
                        onPressIn={() => setHoverState("send", true)}
                        onPressOut={() => setHoverState("send", false)}

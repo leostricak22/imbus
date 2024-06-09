@@ -1,6 +1,6 @@
 import {ActivityIndicator, Text, Image, Modal, Pressable, RefreshControl, ScrollView, StyleSheet, TextInput, View} from "react-native";
 import React, {useEffect, useState} from "react";
-import getExperts from "../../../../services/getExperts";
+import getExperts from "../../../../services/expert/getExperts";
 import Filter from "../../../Filter/Filter";
 import ExpertContainer from "./ExpertContainer";
 import {Expert} from "@/src/interface/Expert";
@@ -11,7 +11,7 @@ import search from "@/assets/icons/filters/search";
 import filter from "@/assets/icons/filters/filter";
 import sort from "@/assets/icons/filters/sort";
 import {AppliedFilters} from "@/src/components/Filter/AppliedFilters";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 
 
 const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {

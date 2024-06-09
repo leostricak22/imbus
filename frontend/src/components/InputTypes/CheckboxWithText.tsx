@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import CheckboxProps, {CheckboxWithTextProps} from "@/src/types/CheckboxWithTextProps";
+import CheckboxProps, {CheckboxWithTextProps} from "@/src/types/inputTypes/CheckboxWithTextProps";
 import {SvgXml} from "react-native-svg";
 import arrow_back from "@/assets/icons/header/arrow_back";
 import tick from "@/assets/icons/checkbox/tick";

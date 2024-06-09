@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const textLogoImage = require("../../assets/icons/imbusTextLogo.png");
 
 import envVars from "@/src/utils/envVars";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {SvgXml} from "react-native-svg";
 
 import logo from "@/assets/icons/logo";

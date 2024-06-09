@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {StyleSheet, View, Text, Pressable, Image} from "react-native";
-import ChatProps from "@/src/types/ChatProps";
+import ChatProps from "@/src/types/chat/ChatProps";
 import {colors} from "@/src/styles/colors";
 import {SvgXml} from "react-native-svg";
 import logo from "@/assets/icons/logo";
 import arrow_back from "@/assets/icons/header/arrow_back";
 import arrow_back_client from "@/assets/icons/chat/arrow_back_client";
 import more_vert_client from "@/assets/icons/chat/more_vert_client";
-import ChatHeaderProps from "@/src/types/ChatHeaderProps";
-import userSessionData from "@/src/services/userSessionData";
-import userFromUsername from "@/src/services/userFromUsername";
+import ChatHeaderProps from "@/src/types/chat/ChatHeaderProps";
+import userSessionData from "@/src/services/user/userSessionData";
+import userFromUsername from "@/src/services/user/userFromUsername";
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({navigation, userData  , otherUser}) => {
     const { userFromUsernameData } = userFromUsername(otherUser);

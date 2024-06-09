@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {View, Text, StyleSheet, ScrollView, Button, Pressable} from "react-native";
 import {SvgXml} from "react-native-svg";
 import logo from "@/assets/icons/logo";
@@ -15,7 +15,7 @@ import {RegisterExpertForm} from "@/src/components/Account/RegisterExpertForm";
 import {button} from "@/src/styles/button";
 import {colors} from "@/src/styles/colors";
 import {RegisterClientForm} from "@/src/components/Account/RegisterClientForm";
-import {FormParameter} from "@/src/types/FormParameter";
+import {FormParameter} from "@/src/types/form/FormParameter";
 
 export const Register: React.FC<NavigationParameter> = ({ navigation }) => {
     const [pickedRole, setPickedRole] = React.useState("");

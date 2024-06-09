@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {View, Text, StyleSheet, TextInput, Pressable} from "react-native";
 import {SvgXml} from "react-native-svg";
 import mail from "@/assets/icons/login/mail";
@@ -12,7 +12,7 @@ import DropdownInput from "@/src/components/InputTypes/DropdownInput";
 import {roles} from "@/src/data/Roles";
 import {counties} from "@/src/data/Counties";
 import {categoryTypes} from "@/src/data/CategoryTypes";
-import {FormParameter} from "@/src/types/FormParameter";
+import {FormParameter} from "@/src/types/form/FormParameter";
 
 export const RegisterExpertForm: React.FC<FormParameter> = ({ form, setForm }) => {
     const [isPasswordHidden1, setIsPasswordHidden1] = useState(true);

@@ -1,5 +1,5 @@
 export type FormProps = {
-    form: AdForm;
+    form: any;
     setForm: any;
     formDataItem?: string;
     images?: string[];

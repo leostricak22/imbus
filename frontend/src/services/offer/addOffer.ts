@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import envVars from "@/src/utils/envVars";
-import AdSmallFixesDialogProps from "@/src/types/DialogProps";
+import AdSmallFixesDialogProps from "@/src/types/dialog/DialogProps";
 
 const addOffer = ({ requestData }: AddOfferProps) => {
     const [uploading, setUploading] = useState(false);

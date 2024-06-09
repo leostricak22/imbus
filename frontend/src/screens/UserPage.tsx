@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import ExpertContainerProps from "@/src/types/ExpertContainerProps";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import ExpertContainerProps from "@/src/types/expert/ExpertContainerProps";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {View, Text, StyleSheet, Pressable} from "react-native";
 import ExpertInfo from "@/src/components/Homepage/Section/Expert/ExpertInfo";
 import Header from "@/src/components/Partials/Header";
-import userSessionData from "@/src/services/userSessionData";
+import userSessionData from "@/src/services/user/userSessionData";
 import RatingsContainer from "@/src/components/Ratings/RatingsContainer";
 import {button} from "@/src/styles/button";
 import {colors} from "@/src/styles/colors";

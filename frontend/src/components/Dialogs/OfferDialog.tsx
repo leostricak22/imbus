@@ -14,7 +14,7 @@ import { colors } from "@/src/styles/colors";
 import { SvgXml } from "react-native-svg";
 import post_client_hover from "@/assets/icons/navigation/post_client_hover";
 import post_client from "@/assets/icons/navigation/post_client";
-import AdSmallFixesDialogProps, { DialogProps } from "@/src/types/DialogProps";
+import AdSmallFixesDialogProps, { DialogProps } from "@/src/types/dialog/DialogProps";
 import add from "@/assets/icons/offer/add";
 import remove from "@/assets/icons/offer/remove";
 import {input} from "@/src/styles/input";

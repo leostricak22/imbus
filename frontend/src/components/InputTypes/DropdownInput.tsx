@@ -1,8 +1,8 @@
 import {View, Text} from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import React from "react";
-import FormProps from "@/src/types/FormProps";
-import DropDownInputProps from "@/src/types/DropDownInputProps";
+import FormProps from "@/src/types/form/FormProps";
+import DropDownInputProps from "@/src/types/inputTypes/DropDownInputProps";
 import {SvgXml} from "react-native-svg";
 import arrow_back from "@/assets/icons/header/arrow_back";
 
