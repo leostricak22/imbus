@@ -17,6 +17,9 @@ export const ChatSection: React.FC<ChatProps> = ({ navigation, userData }) => {
     useEffect(() => {
         const newChats: React.SetStateAction<Message[]> = [];
 
+        if(!messages)
+            return;
+
         for(let i = 0; i < messages.length; i++) {
             if ((messages[i].receiverName === userData.username || messages[i].senderName === userData.username)) {
                 const otherUser = messages[i].receiverName === userData.username ? messages[i].senderName : messages[i].receiverName;
@@ -30,10 +33,6 @@ export const ChatSection: React.FC<ChatProps> = ({ navigation, userData }) => {
         }
 
         setChats(newChats);
-
-        if (messages.length === 0)
-            return;
-
     }, [messages]);
 
     useEffect(() => {

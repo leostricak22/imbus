@@ -30,7 +30,7 @@ export const ChatUserContainer: React.FC<ChatUserProps> = ({navigation, chat, us
             <View style={styles.messageInfo}>
                 <Text style={styles.messageSender}>{userFromUsernameData.name} {userFromUsernameData.surname}</Text>
                 <Text style={[styles.messageContent , (!chat.opened && username !== chat.senderName) && {fontWeight: 'bold'}]}>
-                    {chat.message.length > 20 ? chat.message.slice(0, 30) + '...' : chat.message}
+                    {chat.message != null ? (chat.message.length > 20 ? chat.message.slice(0, 30) + '...' : chat.message) : <Text style={{fontStyle:"italic", fontSize: 14, color: "gray"}}>Nema poruke</Text>}
                 </Text>
             </View>
             <View style={styles.messageTime}>

@@ -87,9 +87,19 @@ const Chat: React.FC<NavigationParameter> = ({ navigation, route }) => {
             >
                 <View>
                     {userMessages.map((msg, index) => (
-                        <View key={index} style={[msg.senderName === userData.username ? styles.sessionUserMessage : styles.otherUserMessage, userData.role == 'EXPERT' && msg.senderName === userData.username && {backgroundColor: "#ffeed0"}]}>
-                            <Text style={{ textAlign: msg.senderName === userData.username ? 'right' : 'left' }}>{msg.message}</Text>
-                        </View>
+                        msg.message != null && (
+                            <View
+                                key={index}
+                                style={[
+                                    msg.senderName === userData.username ? styles.sessionUserMessage : styles.otherUserMessage,
+                                    userData.role === 'EXPERT' && msg.senderName === userData.username && {backgroundColor: "#ffeed0"}
+                                ]}
+                            >
+                                <Text style={{ textAlign: msg.senderName === userData.username ? 'right' : 'left' }}>
+                                    {msg.message}
+                                </Text>
+                            </View>
+                        )
                     ))}
                 </View>
             </ScrollView>

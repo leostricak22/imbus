@@ -108,6 +108,11 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing, r
         timeAgoString = timeAgo(adCreatedAt);
     }
 
+    function check_selected_offer() {
+        if (allOfferData && allOfferData.some((offer: any) => offer.selected)) {
+            setOfferAlreadySelected(true);
+        }
+    }
 
     const handleSelectOffer = async () => {
         if(selectedOffer == -1) return;
@@ -115,17 +120,17 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing, r
         try {
             // @ts-ignore
             await selOffer(allOfferData[selectedOffer].id);
+            check_selected_offer();
             setModalVisible(true);
-            console.log("Offer selected successfully");
+            await refetchAllOfferData();
         } catch (error) {
             console.error("Error selecting offer:", error);
         }
     }
 
+
     useEffect(() => {
-        if (allOfferData && allOfferData.some((offer: any) => offer.selected)) {
-            setOfferAlreadySelected(true);
-        }
+        check_selected_offer();
     }, [allOfferData]);
 
     return (
@@ -250,7 +255,7 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing, r
                     </Pressable>
                 </View>
             ) : (
-                <Pressable style={[styles.optionWhole, styles.borderLeftBottom, styles.borderWidthNoTop, styles.borderRightBottom, styles.borderBlue, selectedOffer !== -1 ? (hoverStates.pick ? colors.backgroundDarkBlue : colors.backgroundBlue) : colors.backgroundLightGray ]}
+                <Pressable style={[styles.optionWhole, styles.borderLeftBottom, styles.borderWidthNoTop, styles.borderRightBottom, styles.borderBlue, selectedOffer !== -1 && !offerAlreadySelected ? (hoverStates.pick ? colors.backgroundDarkBlue : colors.backgroundBlue) : colors.backgroundLightGray ]}
                            onPress={handleSelectOffer}
                            onPressIn={() => setHoverState("pick", true)}
                            onPressOut={() => setHoverState("pick", false)}
@@ -295,6 +300,14 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing, r
                             <View style={styles.modalButton}>
                                 <Pressable
                                     style={[button.buttonContainer, hoverStates.chat ? colors.backgroundDarkGray : colors.backgroundBlack]}
+                                    onPress={() => {
+                                        // @ts-ignore
+                                        console.log(allOfferData[selectedOffer].user.username )
+                                        // @ts-ignore
+                                        navigation.navigate("chat", { username: allOfferData[selectedOffer].user.username });
+                                        setModalVisible(false);
+
+                                    }}
                                     onPressIn={() => setHoverState("chat", true)}
                                     onPressOut={() => setHoverState("chat", false)}
                                 >
