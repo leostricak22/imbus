@@ -1,9 +1,14 @@
 import {ActivityIndicator, Button, RefreshControl, ScrollView, StyleSheet, Text} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import getAds from "@/src/services/getAds";
+import getUserAds from "@/src/services/getUserAds";
+import AdContainer from "@/src/components/Homepage/Section/Ads/AdContainer";
+import getExperts from "@/src/services/getExperts";
 
 export default function HomepageSection({navigation, userData, dataLoading, onRefresh, refreshing}: any) {
     const [token, setToken] = useState(null);
+    const { allUserAdData, refetchAllUserAdData, dataLoading:loading} = getUserAds();
 
     useEffect(() => {
         const getToken = async () => {
@@ -27,31 +32,29 @@ export default function HomepageSection({navigation, userData, dataLoading, onRe
                 onRefresh={onRefresh}
             />
         }>
-            {
-                dataLoading || !userData ? (
-                    <ActivityIndicator size="large" color="#0478ca"/>
-                ) : (
-                    <>
-                        <Text style={styles.title}>Pozdrav, {userData.name}</Text>
-                        <Text>ID: {userData.id}</Text>
-                        <Text>Username: {userData.username}</Text>
-                        <Text>Role: {userData.role}</Text>
-                    </>
-                )
+            <Text style={styles.title}>Moji oglasi:</Text>
+            {loading ? <ActivityIndicator size="large" color="#0478ca" />:
+                allUserAdData.map((ad: AdForm) => (
+                    <AdContainer key={ad.id} ad={ad} navigation={navigation} refreshing={refreshing} role={"CLIENT"} />
+                ))
             }
-            <Button title="Logout" onPress={handleLogout}/>
+
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: '80%',
-        height: '80%',
+        flex: 1,
+        width: '100%',
+        height: '100%',
         alignSelf: 'center',
         paddingTop: 20,
     },
     title: {
+        marginLeft: 15,
+        marginBottom: 15,
         fontSize: 24,
+        fontWeight: 'bold',
     },
 });

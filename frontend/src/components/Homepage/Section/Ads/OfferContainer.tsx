@@ -19,9 +19,9 @@ export default function OfferContainer({offer}:any) {
                         </View>
                     )
                 }
-                <Text style={styles.textTitle}>{offer.user.name} {offer.user.surname}</Text>
+                <Text style={[styles.textTitle, offer.selected && {fontWeight:'bold'}]}>{offer.user.name} {offer.user.surname}</Text>
             </View>
-            <Text>{offer.price} €</Text>
+            <Text style={offer.selected && {fontWeight:'bold'}}>{offer.price} €</Text>
         </View>
     );
 }

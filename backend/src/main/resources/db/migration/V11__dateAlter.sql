@@ -1,0 +1,1 @@
+alter table chat_message modify column date datetime(6)

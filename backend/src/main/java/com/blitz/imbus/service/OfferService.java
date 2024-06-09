@@ -2,9 +2,11 @@ package com.blitz.imbus.service;
 
 import com.blitz.imbus.domain.exception.AppException;
 import com.blitz.imbus.domain.models.Ad;
+import com.blitz.imbus.domain.models.ChatMessage;
 import com.blitz.imbus.domain.models.Offer;
 import com.blitz.imbus.domain.models.User;
 import com.blitz.imbus.repository.AdRepository;
+import com.blitz.imbus.repository.ChatMessageRepository;
 import com.blitz.imbus.repository.OfferRepository;
 import com.blitz.imbus.repository.UserRepository;
 import com.blitz.imbus.rest.dto.OfferRequest;
@@ -13,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,10 +27,12 @@ import static com.blitz.imbus.domain.exception.ErrorCode.CONFLICT;
 @AllArgsConstructor
 public class OfferService {
     private final JwtService jwtService;
+    private final AuthenticationService authenticationService;
 
     private final OfferRepository offerRepository;
     private final UserRepository userRepository;
     private final AdRepository adRepository;
+    private final ChatMessageRepository chatMessageRepository;
 
     private final ModelMapper modelMapper;
 
@@ -36,7 +41,7 @@ public class OfferService {
         Ad selectedAd = adRepository.findById(offerRequest.getAdId())
                 .orElseThrow(() -> new AppException(BAD_REQUEST));
 
-        if(offerRepository.existsByAdId(selectedAd.getId()))
+        if(offerRepository.existsByAdIdAndUserId(selectedAd.getId(), loggedInUser.get().getId()))
             throw new AppException(CONFLICT);
 
         Offer offer = Offer.builder()
@@ -72,6 +77,16 @@ public class OfferService {
 
         offerToSelect.setSelected(true);
         offerRepository.save(offerToSelect);
+
+        ChatMessage message = new ChatMessage();
+
+        message.setMessage(null);
+        message.setSenderName(jwtService.getUsernameFromSession());
+        message.setReceiverName(userRepository.findById(offerToSelect.getUser().getId()).get().getUsername());
+        message.setDate(LocalDateTime.now());
+        message.setOpened(false);
+
+        chatMessageRepository.save(message);
 
         return modelMapper.map(offerToSelect, OfferResponse.class);
     }

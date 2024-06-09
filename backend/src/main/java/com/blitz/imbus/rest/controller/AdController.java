@@ -6,6 +6,7 @@ import com.blitz.imbus.rest.dto.AdResponse;
 import com.blitz.imbus.rest.dto.FilterRequest;
 import com.blitz.imbus.rest.dto.UserResponse;
 import com.blitz.imbus.service.AdService;
+import com.blitz.imbus.service.JwtService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,7 +23,6 @@ import java.util.List;
 @RequestMapping("/api/ad")
 public class AdController {
     private final AdService adService;
-    private final ModelMapper modelMapper;
 
     @GetMapping("/")
     public ResponseEntity<List<AdResponse>> getAllAds() {
@@ -34,6 +34,11 @@ public class AdController {
             @PathVariable Integer id
     ) {
         return ResponseEntity.ok(adService.getSpecificAd(id));
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<AdResponse>> getAllAdsUser() {
+        return ResponseEntity.ok(adService.getAdsUser());
     }
 
     /*

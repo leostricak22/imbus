@@ -14,6 +14,7 @@ import {AccountSettings} from "@/src/screens/AccountSettings";
 import {AddAd} from "@/src/screens/AddAd";
 import {ViewAd} from "@/src/screens/ViewAd";
 import UserPage from "@/src/screens/UserPage";
+import Chat from "@/src/screens/Chat";
 
 const Stack = createStackNavigator();
 
@@ -57,7 +58,11 @@ export default function App() {
                         component={UserPage}
                         options={{ headerShown: false }}
                     />
-
+                    <Stack.Screen
+                        name="chat"
+                        component={Chat}
+                        options={{ headerShown: false }}
+                    />
                 </Stack.Navigator>
             </SafeAreaView>
         </NavigationContainer>

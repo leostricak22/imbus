@@ -44,7 +44,7 @@ const UserPage: React.FC<NavigationParameter> = ({ navigation, route}) => {
                     onPressIn={() => setHoverStateTrue("chat")}
                     onPressOut={() => setHoverStateFalse("chat")}
                 >
-                    <Text style={button.buttonText}>Prijava</Text>
+                    <Text style={button.buttonText}>Poruka</Text>
                 </Pressable>
             </View>
 

@@ -27,8 +27,6 @@ export const AdDetails: React.FC<ViewAdProps> = ({ navigation, adForm, images, r
         setParentWidth(width);
     };
 
-    console.log(role)
-
     function formatDate(dateString: string | number | Date) {
         const date = new Date(dateString);
         const day = ('0' + date.getDate()).slice(-2);

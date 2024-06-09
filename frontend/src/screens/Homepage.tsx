@@ -13,6 +13,8 @@ import AdSection from "../components/Homepage/Section/Ads/AdSection";
 import {NavigationProp} from "@react-navigation/core";
 import {valid} from "@react-native-community/cli-platform-android/build/config/__fixtures__/android";
 import {NavigationParameter} from "@/src/types/NavigationParameter";
+import Chat from "@/assets/icons/navigation/chat";
+import ChatSection from "@/src/components/Chat/ChatSection";
 
 export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState(false);
@@ -58,7 +60,7 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
                     ) : selectedSection === 1 ? (
                         <Text>Posts</Text>
                     ) : selectedSection === 2 ? (
-                        <Text>Messages</Text>
+                        <ChatSection navigation={navigation} userData={userData} />
                     ) : selectedSection === 3 ? (
                         <ExpertsSection navigation={navigation} />
                     ) : selectedSection === 4 ? (
