@@ -10,7 +10,7 @@ export default function getMessages () {
 
     const fetchMessages = async () => {
         try {
-            const response = await fetch(`${envVars.API_ENDPOINT}/ws/messages/matrica`, {
+            const response = await fetch(`${envVars.API_ENDPOINT}/chat/messages/`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${await AsyncStorage.getItem('token')}`

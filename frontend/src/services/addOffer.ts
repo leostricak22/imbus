@@ -13,7 +13,6 @@ const addOffer = ({ requestData }: AddOfferProps) => {
         setError(null);
 
         try {
-            console.log("data is",JSON.stringify(data))
             const response = await fetch(`${envVars.API_ENDPOINT}/api/offer/`, {
                 method: 'POST',
                 body: JSON.stringify(data),

@@ -1,13 +1,12 @@
 import React, {useState} from "react";
 import ChatProps from "@/src/types/ChatProps";
-import {Message} from "postcss";
 import {View, StyleSheet, Text, Image, Pressable} from "react-native";
 import ChatUserProps from "@/src/types/ChatUserProps";
-import message from "@/src/interface/Message";
+import Message from "@/src/interface/Message";
 import {timeAgo} from "@/src/utils/dateFormat";
 import {colors} from "@/src/styles/colors";
 
-export const ChatUserContainer: React.FC<ChatUserProps> = ({navigation, chat, username, role  }) => {
+export const ChatUserContainer: React.FC<ChatUserProps> = ({navigation, chat, username, role, messages, refetchMessages  }) => {
     const [hoverStates, setHoverStates] = useState({
         chat: false,
     });
@@ -18,7 +17,7 @@ export const ChatUserContainer: React.FC<ChatUserProps> = ({navigation, chat, us
 
     return (
         <Pressable style={[styles.container, hoverStates.chat && colors.backgroundLightGray]}
-                    onPress={() => navigation.navigate('chat', {username: username})}
+                    onPress={() => navigation.navigate('chat', {username: username !== chat.senderName ? chat.senderName : chat.receiverName})}
                     onPressIn={() => setHoverState("chat", true)}
                     onPressOut={() => setHoverState("chat", false)}
         >

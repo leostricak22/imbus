@@ -52,10 +52,6 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
         timeAgoString = timeAgo(adCreatedAt);
     }
 
-    useEffect(() => {
-        console.log("a" , userData)
-    }, [userData]);
-
     const setHoverState = (key: keyof typeof hoverStates, value: boolean) => {
         setHoverStates(prevState => ({ ...prevState, [key]: value }));
     };

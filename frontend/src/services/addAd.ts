@@ -12,7 +12,6 @@ export default function addAd(requestData: any) {
         setError(null);
 
         try {
-            console.log(123)
             const response = await fetch(`${envVars.API_ENDPOINT}/api/ad/add`, {
                 method: 'POST',
                 body: data,

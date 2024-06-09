@@ -8,12 +8,15 @@ import logo from "@/assets/icons/logo";
 import arrow_back from "@/assets/icons/header/arrow_back";
 import arrow_back_client from "@/assets/icons/chat/arrow_back_client";
 import more_vert_client from "@/assets/icons/chat/more_vert_client";
+import ChatHeaderProps from "@/src/types/ChatHeaderProps";
 
-export const ChatHeader: React.FC<ChatProps> = ({navigation, userData  }) => {
+export const ChatHeader: React.FC<ChatHeaderProps> = ({navigation, userData  }) => {
     return (
         <View style={[styles.container, userData.role == "CLIENT" ? colors.backgroundBlue : colors.backgroundOrange]}>
             <View style={styles.iconContainer}>
-                <Pressable style={styles.icon}>
+                <Pressable style={styles.icon}
+                    onPress={() => navigation.goBack()}
+                >
                     <SvgXml
                         width="100%"
                         height="100%"

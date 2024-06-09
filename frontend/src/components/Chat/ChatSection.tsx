@@ -35,6 +35,16 @@ export const ChatSection: React.FC<ChatProps> = ({ navigation, userData }) => {
 
     }, [messages]);
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            refetchMessages();
+        }, 1000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
+
     return (
         <ScrollView style={styles.container}>
             <View>
@@ -42,7 +52,7 @@ export const ChatSection: React.FC<ChatProps> = ({ navigation, userData }) => {
                     chats.map((chat, index) => {
                         return (
                             <View key={index}>
-                                {userData.username && <ChatUserContainer navigation={navigation} chat={chat} username={userData.username} role={userData.role}/>}
+                                {userData.username && <ChatUserContainer navigation={navigation} chat={chat} username={userData.username} role={userData.role} messages={messages} refetchMessages={refetchMessages} />}
                             </View>
                         );
                     })

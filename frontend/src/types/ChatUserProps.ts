@@ -6,6 +6,8 @@ type ChatUserProps = {
     chat: Message;
     username: string;
     role: string;
+    messages: Message[];
+    refetchMessages: any;
 }
 
 export default ChatUserProps;
