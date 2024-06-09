@@ -1,4 +1,4 @@
-import {ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View} from "react-native";
 import {SvgXml} from "react-native-svg";
 import AccountProfileImage from "../../../../../assets/icons/Account/AccountProfileImage";
 import PhotoSlider from "../../../Ad/PhotoSlider";
@@ -21,24 +21,34 @@ import OfferDialog from "@/src/components/Dialogs/OfferDialog";
 import addAd from "@/src/services/addAd";
 import addOffer from "@/src/services/addOffer";
 import {timeAgo} from "@/src/utils/dateFormat";
+import search from "@/assets/icons/filters/search";
+import check_empty from "@/assets/icons/offer/check_empty";
+import check_full from "@/assets/icons/offer/check_full";
+import selectOffer from "@/src/services/useSelectOffer";
+import useSelectOffer from "@/src/services/useSelectOffer";
+import {button} from "@/src/styles/button";
+import check_full_selected from "@/assets/icons/offer/check_full_selected";
+import check_empty_selected from "@/assets/icons/offer/check_empty_selected";
 
-const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing }) => {
+const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing, role="EXPERT" }) => {
     const {allOfferData, dataLoading, refetchAllOfferData} = getOffers(ad.id);
 
     const [parentWidth, setParentWidth] = useState(0);
     const [images, setImages] = useState([]);
-
     const [dialogVisible, setDialogVisible] = useState(false);
     const [offer, setOffer] = useState(0);
-
-    const { publishOffer, uploading, error } = addOffer({} as AddOfferProps);
-
+    const { publishOffer, uploading } = addOffer({} as AddOfferProps);
     const [publishingOffer, setPublishingOffer] = useState(false);
-
+    const [selectedOffer, setSelectedOffer] = useState(-1);
+    const { selOffer, loading, error } = useSelectOffer();
     const [hoverStates, setHoverStates] = useState({
         chat: false,
         offer: false,
+        pick: false,
     });
+    const [offerAlreadySelected, setOfferAlreadySelected] = useState(false);
+
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         refetchAllOfferData();
@@ -80,6 +90,8 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing })
             "price": offer,
         };
 
+        console.log(requestData)
+
         try {
             setPublishingOffer(true);
             await publishOffer(requestData);
@@ -97,9 +109,28 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing })
     }
 
 
+    const handleSelectOffer = async () => {
+        if(selectedOffer == -1) return;
+
+        try {
+            // @ts-ignore
+            await selOffer(allOfferData[selectedOffer].id);
+            setModalVisible(true);
+            console.log("Offer selected successfully");
+        } catch (error) {
+            console.error("Error selecting offer:", error);
+        }
+    }
+
+    useEffect(() => {
+        if (allOfferData && allOfferData.some((offer: any) => offer.selected)) {
+            setOfferAlreadySelected(true);
+        }
+    }, [allOfferData]);
+
     return (
         <View style={styles.container}>
-            <Pressable key={ad.creator.id} style={styles.itemContainer} onPress={() => navigation.navigate("view-ad", {"ad":ad})}>
+            <Pressable key={ad.creator.id} style={[styles.itemContainer, role === 'CLIENT' && styles.borderBlue]} onPress={() => navigation.navigate("view-ad", {"ad":ad})}>
                 <View style={styles.userInfo}>
                     {
                         ad.creator.profileImage ? (
@@ -129,7 +160,7 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing })
 
                         <View style={styles.textWithIcon}>
                             <View style={styles.icon}>
-                                <SvgXml xml={calendar_expert} width="100%" height="100%"/>
+                                <SvgXml xml={role == 'EXPERT' ? calendar_expert : calendar_client} width="100%" height="100%"/>
                             </View>
                             <View>
                                 <Text style={styles.textInfo}>
@@ -140,7 +171,7 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing })
 
                         <View style={styles.textWithIcon}>
                             <View style={styles.icon}>
-                                <SvgXml xml={location_expert} width="100%" height="100%"/>
+                                <SvgXml xml={role == 'EXPERT' ? location_expert : location } width="100%" height="100%"/>
                             </View>
                             <View>
                                 <Text style={styles.textInfo}>
@@ -164,29 +195,71 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing })
                             <Text style={styles.noOffers}>Nema ponuda.</Text>
                         ) : (
                             <>
-                                {allOfferData.map((offer: any) => (
-                                    <OfferContainer key={offer.id} offer={offer} />
-                                ))}
+                                {allOfferData.map((offer: any, index) => {
+                                    return (
+                                        <View style={styles.offerContainer} key={offer.id}>
+                                            {role === 'CLIENT' && (
+                                                <Pressable
+                                                    style={styles.pick}
+                                                    onPress={() => {
+                                                        if(offerAlreadySelected) return;
+
+                                                        if (selectedOffer == index) setSelectedOffer(-1);
+                                                        else setSelectedOffer(index);
+                                                    }}
+                                                >
+                                                    <SvgXml
+                                                        width="60%"
+                                                        height="60%"
+                                                        key={index}
+                                                        xml={selectedOffer == index || (offerAlreadySelected && offer.selected) ? (
+                                                            (offerAlreadySelected) ? check_full_selected : check_full
+                                                        ) : (offerAlreadySelected) ? check_empty_selected : check_empty
+                                                    }
+                                                    />
+                                                </Pressable>
+                                            )}
+                                            <Pressable
+                                                style={styles.offerSpecificContainer}
+                                                onPress={() => navigation.navigate("user-page", { expert: offer.user })}
+                                            >
+                                                <OfferContainer offer={offer} />
+                                            </Pressable>
+                                        </View>
+                                    );
+                                })}
                             </>
                         )
                     }
                 </View>
             </Pressable>
-            <View style={styles.options}>
-                <Pressable style={[styles.option, styles.borderLeftBottom, hoverStates.chat ? colors.backgroundDarkGray : colors.backgroundBlack ]}
-                           onPressIn={() => setHoverState("chat", true)}
-                           onPressOut={() => setHoverState("chat", false)}
+            { role === 'EXPERT' ? (
+                <View style={styles.options}>
+                    <Pressable style={[styles.option, styles.borderLeftBottom, hoverStates.chat ? colors.backgroundDarkGray : colors.backgroundBlack ]}
+                               onPressIn={() => setHoverState("chat", true)}
+                               onPressOut={() => setHoverState("chat", false)}
+                    >
+                        <Text style={styles.white}>Poruka</Text>
+                    </Pressable>
+                    <Pressable style={[styles.option, styles.borderRightBottom, hoverStates.offer ? colors.backgroundDarkOrange : colors.backgroundOrange ]}
+                               onPress={showDialog}
+                               onPressIn={() => setHoverState("offer", true)}
+                               onPressOut={() => setHoverState("offer", false)}
+                    >
+                        <Text style={styles.black}>Ponuda</Text>
+                    </Pressable>
+                </View>
+            ) : (
+                <Pressable style={[styles.optionWhole, styles.borderLeftBottom, styles.borderWidthNoTop, styles.borderRightBottom, styles.borderBlue, selectedOffer !== -1 ? (hoverStates.pick ? colors.backgroundDarkBlue : colors.backgroundBlue) : colors.backgroundLightGray ]}
+                           onPress={handleSelectOffer}
+                           onPressIn={() => setHoverState("pick", true)}
+                           onPressOut={() => setHoverState("pick", false)}
                 >
-                    <Text style={styles.white}>Poruka</Text>
+                    <Text style={styles.white}>Odaberi ponudu</Text>
                 </Pressable>
-                <Pressable style={[styles.option, styles.borderRightBottom, hoverStates.offer ? colors.backgroundDarkOrange : colors.backgroundOrange ]}
-                           onPress={showDialog}
-                           onPressIn={() => setHoverState("offer", true)}
-                           onPressOut={() => setHoverState("offer", false)}
-                >
-                    <Text style={styles.black}>Ponuda</Text>
-                </Pressable>
-            </View>
+
+            )
+            }
             <OfferDialog
                 isVisible={dialogVisible}
                 onClose={hideDialog}
@@ -201,6 +274,37 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing })
                     <ActivityIndicator size="large" color="#00ff00" />
                 </View>
             }
+
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={[styles.modalText, {fontWeight:'bold', fontSize: 20}]}>
+                                Odabrana je ponuda!
+                            </Text>
+                            <Text style={styles.modalText}>
+                                Kontaktirajte znalca kako bi dogovorili detalje.
+                            </Text>
+                            <View style={styles.modalButton}>
+                                <Pressable
+                                    style={[button.buttonContainer, hoverStates.chat ? colors.backgroundDarkGray : colors.backgroundBlack]}
+                                    onPressIn={() => setHoverState("chat", true)}
+                                    onPressOut={() => setHoverState("chat", false)}
+                                >
+                                    <Text style={button.buttonText}>Poruka</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
         </View>
     );
 }
@@ -209,6 +313,7 @@ const styles = StyleSheet.create({
     container: {
         width: '90%',
         alignSelf: 'center',
+        marginBottom: 10,
     },
     itemContainer: {
         backgroundColor: 'white',
@@ -306,6 +411,19 @@ const styles = StyleSheet.create({
         padding: 10,
         width: '50%',
     },
+    optionWhole: {
+        backgroundColor: '#0478ca',
+        padding: 10,
+        width: '100%',
+    },
+    borderBlue: {
+        borderColor: '#0478ca',
+    },
+    borderWidthNoTop: {
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderBottomWidth: 1,
+    },
     borderLeftBottom : {
         borderBottomLeftRadius: 15,
     },
@@ -345,7 +463,63 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 9999,
+    },
+    offerContainer: {
+        flex: 1,
+        width: '100%',
+        flexDirection: 'row',
+    },
+    pick: {
+        borderRadius: 15,
+        width: 40,
+        height: 40,
+        marginRight: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    offerSpecificContainer: {
+        flex: 1,
+        justifyContent: 'space-between',
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+    },
+    backgroundLightGray: {
+        backgroundColor: '#d3d3d3',
+    },
+    backgroundDarkBlue: {
+        backgroundColor: '#005f87',
+    },
+    backgroundBlue: {
+        backgroundColor: '#007acc',
+    },
+    modalButton: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
     }
-})
+});
 
 export default AdContainer;

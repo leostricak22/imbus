@@ -29,8 +29,6 @@ public class OfferController {
     public ResponseEntity<OfferResponse> giveOfferToAnAd(
             @Valid @RequestBody OfferRequest offerRequest
     ) {
-        System.out.println("offerrequestis");
-        System.out.println(offerRequest);
         return ResponseEntity.ok(offerService.giveOfferToAnAd(offerRequest));
     }
 

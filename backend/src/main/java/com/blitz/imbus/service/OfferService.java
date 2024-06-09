@@ -36,7 +36,7 @@ public class OfferService {
         Ad selectedAd = adRepository.findById(offerRequest.getAdId())
                 .orElseThrow(() -> new AppException(BAD_REQUEST));
 
-        if(offerRepository.existsByAdId(selectedAd.getId()))
+        if(offerRepository.existsByAdIdAndUserId(selectedAd.getId(), loggedInUser.get().getId()))
             throw new AppException(CONFLICT);
 
         Offer offer = Offer.builder()

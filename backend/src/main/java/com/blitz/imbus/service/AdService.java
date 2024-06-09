@@ -31,6 +31,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Filter;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -41,6 +42,7 @@ public class AdService {
     private final FilterService filterService;
     private final JwtService jwtService;
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     private final ModelMapper modelMapper;
 
@@ -80,12 +82,10 @@ public class AdService {
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> map = mapper.readValue(adRequestString, new TypeReference<Map<String, Object>>() {});
 
-            // Parsing LocalDateTime from ISO 8601 string
             DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
             LocalDateTime doTheJobFrom = LocalDateTime.parse((CharSequence) map.get("do_the_job_from"), formatter);
             LocalDateTime doTheJobTo = LocalDateTime.parse((CharSequence) map.get("do_the_job_to"), formatter);
 
-            // Constructing AdRequest object
             AdRequest adRequest = new AdRequest();
             adRequest.setDo_the_job_from(doTheJobFrom);
             adRequest.setDo_the_job_to(doTheJobTo);
@@ -144,5 +144,12 @@ public class AdService {
             logger.error("Error occurred while processing attachments: " + e.getMessage());
             throw new AppException(ErrorCode.BAD_REQUEST);
         }
+    }
+
+    public List<AdResponse> getAdsUser() {
+        List<Ad> ads = adRepository.findAllByCreatorId(authenticationService.findUserBySessionUsername().getId());
+
+
+        return ads.stream().map(ad -> modelMapper.map(ad, AdResponse.class)).collect(Collectors.toList());
     }
 }

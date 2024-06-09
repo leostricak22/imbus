@@ -59,7 +59,7 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
     return (
         <View style={styles.container}>
             <Header navigation={navigation} userData={userData} />
-            <ScrollView style={styles.itemContainer}>
+            <ScrollView style={[styles.itemContainer, userData && userData.role === "CLIENT" && {marginBottom:0}]}>
                 <View style={styles.userInfo}>
                     {
                         ad.creator.profileImage ? (
@@ -94,38 +94,46 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
                         ) : (
                             <>
                                 {allOfferData.map((offer: any) => (
-                                    <OfferContainer key={offer.id} offer={offer} />
+                                    <Pressable onPress={() => navigation.navigate("user-page", {expert:offer.user})}
+                                               key={offer.id}
+                                    >
+                                        <OfferContainer offer={offer} />
+                                    </Pressable>
                                 ))}
                             </>
                         )
                     }
                 </View>
             </ScrollView>
-            <View style={styles.options}>
-                <Pressable
-                    style={[
-                        button.buttonContainer,
-                        styles.option,
-                        hoverStates.chat ? colors.backgroundDarkGray : colors.backgroundBlack
-                    ]}
-                    onPressIn={() => setHoverState("chat", true)}
-                    onPressOut={() => setHoverState("chat", false)}
-                >
-                    <Text style={button.buttonText}>Poruka</Text>
-                </Pressable>
+            {
+                userData && userData.role !== "CLIENT" && (
+                    <View style={styles.options}>
+                        <Pressable
+                            style={[
+                                button.buttonContainer,
+                                styles.option,
+                                hoverStates.chat ? colors.backgroundDarkGray : colors.backgroundBlack
+                            ]}
+                            onPressIn={() => setHoverState("chat", true)}
+                            onPressOut={() => setHoverState("chat", false)}
+                        >
+                            <Text style={button.buttonText}>Poruka</Text>
+                        </Pressable>
 
-                <Pressable
-                    style={[
-                        button.buttonContainer,
-                        styles.option,
-                        hoverStates.offer ? colors.backgroundDarkOrange : colors.backgroundOrange
-                    ]}
-                    onPressIn={() => setHoverState("offer", true)}
-                    onPressOut={() => setHoverState("offer", false)}
-                >
-                    <Text style={button.buttonText}>Ponuda</Text>
-                </Pressable>
-            </View>
+                        <Pressable
+                            style={[
+                                button.buttonContainer,
+                                styles.option,
+                                hoverStates.offer ? colors.backgroundDarkOrange : colors.backgroundOrange
+                            ]}
+                            onPressIn={() => setHoverState("offer", true)}
+                            onPressOut={() => setHoverState("offer", false)}
+                        >
+                            <Text style={button.buttonText}>Ponuda</Text>
+                        </Pressable>
+                    </View>
+                )
+            }
         </View>
     );
 }
