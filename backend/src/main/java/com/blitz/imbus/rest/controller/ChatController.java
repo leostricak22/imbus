@@ -34,11 +34,24 @@ public class ChatController {
     @Autowired
     private AuthenticationService authenticationService;
 
-
     @PostMapping("/send")
     public void sendMessage(@RequestBody ChatMessage message) {
         message.setDate(LocalDateTime.now());
+        message.setOpened(false);
         chatMessageRepository.save(message);
+    }
+
+    @PostMapping("/setopened")
+    public void setopened(@RequestBody String chatUser) {
+        String currentUsername = authenticationService.findUserBySessionUsername().getUsername();
+
+        List<ChatMessage> messages = chatMessageRepository.findByReceiverNameOrSenderNameOrderByDateDesc(currentUsername, chatUser);
+
+        for (ChatMessage message : messages) {
+            message.setOpened(true);
+        }
+
+        chatMessageRepository.saveAll(messages);
     }
 
     @GetMapping("/messages/")

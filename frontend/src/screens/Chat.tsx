@@ -41,6 +41,19 @@ const Chat: React.FC<NavigationParameter> = ({ navigation, route }) => {
         }
     }, []);
 
+    async function setAsOpened() {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            await axios.post(`${envVars.API_ENDPOINT}/chat/setopened`, chatUser, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+        } catch (error) {
+            console.error('Error sending message', error);
+        }
+    }
+
+    setAsOpened();
+
     async function sendMessage(message: { senderName: string; receiverName: any; message: string; status: string; }) {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -74,7 +87,7 @@ const Chat: React.FC<NavigationParameter> = ({ navigation, route }) => {
             >
                 <View>
                     {userMessages.map((msg, index) => (
-                        <View key={index} style={msg.senderName === userData.username ? styles.sessionUserMessage : styles.otherUserMessage}>
+                        <View key={index} style={[msg.senderName === userData.username ? styles.sessionUserMessage : styles.otherUserMessage, userData.role == 'EXPERT' && msg.senderName === userData.username && {backgroundColor: "#ffeed0"}]}>
                             <Text style={{ textAlign: msg.senderName === userData.username ? 'right' : 'left' }}>{msg.message}</Text>
                         </View>
                     ))}

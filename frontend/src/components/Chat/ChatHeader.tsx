@@ -32,7 +32,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({navigation, userData  , o
                 <View style={styles.profileImage}>
                     <Image source={{uri: `data:image/jpeg;base64,${userFromUsernameData.profileImage}`}} style={styles.profileImage} />
                 </View>
-                <Text style={[styles.userNameSurname, userData.role == "CLIENT" ? colors.white : colors.black]}>{userFromUsernameData.name} {userFromUsernameData.surname}</Text>
+                <Text style={[styles.userNameSurname, userData.role == "CLIENT" ? colors.white : colors.white]}>{userFromUsernameData.name} {userFromUsernameData.surname}</Text>
             </View>
             <View style={styles.iconContainer}>
                 <Pressable style={styles.icon}>

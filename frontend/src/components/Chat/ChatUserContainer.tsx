@@ -29,13 +29,15 @@ export const ChatUserContainer: React.FC<ChatUserProps> = ({navigation, chat, us
             </View>
             <View style={styles.messageInfo}>
                 <Text style={styles.messageSender}>{userFromUsernameData.name} {userFromUsernameData.surname}</Text>
-                <Text style={styles.messageContent}>
+                <Text style={[styles.messageContent , (!chat.opened && username !== chat.senderName) && {fontWeight: 'bold'}]}>
                     {chat.message.length > 20 ? chat.message.slice(0, 30) + '...' : chat.message}
                 </Text>
             </View>
             <View style={styles.messageTime}>
-                <Text style={colors.blue}>{timeAgo(new Date(chat.date))}</Text>
+                <Text style={role === "CLIENT" ? colors.blue : colors.orange}>{timeAgo(new Date(chat.date))}</Text>
             </View>
+            {(!chat.opened && username !== chat.senderName) && <View style={[styles.opened, role === "CLIENT" ? colors.backgroundBlue : colors.backgroundOrange]}></View>}
+
         </Pressable>
     );
 }
@@ -72,6 +74,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 16,
     },
+    opened: {
+        position: 'absolute',
+        right: 25,
+        bottom: 25,
+        width: 15,
+        height: 15,
+        borderRadius: 50,
+    }
 });
 
 export default ChatUserContainer;

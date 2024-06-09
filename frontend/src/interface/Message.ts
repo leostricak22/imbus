@@ -5,6 +5,7 @@ interface Message {
     date: Date;
     senderName: string;
     status: any;
+    opened: boolean;
 }
 
 export default Message;

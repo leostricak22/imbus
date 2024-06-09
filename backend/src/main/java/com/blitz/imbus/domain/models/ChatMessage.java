@@ -24,4 +24,5 @@ public class ChatMessage {
     private LocalDateTime date;
     private String senderName;
     private Status status;
+    private Boolean opened;
 }

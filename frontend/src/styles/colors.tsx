@@ -13,6 +13,9 @@ export const colors = StyleSheet.create({
     white: {
         color:"#fff",
     },
+    orange: {
+        color:"#ffbf49",
+    },
     backgroundBlue: {
         backgroundColor: '#0478ca',
     },
