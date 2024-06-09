@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import envVars from "@/src/utils/envVars";
-import {FiltersProps} from "@/src/types/FiltersProps";
+import {FiltersProps} from "@/src/types/filter/FiltersProps";
 import Filter from "@/src/interface/Filter";
 export default function getExperts () {
     const [allExpertData, setAllExpertData] = useState([]);

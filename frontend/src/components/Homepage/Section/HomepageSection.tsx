@@ -1,10 +1,10 @@
 import {ActivityIndicator, Button, RefreshControl, ScrollView, StyleSheet, Text} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, {useEffect, useState} from "react";
-import getAds from "@/src/services/getAds";
-import getUserAds from "@/src/services/getUserAds";
+import getAds from "@/src/services/ad/getAds";
+import getUserAds from "@/src/services/ad/getUserAds";
 import AdContainer from "@/src/components/Homepage/Section/Ads/AdContainer";
-import getExperts from "@/src/services/getExperts";
+import getExperts from "@/src/services/expert/getExperts";
 
 export default function HomepageSection({navigation, userData, dataLoading, onRefresh, refreshing}: any) {
     const [token, setToken] = useState(null);

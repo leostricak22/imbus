@@ -16,8 +16,20 @@ export const colors = StyleSheet.create({
     orange: {
         color:"#ffbf49",
     },
+    darkOrange: {
+        color:"#e09717",
+    },
+    darkRed: {
+        color:"#b30000",
+    },
     backgroundBlue: {
         backgroundColor: '#0478ca',
+    },
+    backgroundRed: {
+        backgroundColor:"#ff0d0d",
+    },
+    backgroundDarkRed: {
+        backgroundColor:"#b30000",
     },
     backgroundDarkBlue: {
         backgroundColor: '#085e96',

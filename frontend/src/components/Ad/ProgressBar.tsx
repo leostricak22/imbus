@@ -1,6 +1,6 @@
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import React, {useState} from "react";
-import {ProgressBarProps} from "@/src/types/ProgressBarProps";
+import {ProgressBarProps} from "@/src/types/form/ProgressBarProps";
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({ step }) => {
     return (

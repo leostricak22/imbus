@@ -8,14 +8,14 @@ import location from "../../assets/icons/location.png";
 import {counties} from "../data/Counties";
 import PhotoSlider from "../components/Ad/PhotoSlider";
 import OfferContainer from "../components/Homepage/Section/Ads/OfferContainer";
-import getOffers from "../services/getOffers";
+import getOffers from "../services/offer/getOffers";
 import React, {useEffect, useState} from "react";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import UserData from "@/src/interface/UserData";
 import AdFormStep4 from "@/src/components/Ad/Form/AdFormStep4";
 import AdDetails from "@/src/components/Ad/AdDetails";
 import {timeAgo} from "@/src/utils/dateFormat";
-import userSessionData from "@/src/services/userSessionData";
+import userSessionData from "@/src/services/user/userSessionData";
 import {button} from "@/src/styles/button";
 import {colors} from "@/src/styles/colors";
 

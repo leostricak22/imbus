@@ -6,13 +6,13 @@ import Navigation from '../components/Homepage/Navigation';
 import HomepageSection from '../components/Homepage/Section/HomepageSection';
 import ExpertsSection from '../components/Homepage/Section/Expert/ExpertsSection';
 
-import validateToken from '../services/validateToken';
-import userSessionData from "../services/userSessionData";
+import validateToken from '../services/user/validateToken';
+import userSessionData from "../services/user/userSessionData";
 import {useFocusEffect} from "@react-navigation/native";
 import AdSection from "../components/Homepage/Section/Ads/AdSection";
 import {NavigationProp} from "@react-navigation/core";
 import {valid} from "@react-native-community/cli-platform-android/build/config/__fixtures__/android";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import Chat from "@/assets/icons/navigation/chat";
 import ChatSection from "@/src/components/Chat/ChatSection";
 

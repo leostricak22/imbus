@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
-import FormProps from "@/src/types/FormProps";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
+import FormProps from "@/src/types/form/FormProps";
 import {Text, View, StyleSheet, TextInput} from "react-native";
 import DropdownInput from "@/src/components/InputTypes/DropdownInput";
 import {categoryTypes} from "@/src/data/CategoryTypes";

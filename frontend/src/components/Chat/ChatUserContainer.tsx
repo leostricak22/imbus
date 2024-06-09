@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import ChatProps from "@/src/types/ChatProps";
+import ChatProps from "@/src/types/chat/ChatProps";
 import {View, StyleSheet, Text, Image, Pressable} from "react-native";
-import ChatUserProps from "@/src/types/ChatUserProps";
+import ChatUserProps from "@/src/types/chat/ChatUserProps";
 import Message from "@/src/interface/Message";
 import {timeAgo} from "@/src/utils/dateFormat";
 import {colors} from "@/src/styles/colors";
-import userFromUsername from "@/src/services/userFromUsername";
+import userFromUsername from "@/src/services/user/userFromUsername";
 
 export const ChatUserContainer: React.FC<ChatUserProps> = ({navigation, chat, username, role, messages, refetchMessages  }) => {
     const [hoverStates, setHoverStates] = useState({

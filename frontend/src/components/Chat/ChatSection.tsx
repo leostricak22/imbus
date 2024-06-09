@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {View, Text, StyleSheet, ScrollView} from "react-native";
-import ChatProps from "@/src/types/ChatProps";
-import userSessionData from "@/src/services/userSessionData";
-import getMessages from "@/src/services/getMessages";
+import ChatProps from "@/src/types/chat/ChatProps";
+import userSessionData from "@/src/services/user/userSessionData";
+import getMessages from "@/src/services/chat/getMessages";
 import {useFocusEffect} from "@react-navigation/native";
 import chat from "@/assets/icons/navigation/chat";
 import ChatUserContainer from "@/src/components/Chat/ChatUserContainer";
 import Message from "@/src/interface/Message";
-import userFromUsername from "@/src/services/userFromUsername";
+import userFromUsername from "@/src/services/user/userFromUsername";
 
 export const ChatSection: React.FC<ChatProps> = ({ navigation, userData }) => {
     const {messages, setMessages, dataLoading, refetchMessages } = getMessages();

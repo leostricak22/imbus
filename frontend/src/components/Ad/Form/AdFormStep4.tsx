@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
-import FormProps from "@/src/types/FormProps";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
+import FormProps from "@/src/types/form/FormProps";
 import {Text, View, StyleSheet, TextInput} from "react-native";
 import DropdownInput from "@/src/components/InputTypes/DropdownInput";
 import {categoryTypes} from "@/src/data/CategoryTypes";
@@ -11,7 +11,7 @@ import CheckboxWithText from "@/src/components/InputTypes/CheckboxWithText";
 import {input} from "@/src/styles/input";
 import DateTimeInput from "@/src/components/InputTypes/DateTimeInput";
 import PhotoSliderEdit from "@/src/components/Ad/PhotoSliderEdit";
-import {ViewAdProps} from "@/src/types/ViewAdProps";
+import {ViewAdProps} from "@/src/types/ad/ViewAdProps";
 import PhotoSlider from "@/src/components/Ad/PhotoSlider";
 import calendar from "@/assets/icons/navigation/calendar";
 import {SvgXml} from "react-native-svg";

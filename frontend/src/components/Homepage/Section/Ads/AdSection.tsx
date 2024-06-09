@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import Filter from "../../../Filter/Filter";
 import React, {useEffect, useState} from "react";
-import getAds from "../../../../services/getAds";
+import getAds from "../../../../services/ad/getAds";
 import AdContainer from "./AdContainer";
 import {input} from "@/src/styles/input";
 import {SvgXml} from "react-native-svg";
@@ -19,8 +19,8 @@ import search from "@/assets/icons/filters/search";
 import filter from "@/assets/icons/filters/filter";
 import sort from "@/assets/icons/filters/sort";
 import {AppliedFilters} from "@/src/components/Filter/AppliedFilters";
-import ExpertContainerProps from "@/src/types/ExpertContainerProps";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import ExpertContainerProps from "@/src/types/expert/ExpertContainerProps";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {useFocusEffect} from "@react-navigation/native";
 
 const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {

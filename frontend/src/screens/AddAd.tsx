@@ -1,5 +1,5 @@
 import {Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import React, {useEffect, useState} from "react";
 import ProgressBar from "@/src/components/Ad/ProgressBar";
 import {SvgXml} from "react-native-svg";
@@ -14,7 +14,7 @@ import {validate} from "@babel/types";
 import {AdFormStep3} from "@/src/components/Ad/Form/AdFormStep3";
 import AdFormStep4 from "@/src/components/Ad/Form/AdFormStep4";
 import CheckboxWithText from "@/src/components/InputTypes/CheckboxWithText";
-import addAd from "@/src/services/addAd";
+import addAd from "@/src/services/ad/addAd";
 
 export const AddAd: React.FC<NavigationParameter> = ({ navigation }) => {
     const [step, setStep] = useState(1);

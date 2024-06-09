@@ -1,32 +1,33 @@
-import {Platform, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
+import { Platform, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import React from "react";
-import FormProps from "@/src/types/FormProps";
+import React, { useState } from "react";
+import FormProps from "@/src/types/form/FormProps";
 
 export const DateTimeInput: React.FC<FormProps> = ({ form, setForm, formDataItem }) => {
-    const [showPicker, setShowPicker] = React.useState(false);
+    const [showPicker, setShowPicker] = useState(false);
 
-    const formatDateString = (date:Date) => {
+    const formatDateString = (date: Date) => {
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
         return `${day}.${month}.${year}.`;
     };
 
-    const handlePickerChange = (event: any, selectedDate: any) => {
-        if (!formDataItem)
-            return;
+    const handlePickerChange = (event: any, selectedDate: Date | undefined) => {
+        if (!formDataItem) return;
 
-        const currentDate = selectedDate || form[formDataItem];
+        if (selectedDate) {
+            setForm((prevFormData: any) => ({
+                ...prevFormData,
+                [formDataItem]: selectedDate,
+            }));
 
-        setForm((prevFormData: any) => ({
-            ...prevFormData,
-            [formDataItem]: currentDate,
-        }));
+            if (Platform.OS === 'android') {
+                setShowPicker(false);
+            }
+        }
 
-        if (Platform.OS === 'android') {
-            setShowPicker(false);
-        } else if (selectedDate) {
+        if (Platform.OS === 'ios' && event.type === "dismissed") {
             setShowPicker(false);
         }
     };
@@ -34,7 +35,6 @@ export const DateTimeInput: React.FC<FormProps> = ({ form, setForm, formDataItem
     const showDatePicker = () => {
         setShowPicker(true);
     };
-
 
     return (
         <View>
@@ -45,7 +45,7 @@ export const DateTimeInput: React.FC<FormProps> = ({ form, setForm, formDataItem
                         <TextInput
                             style={styles.dateTimeInput}
                             editable={false}
-                            value={form[formDataItem] && formatDateString(form[formDataItem])}
+                            value={form[formDataItem] ? formatDateString(form[formDataItem]) : ""}
                         />
                     </TouchableOpacity>
                     {showPicker && (
@@ -60,7 +60,7 @@ export const DateTimeInput: React.FC<FormProps> = ({ form, setForm, formDataItem
                 </>
             }
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

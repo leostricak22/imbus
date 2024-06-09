@@ -1,10 +1,8 @@
 package com.blitz.imbus.domain.models;
 
 import com.blitz.imbus.domain.enums.Status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.blitz.imbus.domain.enums.SuggestionStatus;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -25,4 +23,9 @@ public class ChatMessage {
     private String senderName;
     private Status status;
     private Boolean opened;
+    private Boolean suggestion;
+
+    @Enumerated(EnumType.STRING)
+    private SuggestionStatus suggestionStatus;
+
 }

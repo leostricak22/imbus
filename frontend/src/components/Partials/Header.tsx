@@ -1,7 +1,7 @@
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import React from "react";
-import UserContainerProps from "@/src/types/UserContainerProps";
-import {NavigationParameter} from "@/src/types/NavigationParameter";
+import UserContainerProps from "@/src/types/user/UserContainerProps";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import LogoUserImage from "@/src/components/Partials/LogoUserImage";
 import {SvgXml} from "react-native-svg";
 import AccountProfileImage from "@/assets/icons/Account/AccountProfileImage";
