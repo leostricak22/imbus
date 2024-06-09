@@ -149,13 +149,13 @@ const Chat: React.FC<NavigationParameter> = ({navigation, route}) => {
                                                 height="100%"
                                                 xml={
                                                     msg.suggestionStatus == 'WAITING' ? schedule :
-                                                        msg.suggestionStatus == 'REJECT' ? close :
-                                                            check
+                                                    msg.suggestionStatus == 'REJECT' ? close :
+                                                    check
                                                 } />
                                         </View>
                                     </View>
                                 ) : (
-                                    <View style={styles.suggestionContainer}>
+                                    <View style={[styles.suggestionContainer, userData.role === 'EXPERT' && styles.borderOrange]}>
                                         <Text style={styles.suggestionHeader}>Predložen datum:</Text>
                                         <Text style={styles.suggestionDateTime}>{new Date(msg.message).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.')}.</Text>
                                         <Text style={styles.suggestionDateTime}>{new Date(msg.message).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}</Text>
@@ -316,6 +316,9 @@ const styles = StyleSheet.create({
     },
     borderGreen: {
         borderColor: '#00ff29',
+    },
+    borderOrange: {
+        borderColor: '#ff9a00',
     },
     suggetsionIcon: {
         width: 20,
