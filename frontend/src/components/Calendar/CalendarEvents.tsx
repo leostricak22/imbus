@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import getJobs from "@/src/services/offer/getJobs";
+import Jobs from "@/src/components/Jobs/Jobs";
+import JobsProps from "@/src/types/jobs/JobsProps";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 
 LocaleConfig.locales['hr'] = {
     monthNames: ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj', 'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'],
@@ -13,10 +17,15 @@ LocaleConfig.locales['hr'] = {
 
 LocaleConfig.defaultLocale = 'hr';
 
-const CalendarEvents = () => {
+const CalendarEvents: React.FC<NavigationParameter> = ({navigation}) => {
     const [selectedDate, setSelectedDate] = useState('');
     const [markedDates, setMarkedDates] = useState({});
     const [events, setEvents] = useState([]);
+    const { jobs, refetchJobs, loading } = getJobs();
+
+    const borderColors = {"1": "#ff0000", "2": "#6750a4", "3": "#00ff29", "4": "#ff00f7"};
+    let colorIndex = 0;
+    const colorKeys = Object.keys(borderColors);
 
     const formatDate = (dateString: string | number | Date) => {
         const date = new Date(dateString);
@@ -51,11 +60,31 @@ const CalendarEvents = () => {
         setMarkedDates(dates);
     }, []);
 
+    useEffect(() => {
+        const jobDates = jobs.reduce((acc, job) => {
+            const date = job.date.split('T')[0];
+            // @ts-ignore
+            const color = borderColors[colorKeys[colorIndex % colorKeys.length]];
+            colorIndex++;
+
+            // @ts-ignore
+            if (acc[date]) {
+                // @ts-ignore
+                acc[date].dots.push({ key: job.id, color });
+            } else {
+                // @ts-ignore
+                acc[date] = { dots: [{ key: job.id, color }] };
+            }
+            return acc;
+        }, {});
+
+        setMarkedDates(prevMarkedDates => ({ ...prevMarkedDates, ...jobDates }));
+    }, [jobs]);
+
     const allMarkedDates = { ...markedDates };
     if (selectedDate) {
         // @ts-ignore
         allMarkedDates[selectedDate] = { selected: true, color: '#FFBF49', textColor: 'white' };
-
     }
 
     const eventData = [
@@ -70,6 +99,12 @@ const CalendarEvents = () => {
 
     const formattedDate = selectedDate ? formatDate(selectedDate) : '';
 
+
+    useEffect(() => {
+        console.log(selectedDate)
+    }, [selectedDate]);
+
+    // @ts-ignore
     return (
         <View style={styles.container}>
             <Calendar
@@ -77,76 +112,11 @@ const CalendarEvents = () => {
                 minDate={'2023-05-10'}
                 maxDate={'2025-05-30'}
                 markingType={'multi-dot'}
-                markedDates={{
-                    ...allMarkedDates,
-                    '2024-06-13': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
-                            { key: 'event3', color: 'green' },
-                        ],
-                    },
-                    '2024-06-29': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
-                            { key: 'event3', color: 'green' },
-                        ],
-                    },
-                    '2024-06-26': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
-                        ],
-                    },
-                    '2024-06-21': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
-                        ],
-                    },
-                    '2024-06-18': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
-                        ],
-                    },
-                    '2024-06-10': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
-                        ],
-                    },
-                    '2024-06-07': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
-                        ],
-                    },
-                    '2024-06-05': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                        ],
-                    },
-                    '2024-06-01': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
-                        ],
-                    },
-                    '2024-06-28': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
-                        ],
-                    },
-                }}
+                markedDates={allMarkedDates}
                 monthFormat={'yyyy MM'}
                 onDayPress={(day) => {
                     setSelectedDate(day.dateString);
                     const eventsForSelectedDate = getEventsForDate(day.dateString);
-                    // @ts-ignore
-                    setEvents(eventsForSelectedDate);
                 }}
                 hideExtraDays={false}
                 enableSwipeMonths={true}
@@ -159,6 +129,9 @@ const CalendarEvents = () => {
                     textDayFontWeight: '500',
                     textSectionTitleColor: 'black',
                     arrowColor: 'black',
+                    selectedDayBackgroundColor: '#FFBF49',
+                    selectedDayTextColor: 'white',
+                    todayTextColor: '#000',
                 }}
                 renderHeader={(date) => {
                     const monthName = date.toString('MMMM yyyy');
@@ -172,21 +145,11 @@ const CalendarEvents = () => {
 
             <Text style={styles.dateText}>{formattedDate}</Text>
 
-
-
-            <View style={styles.eventsContainer}>
-                {events.map(({location, time}, index) => (
-                    <View key={index} style={[styles.eventItem, { borderColor: index === 0 ? 'red' : index === 1 ? 'purple' : 'green' }]}>
-                        <Icon name="schedule" size={24} />
-                        <View style={{ width: 8 }} />
-                        <Text style={styles.eventText}>{time}</Text>
-                        <View style={{ width: 10 }} />
-                        <Icon name="location-on" size={24} />
-                        <View style={{ width: 4 }} />
-                        <Text style={styles.eventText}>{location}</Text>
-                    </View>
-                ))}
+            <View style={styles.jobsContainer}>
+                {selectedDate && <Jobs date={new Date(selectedDate).toISOString()} jobs={jobs} navigation={navigation} />}
             </View>
+
+
         </View>
     );
 };
@@ -236,6 +199,10 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginLeft: 20
     },
+    jobsContainer: {
+        flex: 1,
+        marginTop: 20,
+    }
 });
 
 export default CalendarEvents;

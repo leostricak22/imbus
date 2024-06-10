@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import JobsProps from "@/src/types/jobs/JobsProps";
-import {View, StyleSheet, Text, ActivityIndicator} from "react-native";
+import {View, StyleSheet, Text, ActivityIndicator, Pressable} from "react-native";
 import {SvgXml} from "react-native-svg";
 import schedule from "@/assets/icons/calendar/schedule";
 import location from "@/assets/icons/offer/location";
@@ -10,7 +10,7 @@ import getJobs from "@/src/services/offer/getJobs";
 import {isLoading} from "expo-font";
 
 
-export const Jobs: React.FC<JobsProps> = ({ navigation, date, refreshing }) => {
+export const Jobs: React.FC<JobsProps> = ({ navigation, date, refreshing, noEventsMessage="Nema poslova za taj dan." }) => {
     const { jobs, refetchJobs, loading  } = getJobs();
 
     const jobsList = jobs.filter(job => job.date.split('T')[0] === date.split('T')[0]);
@@ -32,10 +32,12 @@ export const Jobs: React.FC<JobsProps> = ({ navigation, date, refreshing }) => {
         <View style={styles.container}>
             {
                 loading ? <ActivityIndicator size="large" color="#0478ca" />:
-                jobsList.length === 0 ? <Text>Nema poslova za danas</Text> :
+                jobsList.length === 0 ? <Text>{noEventsMessage}</Text> :
                 jobsList.map((job, index) => (
                     // @ts-ignore
-                    <View key={index} style={[styles.jobContainer, { borderColor: borderColors[(index+1)%3] }]}>
+                    <Pressable key={index} style={[styles.jobContainer, { borderColor: borderColors[(index+1)%3] }]}
+                        onPress={() => navigation.navigate('view-ad', { ad: job.ad })}
+                    >
                         <View style={styles.jobItem}>
                             <View style={styles.icon}>
                                 <SvgXml width="85%" height="85%" xml={schedule}/>
@@ -46,9 +48,9 @@ export const Jobs: React.FC<JobsProps> = ({ navigation, date, refreshing }) => {
                             <View style={styles.icon}>
                                 <SvgXml width="85%" height="85%" xml={location}/>
                             </View>
-                            <Text style={styles.jobText}>  {counties.find(item => job.ad.location == item.value)?.label || 'Nepoznato'}</Text>
+                            <Text style={styles.jobText}> {counties.find(item => job.ad.location == item.value)?.label || 'Nepoznato'}</Text>
                         </View>
-                    </View>
+                    </Pressable>
                 ))
             }
 
@@ -58,7 +60,7 @@ export const Jobs: React.FC<JobsProps> = ({ navigation, date, refreshing }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        height: 130,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',

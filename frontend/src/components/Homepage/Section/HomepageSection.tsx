@@ -54,7 +54,7 @@ export default function HomepageSection({navigation, userData, dataLoading, jobs
                 ) : (
                     <>
                         <Text style={styles.title}>Današnji raspored:</Text>
-                        <Jobs date={isoString} jobs={jobs} navigation={navigation} refreshing={refreshing} />
+                        <Jobs date={isoString} jobs={jobs} navigation={navigation} refreshing={refreshing} noEventsMessage={"Nema poslova za danas."} />
                     </>
                 )
             }

@@ -4,7 +4,8 @@ type JobsProps = {
     navigation: any;
     jobs: Job[];
     date: string;
-    refreshing: boolean;
+    refreshing?: boolean;
+    noEventsMessage?: string;
 };
 
 export default JobsProps;

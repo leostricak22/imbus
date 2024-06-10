@@ -65,7 +65,7 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation, route }) =
                     ) : selectedSection === 3 ? (
                         <ExpertsSection navigation={navigation} />
                     ) : selectedSection === 4 ? (
-                        <CalendarEvents />
+                        <CalendarEvents noEventsMessage={"Nema poslova za danas."} />
                     ) : (
                         <AdSection navigation={navigation} />
                     )

@@ -161,10 +161,8 @@ const CalendarTime: React.FC<CalendarTimeDialogProps> = ({selectedTime, setSelec
                             keyExtractor={(item) => item}
                             renderItem={({ item }) => (
                                 <TouchableOpacity
-                                    style={[
-                                        styles.modalItem,
-                                        unavailableTimes[item] ? styles.unavailableItem : null
-                                    ]}
+                                    // @ts-ignore
+                                    style={[styles.modalItem, unavailableTimes[item] ? styles.unavailableItem : null]}
                                     onPress={() => {
                                         // @ts-ignore
                                         if (!unavailableTimes[item]) {
