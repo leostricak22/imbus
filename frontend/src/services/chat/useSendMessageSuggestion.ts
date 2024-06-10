@@ -10,12 +10,12 @@ export default function useSendMessageSuggestion(otherUser: string) {
     const [error, setError] = useState(null);
 
     const confirm = async () => {
+        console.log(form.date)
+
         let date = new Date(form.date);
-        date.setHours(parseInt(form.time));
+        console.log(date.getMonth())
+        date.setHours(parseInt(form.time.substring(0, 2)));
         date.setMinutes(0);
-
-        console.log("other" , otherUser);
-
 
         let message = {} as Message;
         message.message = date.toISOString();

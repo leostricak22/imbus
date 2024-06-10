@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import FormProps from "@/src/types/form/FormProps";
+import getJobs from "@/src/services/offer/getJobs";
 
 LocaleConfig.locales['hr'] = {
     monthNames: [
@@ -30,7 +31,7 @@ const CalendarMultipleDays : React.FC<CalendarMultipleDaysProps>  = ({firstDate,
     const [selectedDate, setSelectedDate] = useState('');
     const [markedDates, setMarkedDates] = useState({});
 
-    const onDayPress = (day) => {
+    const onDayPress = (day: { dateString: any; }) => {
         const selected = day.dateString;
 
         if (!firstDate) {
@@ -62,7 +63,9 @@ const CalendarMultipleDays : React.FC<CalendarMultipleDaysProps>  = ({firstDate,
         '2024-06-30': { disabled: true },*/
     };
 
-    const formatDate = (dateString) => {
+
+
+    const formatDate = (dateString: string | number | Date) => {
         const date = new Date(dateString);
         const day = date.getDate();
         const month = date.getMonth() + 1;
@@ -82,6 +85,7 @@ const CalendarMultipleDays : React.FC<CalendarMultipleDaysProps>  = ({firstDate,
                 const date = new Date(year, month, day);
                 if (date.getDay() === 1) {
                     const dateString = date.toISOString().split('T')[0];
+                    // @ts-ignore
                     dates[dateString] = { disabled: false, textColor: 'red' };
                 }
             }
@@ -117,17 +121,12 @@ const CalendarMultipleDays : React.FC<CalendarMultipleDaysProps>  = ({firstDate,
                 theme={{
                     textDayFontWeight: '500',
                     textSectionTitleColor: 'black',
-                    'stylesheet.calendar.header': {
-                        dayTextAtIndex6: {
-                            color: 'red'
-                        },
-                    },
                     arrowColor: 'black',
                 }}
                 renderHeader={(date) => {
                     const monthName = date.toString('MMMM yyyy');
                     return (
-                        <View style={styles.header}>
+                        <View>
                             <Text style={styles.month}>{monthName}</Text>
                         </View>
                     );

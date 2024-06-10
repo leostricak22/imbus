@@ -13,5 +13,5 @@ import java.util.Optional;
 public interface OfferRepository extends JpaRepository<Offer, Integer> {
     boolean existsByAdIdAndUserId(Integer ad, Integer user);
     List<Offer> findAllByAdId(Integer adId);
-
+    List<Offer> findAllByUserIdAndSelected(Integer userId, boolean selected);
 }
