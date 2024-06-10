@@ -11,7 +11,7 @@ const App = () => {
 };
 
 const MainComponent = () => {
-    const [selectedOption, setSelectedOption] = useState(null); // Definiranje selectedOption van handleCheckout
+    const [selectedOption, setSelectedOption] = useState(null);
 
     const [checkoutUrl, setCheckoutUrl] = useState(null);
 
@@ -26,7 +26,7 @@ const MainComponent = () => {
                 'payment_method_types[]': 'card',
                 'line_items[0][price_data][currency]': 'usd',
                 'line_items[0][price_data][product_data][name]': 'Test Product',
-                'line_items[0][price_data][unit_amount]': '2000', // 20.00 USD
+                'line_items[0][price_data][unit_amount]': '2000',
                 'line_items[0][quantity]': '1',
                 'mode': 'payment',
                 'success_url': 'yourapp://success',
