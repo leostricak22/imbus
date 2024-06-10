@@ -16,6 +16,7 @@ import {ViewAd} from "@/src/screens/ViewAd";
 import UserPage from "@/src/screens/UserPage";
 import Chat from "@/src/screens/Chat";
 import AddSmallFixes from "@/src/screens/AddSmallFixes";
+import Premium from "@/src/components/Premium/Premium";
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,11 @@ export default function App() {
                     <Stack.Screen
                         name="accountsettings"
                         component={AccountSettings}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="premium"
+                        component={Premium}
                         options={{ headerShown: false }}
                     />
                     <Stack.Screen

@@ -82,6 +82,7 @@ export const AccountSettings: React.FC<NavigationParameter> = ({ navigation }) =
                 </View>
                 <View style={styles.boxContainer}>
                     <Pressable style={[styles.box, styles.premiumBox, userData.role == 'CLIENT' ? {borderColor: "#0478ca"} : {borderColor: "#ffbf49"}, hoverStates.premium && colors.backgroundGray]}
+                               onPress={() => navigation.navigate('premium')}
                                onPressIn={() => setHoverState("premium", true)}
                                onPressOut={() => setHoverState("premium", false)}
                     >
