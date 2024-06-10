@@ -1,7 +1,7 @@
 # Imbus
 
 <p align="center">
-    <img src="./readmeimages/logo.png" alt="Imbus logo" width=>
+    <img src="./readmeimages/logo.png" alt="Imbus logo" width="200">
 </p>
 
 # Što je Imbus?
