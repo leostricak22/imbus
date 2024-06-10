@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import CalendarDialogProps from "@/src/types/calendar/CalendarDialogProps";
+import CalendarTimeDialogProps from "@/src/types/calendar/CalendarTimeDialogProps";
 
 LocaleConfig.locales['hr'] = {
     monthNames: [
@@ -26,10 +28,8 @@ LocaleConfig.locales['hr'] = {
 
 LocaleConfig.defaultLocale = 'hr';
 
-const App = () => {
-    const [selectedDate, setSelectedDate] = useState('');
+const CalendarTime: React.FC<CalendarTimeDialogProps> = ({selectedTime, setSelectedTime, selectedDate, setSelectedDate, role}) => {
     const [markedDates, setMarkedDates] = useState({});
-    const [selectedTime, setSelectedTime] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
     const disabledDate = {
@@ -44,7 +44,7 @@ const App = () => {
         '2024-06-30': { disabled: true }
     };
 
-    const formatDate = (dateString) => {
+    const formatDate = (dateString: string | number | Date) => {
         const date = new Date(dateString);
         const day = date.getDate();
         const month = date.getMonth() + 1;
@@ -64,6 +64,7 @@ const App = () => {
                 const date = new Date(year, month, day);
                 if (date.getDay() === 1) {
                     const dateString = date.toISOString().split('T')[0];
+                    // @ts-ignore
                     dates[dateString] = { disabled: true, textColor: 'red' };
                 }
             }
@@ -78,7 +79,8 @@ const App = () => {
 
     const allMarkedDates = { ...markedDates };
     if (selectedDate) {
-        allMarkedDates[selectedDate] = { selected: true, color: '#FFBF49', textColor: 'white' };
+        // @ts-ignore
+        allMarkedDates[selectedDate] = { selected: true, color: (role === 'CLIENT' ?  '#0478ca' : '#FFBF49'), textColor: 'white' };
     }
 
     const timeOptions = [
@@ -133,7 +135,7 @@ const App = () => {
                 renderHeader={(date) => {
                     const monthName = date.toString('MMMM yyyy');
                     return (
-                        <View style={styles.header}>
+                        <View>
                             <Text style={styles.month}>{monthName}</Text>
                         </View>
                     );
@@ -168,6 +170,7 @@ const App = () => {
                                         unavailableTimes[item] ? styles.unavailableItem : null
                                     ]}
                                     onPress={() => {
+                                        // @ts-ignore
                                         if (!unavailableTimes[item]) {
                                             setSelectedTime(item);
                                             setModalVisible(false);
@@ -260,4 +263,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default App;
+export default CalendarTime;

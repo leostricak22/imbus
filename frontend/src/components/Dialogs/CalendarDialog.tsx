@@ -15,17 +15,25 @@ import post_expert from "@/assets/icons/navigation/post_expert";
 import Message from "@/src/interface/Message";
 import useSendMessageSuggestion from "@/src/services/chat/useSendMessageSuggestion";
 import CalendarMultipleDays from "@/src/components/Calendar/CalendarMultipleDays";
+import CalendarTime from "@/src/components/Calendar/CalendarTime";
 
 export const CalendarDialog: React.FC<CalendarDialogProps> = ({ modalVisible, closeCalendar, role, otherUser }) => {
     const { form, setForm, confirm, loading, error } = useSendMessageSuggestion(otherUser);
     const [errorText, setErrorText] = useState<string>("");
-
     const [showModal, setShowModal] = useState(modalVisible);
+    const [submit, setSubmit] = useState(false);
+
+    const [selectedDate, setSelectedDate] = useState('');
+    const [selectedTime, setSelectedTime] = useState('');
 
     const [hoverStates, setHoverStates] = useState({
         confirm: false,
         cancel: false,
     });
+
+    useEffect(() => {
+        console.log(selectedDate, selectedTime)
+    }, [selectedTime, selectedDate]);
 
     const slideAnim = useRef(new Animated.Value(0)).current;
     const rotateAnim = useRef(new Animated.Value(0)).current;
@@ -71,12 +79,6 @@ export const CalendarDialog: React.FC<CalendarDialogProps> = ({ modalVisible, cl
         outputRange: ['0deg', '45deg'],
     });
 
-
-    function handleChangeTime(name: string, value: string) {
-        setForm({ ...form, time: value });
-        setErrorText("")
-    }
-
     useEffect(() => {
         setErrorText("")
     }, [form.date]);
@@ -89,16 +91,24 @@ export const CalendarDialog: React.FC<CalendarDialogProps> = ({ modalVisible, cl
         setHoverStates(prevState => ({ ...prevState, [key]: value }));
     }
 
-    function handleSubmit() {
-        console.log(form.date, form.time)
-        if(!form.date || form.date === "" || !form.time || form.time === "") {
+    async function handleSubmit() {
+        if(!selectedDate || selectedDate === "" || !selectedTime || selectedTime === "") {
             setErrorText("Odaberite datum i vrijeme!");
             return;
         }
 
+        setForm({ ...form, date: selectedDate, time: selectedTime })
+        setSubmit(true);
+    }
+
+    useEffect(() => {
+        if(!submit)
+            return
+
+        setSubmit(false);
         confirm();
         closeCalendar();
-    }
+    }, [form]);
 
     return (
         <Modal
@@ -111,19 +121,13 @@ export const CalendarDialog: React.FC<CalendarDialogProps> = ({ modalVisible, cl
                 <View style={styles.modalBackground}>
                     <Animated.View style={[styles.modalContainer, { transform: [{ translateY: slideUp }] }]}>
                         <View style={styles.calendar}>
-                            <CalendarMultipleDays />
-                        </View>
-
-                        {//<DateTimeInput form={form} setForm={setForm} formDataItem={"date"} />
-                            }
-                        <View style={styles.dropdownForm}>
-                            <DropdownInput handleChange={handleChangeTime} items={time} formData={form} formDataItem={"time"} icon={schedule}/>
+                            <CalendarTime setSelectedTime={setSelectedTime} selectedDate={selectedDate} selectedTime={selectedTime} setSelectedDate={setSelectedDate} role={role} />
                         </View>
 
                         {errorText && <Text style={styles.error}>{errorText}</Text>}
 
                         <Pressable
-                            style={[button.buttonContainer, colors.backgroundGray, (hoverStates.confirm ? (role == "CLIENT" ? colors.backgroundDarkBlue : colors.backgroundDarkOrange) : (role == "CLIENT" ? colors.backgroundBlue : colors.backgroundOrange))]}
+                            style={[button.buttonContainer, {width: '90%'}, colors.backgroundGray, (hoverStates.confirm ? (role == "CLIENT" ? colors.backgroundDarkBlue : colors.backgroundDarkOrange) : (role == "CLIENT" ? colors.backgroundBlue : colors.backgroundOrange))]}
                             onPress={handleSubmit}
                             onPressIn={() => setHoverState("confirm", true)}
                             onPressOut={() => setHoverState("confirm", false)}
@@ -189,6 +193,7 @@ const styles = StyleSheet.create({
     },
     calendar: {
         width: '100%',
+        marginBottom: 15,
         aspectRatio: 1,
     }
 });
