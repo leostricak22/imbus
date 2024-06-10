@@ -165,9 +165,16 @@ const Chat: React.FC<NavigationParameter> = ({navigation, route}) => {
                                 ) : (
                                     <View key={index} style={[styles.suggestionContainer, userData.role === 'EXPERT' && styles.borderOrange]}>
                                         <Text style={styles.suggestionHeader}>Predložen datum:</Text>
-                                        <Text style={styles.suggestionDateTime}>{new Date(msg.message).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.')}.</Text>
+                                        <Text style={styles.suggestionDateTime}>
+                                            {(() => {
+                                                const date = new Date(msg.message);
+                                                const day = String(date.getDate()).padStart(2, '0');
+                                                const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+                                                const year = date.getFullYear();
+                                                return `${day}.${month}.${year}`;
+                                            })()}
+                                            .</Text>
                                         <Text style={styles.suggestionDateTime}>{new Date(msg.message).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}</Text>
-
                                         <Pressable
                                             style={[
                                                 button.buttonContainer,
