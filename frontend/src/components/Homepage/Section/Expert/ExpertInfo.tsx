@@ -13,8 +13,10 @@ import location from "@/assets/icons/info/location";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import ExpertContainerProps from "@/src/types/expert/ExpertContainerProps";
 import {expertinfo} from "@/src/styles/expertinfo";
+import build_expert from "@/assets/icons/info/build_expert";
+import location_expert from "@/assets/icons/info/location_expert";
 
-const ExpertInfo: React.FC<ExpertContainerProps> = ({ navigation , expert}) => {
+const ExpertInfo: React.FC<ExpertContainerProps> = ({ navigation , expert, role="CLIENT"}) => {
     const openUserPage = () => {
         navigation.navigate("user-page", {expert: expert});
     }
@@ -50,7 +52,7 @@ const ExpertInfo: React.FC<ExpertContainerProps> = ({ navigation , expert}) => {
             <View style={expertinfo.info}>
                 <View style={expertinfo.categories}>
                     <View style={expertinfo.icon}>
-                        <SvgXml xml={build} width="100%" height="100%" />
+                        <SvgXml xml={role == 'CLIENT' ? build : build_expert} width="100%" height="100%" />
                     </View>
                     <View>
                         {expert.categories.map((category: React.Key | null | undefined) => (
@@ -62,7 +64,7 @@ const ExpertInfo: React.FC<ExpertContainerProps> = ({ navigation , expert}) => {
                 </View>
                 <View style={expertinfo.location}>
                     <View style={expertinfo.icon}>
-                        <SvgXml xml={location} width="100%" height="100%" />
+                        <SvgXml xml={role == 'CLIENT' ? location : location_expert} width="100%" height="100%" />
                     </View>
                     <View>
                         <Text style={expertinfo.textInfo}>
