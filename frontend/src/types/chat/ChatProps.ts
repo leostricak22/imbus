@@ -6,8 +6,6 @@ export type ChatProps = {
     navigation: NavigationProp<any>;
     userData: UserData;
     route: any;
-    messages: Message[];
-    refetchMessages: any;
 }
 
 export default ChatProps;

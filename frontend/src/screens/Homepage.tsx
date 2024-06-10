@@ -16,7 +16,7 @@ import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import Chat from "@/assets/icons/navigation/chat";
 import ChatSection from "@/src/components/Chat/ChatSection";
 
-export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
+export const Homepage: React.FC<NavigationParameter> = ({ navigation, route }) => {
     const [refreshing, setRefreshing] = useState(false);
     const {userData, dataLoading, refetchUserData} = userSessionData()
     const [selectedSection, setSelectedSection] = useState(0);
@@ -60,7 +60,7 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation }) => {
                     ) : selectedSection === 1 ? (
                         <Text>Posts</Text>
                     ) : selectedSection === 2 ? (
-                        <ChatSection navigation={navigation} userData={userData} />
+                        <ChatSection navigation={navigation} route={route} userData={userData} />
                     ) : selectedSection === 3 ? (
                         <ExpertsSection navigation={navigation} />
                     ) : selectedSection === 4 ? (

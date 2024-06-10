@@ -31,12 +31,12 @@ const UserPage: React.FC<NavigationParameter> = ({ navigation, route}) => {
             {userData && <Header navigation={navigation} userData={userData} />}
             <View style={styles.infoContainer}>
                 <View style={styles.expertInfoContainer}>
-                    <ExpertInfo navigation={navigation} expert={expert} />
+                    <ExpertInfo navigation={navigation} expert={expert} role={userData.role}/>
                 </View>
                 <View style={styles.description}>
                     <Text>Završio sam srednju školu za električara. Već 30 godina radim u struci. Imam jako puno iskustva. Ne postoji kvar sa strujom koji ne mogu popraviti. Slobodno mi se obratite sa povjerenjem.</Text>
                 </View>
-                <RatingsContainer navigation={navigation} expert={expert}/>
+                <RatingsContainer navigation={navigation} expert={expert} role={userData.role}/>
             </View>
             <View style={styles.messageContainer}>
                 <Pressable
