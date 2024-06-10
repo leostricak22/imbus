@@ -5,8 +5,10 @@ import getAds from "@/src/services/ad/getAds";
 import getUserAds from "@/src/services/ad/getUserAds";
 import AdContainer from "@/src/components/Homepage/Section/Ads/AdContainer";
 import getExperts from "@/src/services/expert/getExperts";
+import getJobs from "@/src/services/offer/getJobs";
+import Jobs from "@/src/components/Jobs/Jobs";
 
-export default function HomepageSection({navigation, userData, dataLoading, onRefresh, refreshing}: any) {
+export default function HomepageSection({navigation, userData, dataLoading, jobs, onRefresh, refreshing}: any) {
     const [token, setToken] = useState(null);
     const { allUserAdData, refetchAllUserAdData, dataLoading:loading} = getUserAds();
 
@@ -20,10 +22,17 @@ export default function HomepageSection({navigation, userData, dataLoading, onRe
         getToken();
     }, []);
 
+    useEffect(() => {
+        console.log(jobs)
+    }, [jobs]);
+
     const handleLogout = async () => {
         await AsyncStorage.removeItem('token');
         navigation.navigate('login');
     };
+
+    let currentDate = new Date();
+    let isoString = currentDate.toISOString();
 
     return (
         <ScrollView style={styles.container} refreshControl={
@@ -32,13 +41,23 @@ export default function HomepageSection({navigation, userData, dataLoading, onRe
                 onRefresh={onRefresh}
             />
         }>
-            <Text style={styles.title}>Moji oglasi:</Text>
-            {loading ? <ActivityIndicator size="large" color="#0478ca" />:
-                allUserAdData.map((ad: AdForm) => (
-                    <AdContainer key={ad.id} ad={ad} navigation={navigation} refreshing={refreshing} role={"CLIENT"} />
-                ))
+            {
+                userData && userData.role === 'CLIENT' ? (
+                    <>
+                        <Text style={styles.title}>Moji oglasi:</Text>
+                        {loading ? <ActivityIndicator size="large" color="#0478ca" />:
+                            allUserAdData.map((ad: AdForm) => (
+                                <AdContainer key={ad.id} ad={ad} navigation={navigation} refreshing={refreshing} role={"CLIENT"} />
+                            ))
+                        }
+                    </>
+                ) : (
+                    <>
+                        <Text style={styles.title}>Današnji raspored:</Text>
+                        <Jobs date={isoString} jobs={jobs} navigation={navigation} refreshing={refreshing} />
+                    </>
+                )
             }
-
         </ScrollView>
     );
 }
@@ -53,8 +72,8 @@ const styles = StyleSheet.create({
     },
     title: {
         marginLeft: 15,
-        marginBottom: 15,
-        fontSize: 24,
+        marginBottom: 10,
+        fontSize: 22,
         fontWeight: 'bold',
     },
 });

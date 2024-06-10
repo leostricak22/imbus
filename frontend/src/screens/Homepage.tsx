@@ -15,6 +15,7 @@ import {valid} from "@react-native-community/cli-platform-android/build/config/_
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import Chat from "@/assets/icons/navigation/chat";
 import ChatSection from "@/src/components/Chat/ChatSection";
+import CalendarEvents from "@/src/components/Calendar/CalendarEvents";
 
 export const Homepage: React.FC<NavigationParameter> = ({ navigation, route }) => {
     const [refreshing, setRefreshing] = useState(false);
@@ -64,7 +65,7 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation, route }) =
                     ) : selectedSection === 3 ? (
                         <ExpertsSection navigation={navigation} />
                     ) : selectedSection === 4 ? (
-                        <Text>Calendar</Text>
+                        <CalendarEvents />
                     ) : (
                         <AdSection navigation={navigation} />
                     )

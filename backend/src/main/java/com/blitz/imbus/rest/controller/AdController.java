@@ -1,11 +1,13 @@
 package com.blitz.imbus.rest.controller;
 
 import com.blitz.imbus.domain.models.Ad;
+import com.blitz.imbus.repository.AdRepository;
 import com.blitz.imbus.rest.dto.AdRequest;
 import com.blitz.imbus.rest.dto.AdResponse;
 import com.blitz.imbus.rest.dto.FilterRequest;
 import com.blitz.imbus.rest.dto.UserResponse;
 import com.blitz.imbus.service.AdService;
+import com.blitz.imbus.service.AuthenticationService;
 import com.blitz.imbus.service.JwtService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,8 @@ import java.util.List;
 @RequestMapping("/api/ad")
 public class AdController {
     private final AdService adService;
+    private final AdRepository adRepository;
+    private final AuthenticationService authenticationService;
 
     @GetMapping("/")
     public ResponseEntity<List<AdResponse>> getAllAds() {
@@ -41,16 +45,6 @@ public class AdController {
         return ResponseEntity.ok(adService.getAdsUser());
     }
 
-    /*
-    @PreAuthorize("hasAuthority('CLIENT')")
-    @PostMapping("/add")
-    public ResponseEntity<AdResponse> addAd(
-            @Valid @RequestBody AdRequest adRequest
-    ) {
-        return ResponseEntity.ok(adService.addAd(modelMapper.map(adRequest, Ad.class)));
-    }
-     */
-
     @PreAuthorize("hasAuthority('CLIENT')")
     @PostMapping("/add")
     public ResponseEntity<AdResponse> addAd(
@@ -66,4 +60,5 @@ public class AdController {
     ) {
         return ResponseEntity.ok(adService.getAdsFilter(filterRequest));
     }
+
 }

@@ -101,6 +101,7 @@ const CalendarTime: React.FC<CalendarTimeDialogProps> = ({selectedTime, setSelec
         "18:00": false
     };
 
+    // @ts-ignore
     return (
         <View style={styles.container}>
             <Calendar
@@ -124,11 +125,6 @@ const CalendarTime: React.FC<CalendarTimeDialogProps> = ({selectedTime, setSelec
                 theme={{
                     textDayFontWeight: '500',
                     textSectionTitleColor: 'black',
-                    'stylesheet.calendar.header': {
-                        dayTextAtIndex6: {
-                            color: 'red'
-                        },
-                    },
                     arrowColor: 'black',
 
                 }}

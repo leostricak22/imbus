@@ -13,12 +13,12 @@ LocaleConfig.locales['hr'] = {
 
 LocaleConfig.defaultLocale = 'hr';
 
-const App = () => {
+const CalendarEvents = () => {
     const [selectedDate, setSelectedDate] = useState('');
     const [markedDates, setMarkedDates] = useState({});
     const [events, setEvents] = useState([]);
 
-    const formatDate = (dateString) => {
+    const formatDate = (dateString: string | number | Date) => {
         const date = new Date(dateString);
         const day = date.getDate();
         const month = date.getMonth() + 1;
@@ -38,6 +38,7 @@ const App = () => {
                 const date = new Date(year, month, day);
                 if (date.getDay() === 1) {
                     const dateString = date.toISOString().split('T')[0];
+                    // @ts-ignore
                     dates[dateString] = { disabled: true, textColor: 'red' };
                 }
             }
@@ -52,6 +53,7 @@ const App = () => {
 
     const allMarkedDates = { ...markedDates };
     if (selectedDate) {
+        // @ts-ignore
         allMarkedDates[selectedDate] = { selected: true, color: '#FFBF49', textColor: 'white' };
 
     }
@@ -62,7 +64,7 @@ const App = () => {
         { date: '2024-06-13', time: '17:00', location: 'Zagreb, Ravnice' },
     ];
 
-    const getEventsForDate = (date) => {
+    const getEventsForDate = (date: string) => {
         return eventData.filter(event => event.date === date);
     };
 
@@ -77,13 +79,6 @@ const App = () => {
                 markingType={'multi-dot'}
                 markedDates={{
                     ...allMarkedDates,
-                    '2024-06-13': {
-                        dots: [
-                            { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
-                            { key: 'event3', color: 'green' },
-                        ],
-                    },
                     '2024-06-13': {
                         dots: [
                             { key: 'event1', color: 'red' },
@@ -108,13 +103,11 @@ const App = () => {
                         dots: [
                             { key: 'event1', color: 'red' },
                             { key: 'event2', color: 'purple' },
-                            { key: 'event2', color: 'purple' },
                         ],
                     },
                     '2024-06-18': {
                         dots: [
                             { key: 'event1', color: 'red' },
-                            { key: 'event2', color: 'purple' },
                             { key: 'event2', color: 'purple' },
                         ],
                     },
@@ -122,7 +115,6 @@ const App = () => {
                         dots: [
                             { key: 'event1', color: 'red' },
                             { key: 'event2', color: 'purple' },
-                            { key: 'event2', color: 'green' },
                         ],
                     },
                     '2024-06-07': {
@@ -140,7 +132,6 @@ const App = () => {
                         dots: [
                             { key: 'event1', color: 'red' },
                             { key: 'event2', color: 'purple' },
-                            { key: 'event2', color: 'purple' },
                         ],
                     },
                     '2024-06-28': {
@@ -154,6 +145,7 @@ const App = () => {
                 onDayPress={(day) => {
                     setSelectedDate(day.dateString);
                     const eventsForSelectedDate = getEventsForDate(day.dateString);
+                    // @ts-ignore
                     setEvents(eventsForSelectedDate);
                 }}
                 hideExtraDays={false}
@@ -166,17 +158,12 @@ const App = () => {
                 theme={{
                     textDayFontWeight: '500',
                     textSectionTitleColor: 'black',
-                    'stylesheet.calendar.header': {
-                        dayTextAtIndex6: {
-                            color: 'red'
-                        },
-                    },
                     arrowColor: 'black',
                 }}
                 renderHeader={(date) => {
                     const monthName = date.toString('MMMM yyyy');
                     return (
-                        <View style={styles.header}>
+                        <View>
                             <Text style={styles.month}>{monthName}.</Text>
                         </View>
                     );
@@ -188,15 +175,15 @@ const App = () => {
 
 
             <View style={styles.eventsContainer}>
-                {events.map((event, index) => (
+                {events.map(({location, time}, index) => (
                     <View key={index} style={[styles.eventItem, { borderColor: index === 0 ? 'red' : index === 1 ? 'purple' : 'green' }]}>
                         <Icon name="schedule" size={24} />
                         <View style={{ width: 8 }} />
-                        <Text style={styles.eventText} width={50}>{event.time}</Text>
+                        <Text style={styles.eventText}>{time}</Text>
                         <View style={{ width: 10 }} />
                         <Icon name="location-on" size={24} />
                         <View style={{ width: 4 }} />
-                        <Text style={styles.eventText}>{event.location}</Text>
+                        <Text style={styles.eventText}>{location}</Text>
                     </View>
                 ))}
             </View>
@@ -251,4 +238,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default App;
+export default CalendarEvents;
