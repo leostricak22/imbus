@@ -1,16 +1,15 @@
 # Imbus
 
 <p align="center">
-    <img src="./readmeimages/logo.png" alt="Imbus logo" width="500">
+    <img src="./readmeimages/logo.png" alt="Imbus logo" width="350">
 </p>
 
 # Što je Imbus?
 
 Imbus je mobilna aplikacija koja omogućuje korisnicima da pronađu majstore unutar Hrvatske, a razvijena je kao dio TVZ Mc2 natjecanja.
 
-
 <p align="center">
-    <img src="./readmeimages/oglas.png" alt="Imbus oglas">
+    <img src="./readmeimages/mockupsignup.png" alt="Imbus logo">
 </p>
 
 # Kod
@@ -19,10 +18,6 @@ Backend programiramo u Spring Bootu, u Javi verziji 17 (Maven). Frontend je ispr
 React Nativeu s Expo frameworkom. Za bazu podataka koristimo MySQL koji je
 konfiguriran s pomoću Dockera.
 
-
-<p align="center">
-    
-</p>
 
 # Funkcionalnosti i značajke
 
@@ -41,11 +36,6 @@ Najvažnije značajke u našem kodu su:
 - Ponude
 - Uređivanje profila
 - Baza podataka
-
-<p align="center">
-    <img src="./readmeimages/chat.png" alt="Imbus chat">
-    <img src="./readmeimages/kalendar.png" alt="Imbus kalendar">
-</p>
 
 
 # Povratne informacije
