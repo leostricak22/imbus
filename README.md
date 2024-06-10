@@ -1,6 +1,6 @@
 # Imbus
 
-<p align="center">
+<p align="center" width="100" height="100">
     <img src="./readmeimages/logo.png" alt="Imbus logo">
 </p>
 
