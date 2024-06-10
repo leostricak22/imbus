@@ -1,6 +1,8 @@
 # Imbus
 
-![text](jjo4.png)
+<p align="center">
+    <img src="./jjo4.png" alt="Imbus Logo">
+</p>
 
 # Što je Imbus?
 
