@@ -19,7 +19,7 @@ konfiguriran s pomoću Dockera.
 
 
 <p align="center">
-    <img src="./readmeimages/kalendar.png" alt="Imbus kalendar">
+    
 </p>
 
 # Funkcionalnosti i značajke
@@ -42,6 +42,7 @@ Najvažnije značajke u našem kodu su:
 
 <p align="center">
     <img src="./readmeimages/chat.png" alt="Imbus chat">
+    <img src="./readmeimages/kalendar.png" alt="Imbus kalendar">
 </p>
 
 
