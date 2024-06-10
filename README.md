@@ -14,29 +14,32 @@ Imbus je mobilna aplikacija koja omogućuje korisnicima da pronađu majstore unu
 
 # Kod
 
-Backend programiramo u Spring Bootu, u Javi verziji 17 (Maven). Frontend je isprogramiran u
-React Nativeu s Expo frameworkom. Za bazu podataka koristimo MySQL koji je
-konfiguriran s pomoću Dockera.
+Backend :
+- Spring Boot
+- Java 17
+- Maven
+- MySQL & Docker
+
+Frontend:
+- React Native
+- Typescript
+- Expo framework
 
 
 # Funkcionalnosti i značajke
 
-Glavna funkcionalnost aplikacije je da korisnik može objaviti oglas i majstor može dati ponudu.
+Korisnik kreira oglas na koji znalac daje ponudu. Unutar chata se dogovaraju oko datuma obavljanja posla koji se nakon potvrde automatski sprema u kalendar.
 
-Najvažnije značajke u našem kodu su:
-- Autentifikacija
-- Autorizacija
-- Mogućnost pregledavanja i filtriranje oglasa
-- Exception handler
+Najvažnije funkcionalnosti u našem kodu su:
+- Kreiranje oglasa
+- Pregledavanje i filtriranje oglasa
+- Sitni kvarovi
 - Chat
 - Kalendar
-- Objave za sitne kvarove
-- Mogućnost pretraživanja znalaca po filteru kategorije i lokacije
-- Backend i frontend validacija
+- Filtriranje znalaca po kategoriji i lokaciji
+- Recenzije
 - Ponude
 - Uređivanje profila
-- Baza podataka
-
 
 # Povratne informacije
 
