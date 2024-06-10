@@ -26,6 +26,11 @@ export default function HomepageSection({navigation, userData, dataLoading, jobs
         console.log(jobs)
     }, [jobs]);
 
+    useEffect(() => {
+        if(refreshing)
+            refetchAllUserAdData();
+    }, [refreshing]);
+
     const handleLogout = async () => {
         await AsyncStorage.removeItem('token');
         navigation.navigate('login');
