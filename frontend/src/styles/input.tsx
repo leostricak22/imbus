@@ -69,13 +69,15 @@ export const input = StyleSheet.create({
         shadowOpacity: 0.32,
         shadowRadius: 5.46,
         elevation: 2,
+        alignItems: 'flex-start',
     },
     inputNoIcon: {
         width: '100%',
         padding: 10,
         paddingLeft: 0,
-        marginLeft: 15,
-        height: 50,
+        marginLeft: 10,
+        height: '100%',
         fontSize: 16,
+        textAlignVertical: 'top',
     },
 })

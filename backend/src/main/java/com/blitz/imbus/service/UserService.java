@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -26,7 +27,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.MemoryCacheImageOutputStream;
 
 @Service
 @AllArgsConstructor
@@ -60,13 +65,54 @@ public class UserService {
 
         Optional.ofNullable(updateUserRequest.getAttachment())
                 .map(Attachment::getValue)
-                .filter(attachmentBase64 -> {
+                .ifPresent(attachmentBase64 -> {
                     attachmentService.validateAttachmentImage(attachmentBase64);
-                    return !attachmentBase64.equals(user.getProfileImage());
-                })
-                .ifPresent(user::setProfileImage);
+                    byte[] imageBytes = Base64.getDecoder().decode(attachmentBase64);
+                    BufferedImage originalImage = null;
+                    try {
+                        originalImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    BufferedImage compressedImage = compressImage(originalImage, 0.1f); // Adjust quality here (0.0f to 1.0f)
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    try {
+                        ImageIO.write(compressedImage, "jpg", bos);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    byte[] compressedBytes = bos.toByteArray();
+                    String compressedBase64Image = Base64.getEncoder().encodeToString(compressedBytes);
+
+                    if (!compressedBase64Image.equals(user.getProfileImage())) {
+                        user.setProfileImage(compressedBase64Image);
+                    }
+                });
 
         userRepository.save(user);
+    }
+
+    private BufferedImage compressImage(BufferedImage image, float quality) {
+        try {
+            ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
+            ImageWriteParam param = writer.getDefaultWriteParam();
+            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            param.setCompressionQuality(quality);
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            MemoryCacheImageOutputStream output = new MemoryCacheImageOutputStream(bos);
+            writer.setOutput(output);
+            writer.write(null, new IIOImage(image, null, null), param);
+            output.close();
+            writer.dispose();
+
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            return ImageIO.read(bis);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private User getUser(String username) {

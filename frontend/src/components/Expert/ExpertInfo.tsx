@@ -5,7 +5,7 @@ import React from 'react';
 import {categoryTypes} from "@/src/data/CategoryTypes";
 import {counties} from "@/src/data/Counties";
 import {SvgXml} from 'react-native-svg';
-import AccountProfileImage from "../../../../../assets/icons/Account/AccountProfileImage";
+import AccountProfileImage from "../../../assets/icons/Account/AccountProfileImage";
 import StarRating from "@/src/components/Ratings/StarRating";
 import facebook from "@/assets/icons/companies/facebook";
 import build from "@/assets/icons/info/build";

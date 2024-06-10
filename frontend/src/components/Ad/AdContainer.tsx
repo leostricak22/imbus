@@ -1,10 +1,10 @@
 import {ActivityIndicator, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View} from "react-native";
 import {SvgXml} from "react-native-svg";
-import AccountProfileImage from "../../../../../assets/icons/Account/AccountProfileImage";
-import PhotoSlider from "../../../Ad/PhotoSlider";
+import AccountProfileImage from "../../../assets/icons/Account/AccountProfileImage";
+import PhotoSlider from "./PhotoSlider";
 import {counties} from "@/src/data/Counties";
-import Calendar from "../../../../svg/Calendar";
-import getOffers from "../../../../services/offer/getOffers";
+import Calendar from "../../svg/Calendar";
+import getOffers from "../../services/offer/getOffers";
 import React, {useEffect, useState} from "react";
 import OfferContainer from "./OfferContainer";
 import getAds from "@/src/services/ad/getAds";

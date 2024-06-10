@@ -3,19 +3,20 @@ import React, {useEffect, useState} from 'react';
 
 import Header from '../components/Homepage/Header';
 import Navigation from '../components/Homepage/Navigation';
-import HomepageSection from '../components/Homepage/Section/HomepageSection';
-import ExpertsSection from '../components/Homepage/Section/Expert/ExpertsSection';
+import HomepageSection from '../components/Homepage/HomepageSection';
+import ExpertsSection from '@/src/components/Expert/ExpertsSection';
 
 import validateToken from '../services/user/validateToken';
 import userSessionData from "../services/user/userSessionData";
 import {useFocusEffect} from "@react-navigation/native";
-import AdSection from "../components/Homepage/Section/Ads/AdSection";
+import AdSection from "../components/Ad/AdSection";
 import {NavigationProp} from "@react-navigation/core";
 import {valid} from "@react-native-community/cli-platform-android/build/config/__fixtures__/android";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import Chat from "@/assets/icons/navigation/chat";
 import ChatSection from "@/src/components/Chat/ChatSection";
 import CalendarEvents from "@/src/components/Calendar/CalendarEvents";
+import SmallFixesSection from "@/src/components/SmallFixes/SmallFixesSection";
 
 export const Homepage: React.FC<NavigationParameter> = ({ navigation, route }) => {
     const [refreshing, setRefreshing] = useState(false);
@@ -59,13 +60,13 @@ export const Homepage: React.FC<NavigationParameter> = ({ navigation, route }) =
                     selectedSection === 0 ? (
                         <HomepageSection navigation={navigation} userData={userData} dataLoading={dataLoading} onRefresh={onRefresh} refreshing={refreshing} />
                     ) : selectedSection === 1 ? (
-                        <Text>Posts</Text>
+                        <SmallFixesSection navigation={navigation}/>
                     ) : selectedSection === 2 ? (
                         <ChatSection navigation={navigation} route={route} userData={userData} />
                     ) : selectedSection === 3 ? (
                         <ExpertsSection navigation={navigation} />
                     ) : selectedSection === 4 ? (
-                        <CalendarEvents noEventsMessage={"Nema poslova za danas."} />
+                        <CalendarEvents navigation={navigation}/>
                     ) : (
                         <AdSection navigation={navigation} />
                     )

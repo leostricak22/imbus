@@ -1,4 +1,5 @@
 export default interface UserData {
+    attachment: string;
     id: number;
     name: string;
     surname: string;

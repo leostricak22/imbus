@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, View} from "react-native";
 import {SvgXml} from "react-native-svg";
-import AccountProfileImage from "../../../../../assets/icons/Account/AccountProfileImage";
+import AccountProfileImage from "../../../assets/icons/Account/AccountProfileImage";
 
 export default function OfferContainer({offer}:any) {
     return (

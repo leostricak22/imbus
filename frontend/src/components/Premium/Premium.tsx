@@ -3,17 +3,16 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons/faCircleCheck'
+import Header from '../Partials/Header';
+import userSessionData from "@/src/services/user/userSessionData";
 
-const App = () => {
-    return (
-        <MainComponent />
-    );
-};
-
-const MainComponent = () => {
+// @ts-ignore
+const Premium = ({navigation}) => {
     const [selectedOption, setSelectedOption] = useState(null);
 
     const [checkoutUrl, setCheckoutUrl] = useState(null);
+
+    const {userData, dataLoading, refetchUserData} = userSessionData()
 
     const handleCheckout = async () => {
         const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
@@ -37,26 +36,26 @@ const MainComponent = () => {
         const session = await response.json();
         if (session.url) {
             setCheckoutUrl(session.url);
+            // @ts-ignore
             WebBrowser.openBrowserAsync(session.url);
         } else {
             Alert.alert('Error', 'Failed to create checkout session');
         }
     };
 
-    const handleOptionSelect = (option) => {
+    const handleOptionSelect = (option: string | React.SetStateAction<null>) => {
+        // @ts-ignore
         setSelectedOption(option);
     };
 
     return (
         <View style={styles.container}>
-            <View style={styles.headerContainer}>
-                <Text style={styles.headerText}>Header</Text>
-            </View>
+            <Header userData={userData} navigation={navigation} />
             <View style={styles.secondContainer}>
                 <View style={styles.textContainer}>
-                    <Text style={[styles.secondText, styles.yellowSecondText]}>Premium plan</Text>
+                    <Text style={[styles.secondText, styles.yellowSecondText, userData.role == 'CLIENT' && {color:"#0478ca"}]}>Premium plan</Text>
                     <Text style={styles.secondText}>
-                        već od <Text style={styles.yellowSecondText}>8€/mj.</Text>
+                        već od <Text style={[styles.yellowSecondText, userData.role == 'CLIENT' && {color:"#0478ca"}]}>8€/mj.</Text>
                     </Text>
                 </View>
             </View>
@@ -85,21 +84,21 @@ const MainComponent = () => {
                 <View style={styles.topHalfFourthContainer}></View>
                 <View style={styles.bottomHalfFourthContainer}>
                     <TouchableOpacity style={styles.iconTextContainerFour} onPress={() => handleOptionSelect('1 month')}>
-                        <Icon name={selectedOption === '1 month' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '1 month' ? '#FFBF49' : '#FFBF49'} />
+                        <Icon name={selectedOption === '1 month' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '1 months' ? (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49') : (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49')} />
                         <Text style={styles.fourthText}>1 mjesec</Text><Text style={styles.priceText}>10€</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.iconTextContainerFour} onPress={() => handleOptionSelect('6 months')}>
-                        <Icon name={selectedOption === '6 months' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '6 months' ? '#FFBF49' : '#FFBF49'} />
+                        <Icon name={selectedOption === '6 months' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '6 months' ? (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49') : (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49')} />
                         <Text style={styles.fourthText}>6 mjeseci</Text><Text style={styles.fourthGrayText}>(9€/mj.)</Text><Text style={styles.priceText}>54€</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.iconTextContainerFour} onPress={() => handleOptionSelect('12 months')}>
-                        <Icon name={selectedOption === '12 months' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '12 months' ? '#FFBF49' : '#FFBF49'} />
+                        <Icon name={selectedOption === '12 months' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '12 months' ? (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49') : (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49')} />
                         <Text style={styles.fourthText}>12 mjeseci</Text><Text style={styles.fourthGrayText}>(8€/mj.)</Text><Text style={styles.priceText}>96€</Text>
                     </TouchableOpacity>
                 </View>
             </View >
             <View style={styles.paymentButtonContainer}>
-                <TouchableOpacity style={styles.paymentButton} onPress={handleCheckout}>
+                <TouchableOpacity style={[styles.paymentButton, userData.role == 'CLIENT' && {backgroundColor:"#0478ca"}]} onPress={handleCheckout}>
                     <Text style={styles.paymentButtonText}>Plaćanje</Text>
                 </TouchableOpacity>
             </View>
@@ -216,4 +215,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default App;
+export default Premium;

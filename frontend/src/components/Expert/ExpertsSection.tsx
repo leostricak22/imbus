@@ -1,54 +1,30 @@
-import {
-    ActivityIndicator,
-    Image,
-    Modal,
-    Pressable,
-    RefreshControl,
-    ScrollView,
-    StyleSheet,
-    TextInput,
-    View
-} from "react-native";
-import Filter from "../../../Filter/Filter";
+import {ActivityIndicator, Text, Image, Modal, Pressable, RefreshControl, ScrollView, StyleSheet, TextInput, View} from "react-native";
 import React, {useEffect, useState} from "react";
-import getAds from "../../../../services/ad/getAds";
-import AdContainer from "./AdContainer";
+import getExperts from "../../services/expert/getExperts";
+import Filter from "../Filter/Filter";
+import ExpertContainer from "./ExpertContainer";
+import {Expert} from "@/src/interface/Expert";
 import {input} from "@/src/styles/input";
 import {SvgXml} from "react-native-svg";
+import accountProfileImage from "@/assets/icons/Account/AccountProfileImage";
 import search from "@/assets/icons/filters/search";
 import filter from "@/assets/icons/filters/filter";
 import sort from "@/assets/icons/filters/sort";
 import {AppliedFilters} from "@/src/components/Filter/AppliedFilters";
-import ExpertContainerProps from "@/src/types/expert/ExpertContainerProps";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
-import {useFocusEffect} from "@react-navigation/native";
 
-const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {
-    const { allAdData, dataLoading, refetchAllAdData, filters, setFilters } = getAds();
+
+const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {
+    const { allExpertData, dataLoading, refetchAllExpertData, filters, setFilters } = getExperts();
     const [refreshing, setRefreshing] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
     const [searchText, setSearchText] = useState({});
-    const [firstFocus, setFirstFocus] = useState(true);
 
     const refresh = async () => {
         setRefreshing(true);
-        await refetchAllAdData();
+        await refetchAllExpertData();
         setRefreshing(false);
     };
-
-    useFocusEffect(
-        React.useCallback(() => {
-            if (!firstFocus) {
-                refresh();
-            } else {
-                setFirstFocus(false);
-            }
-        }, [firstFocus])
-    );
-
-    useEffect(() => {
-        refresh();
-    }, [filters]);
 
     return (
         <View style={styles.container}>
@@ -73,7 +49,7 @@ const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {
                         </View>
                         <TextInput
                             style={input.input}
-                            placeholder="Pretraži oglase..."
+                            placeholder="Pretraži znalce..."
                             onChangeText={(text:string) => setSearchText(text)}
                         />
                     </View>
@@ -99,7 +75,7 @@ const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {
                     </Pressable>
                 </View>
                 <View style={styles.appliedFiltersContainer}>
-                    {filters && filters.length > 0 &&  <AppliedFilters filters={filters} color={"#ffbf49"}/>}
+                    {filters && filters.length > 0 &&  <AppliedFilters filters={filters}/>}
                 </View>
             </View>
 
@@ -110,10 +86,12 @@ const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {
                 />
             }>
                 {
-                    !dataLoading && allAdData && (
+                    dataLoading || !allExpertData ? (
+                        <ActivityIndicator size="large" color="#0478ca" />
+                    ) : (
                         <>
-                            {allAdData.map((ad: any) => (
-                                <AdContainer key={ad.id} ad={ad} navigation={navigation} refreshing={refreshing} />
+                            {allExpertData.map((expert: Expert) => (
+                                <ExpertContainer key={expert.id} expert={expert} navigation={navigation} />
                             ))}
                         </>
                     )
@@ -126,6 +104,8 @@ const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: '100%',
+        margin: 'auto',
     },
     scrollViewContainer: {
         flex: 1,
@@ -135,22 +115,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightblue',
         padding: 15,
         borderRadius: 5,
-        width: '80%',
         alignSelf: 'center',
     },
     text: {
         fontSize: 16,
-        marginBottom: 5,
-    },
-    input: {
-        width: '80%',
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 5,
-        alignSelf: 'center',
-        marginTop: 20,
-        padding: 10,
     },
     filterContainer: {
         flexDirection: 'column',
@@ -179,4 +147,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AdSection;
+export default ExpertSection;

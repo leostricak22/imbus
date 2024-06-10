@@ -5,7 +5,7 @@ import {StyleSheet, View, Text, ScrollView, ActivityIndicator} from "react-nativ
 import close_client from "@/assets/icons/filters/close_client";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {FiltersProps} from "@/src/types/filter/FiltersProps";
-import ExpertContainer from "@/src/components/Homepage/Section/Expert/ExpertContainer";
+import ExpertContainer from "@/src/components/Expert/ExpertContainer";
 import Filter from "@/src/interface/Filter";
 import {categoryTypes} from "@/src/data/CategoryTypes";
 import {counties} from "@/src/data/Counties";

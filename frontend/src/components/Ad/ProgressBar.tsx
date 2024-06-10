@@ -2,12 +2,13 @@ import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native
 import React, {useState} from "react";
 import {ProgressBarProps} from "@/src/types/form/ProgressBarProps";
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ step }) => {
+export const ProgressBar: React.FC<ProgressBarProps> = ({ step, maxStep }) => {
+    console.log(100/maxStep)
     return (
         <View style={styles.container}>
-            <Text style={styles.stepCount}>Koraci {step} od 4</Text>
+            <Text style={styles.stepCount}>Koraci {step} od {maxStep}</Text>
             <View style={styles.barContainer}>
-                <View style={[styles.bar, { width: `${(step) * 25}%` }]} />
+                <View style={[styles.bar, { width: `${(step) * (100/maxStep)}%` }]} />
             </View>
         </View>
     );

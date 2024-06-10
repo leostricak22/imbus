@@ -19,14 +19,6 @@ public class UserController {
     private final UserService userService;
     private final ModelMapper modelMapper;
 
-    /*
-    @PutMapping("/")
-    public ResponseEntity<UserResponse> updateUser(@RequestParam("image") MultipartFile image,
-                                                   @RequestParam("user") String userRequest
-    ) {
-        return ResponseEntity.ok(userService.updateUser(image, userRequest));
-    }
-    */
 
     @PutMapping("/")
     public ResponseEntity<?> updateUser(
