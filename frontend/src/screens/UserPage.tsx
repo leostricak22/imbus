@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import ExpertContainerProps from "@/src/types/expert/ExpertContainerProps";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {View, Text, StyleSheet, Pressable} from "react-native";
-import ExpertInfo from "@/src/components/Homepage/Section/Expert/ExpertInfo";
+import ExpertInfo from "@/src/components/Expert/ExpertInfo";
 import Header from "@/src/components/Partials/Header";
 import userSessionData from "@/src/services/user/userSessionData";
 import RatingsContainer from "@/src/components/Ratings/RatingsContainer";

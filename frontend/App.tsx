@@ -15,6 +15,7 @@ import {AddAd} from "@/src/screens/AddAd";
 import {ViewAd} from "@/src/screens/ViewAd";
 import UserPage from "@/src/screens/UserPage";
 import Chat from "@/src/screens/Chat";
+import AddSmallFixes from "@/src/screens/AddSmallFixes";
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,11 @@ export default function App() {
                     <Stack.Screen
                         name="add-ad"
                         component={AddAd}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="add-small-fixes"
+                        component={AddSmallFixes}
                         options={{ headerShown: false }}
                     />
                     <Stack.Screen

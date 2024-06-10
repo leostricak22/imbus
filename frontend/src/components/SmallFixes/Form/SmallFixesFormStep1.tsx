@@ -1,18 +1,10 @@
 import React, {useState} from "react";
-import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import FormProps from "@/src/types/form/FormProps";
-import {Text, View, StyleSheet, TextInput} from "react-native";
-import DropdownInput from "@/src/components/InputTypes/DropdownInput";
-import {categoryTypes} from "@/src/data/CategoryTypes";
-import build from "@/assets/icons/dropdown/build";
-import location from "@/assets/icons/dropdown/location";
-import {counties} from "@/src/data/Counties";
-import CheckboxWithText from "@/src/components/InputTypes/CheckboxWithText";
+import {View, Text, StyleSheet, TextInput} from "react-native";
 import {input} from "@/src/styles/input";
-import DateTimeInput from "@/src/components/InputTypes/DateTimeInput";
 import PhotoSliderEdit from "@/src/components/Ad/PhotoSliderEdit";
 
-export const AdFormStep3: React.FC<FormProps> = ({ form, setForm, images, setImages }) => {
+export const SmallFixesFormStep1: React.FC<FormProps> = ({ form, setForm, images, setImages }) => {
     const [parentWidth, setParentWidth] = useState(0);
 
     const handleChange = (inputTag: string, value: string) => {
@@ -23,6 +15,7 @@ export const AdFormStep3: React.FC<FormProps> = ({ form, setForm, images, setIma
         const { width } = event.nativeEvent.layout;
         setParentWidth(width);
     };
+
 
     return (
         <View style={styles.container}>
@@ -36,11 +29,12 @@ export const AdFormStep3: React.FC<FormProps> = ({ form, setForm, images, setIma
                 <View style={input.inputShadowLargeContainer}>
                     <TextInput
                         style={input.inputNoIcon}
-                        placeholder="Opis"
+                        placeholder="Opišite koji se posao mora obaviti sa svim detaljima (površina, mjesto obavljanja radova...)"
                         value={form && form.description}
                         multiline={true}
                         onChangeText={(text) => handleChange("description", text)}
                     />
+
                 </View>
             </View>
             <View style={styles.inputContainer}>
@@ -54,7 +48,7 @@ export const AdFormStep3: React.FC<FormProps> = ({ form, setForm, images, setIma
 
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -78,3 +72,5 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
     }
 });
+
+export default SmallFixesFormStep1;

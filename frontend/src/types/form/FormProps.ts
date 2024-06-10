@@ -4,6 +4,7 @@ export type FormProps = {
     formDataItem?: string;
     images?: string[];
     setImages?: any;
+    navigation?: any;
 };
 
 export default FormProps;

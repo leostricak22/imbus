@@ -7,7 +7,7 @@ import Calendar from "../svg/Calendar";
 import location from "../../assets/icons/location.png";
 import {counties} from "../data/Counties";
 import PhotoSlider from "../components/Ad/PhotoSlider";
-import OfferContainer from "../components/Homepage/Section/Ads/OfferContainer";
+import OfferContainer from "../components/Ad/OfferContainer";
 import getOffers from "../services/offer/getOffers";
 import React, {useEffect, useState} from "react";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";

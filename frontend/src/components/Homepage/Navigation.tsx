@@ -50,6 +50,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
     };
 
     const handleSmallFixesPress = () => {
+        navigation.navigate("add-small-fixes")
         hideDialog();
     };
 

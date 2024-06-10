@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, {useEffect, useState} from "react";
 import getAds from "@/src/services/ad/getAds";
 import getUserAds from "@/src/services/ad/getUserAds";
-import AdContainer from "@/src/components/Homepage/Section/Ads/AdContainer";
+import AdContainer from "@/src/components/Ad/AdContainer";
 import getExperts from "@/src/services/expert/getExperts";
 import getJobs from "@/src/services/offer/getJobs";
 import Jobs from "@/src/components/Jobs/Jobs";
