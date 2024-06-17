@@ -169,7 +169,7 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing, r
                             </View>
                             <View>
                                 <Text style={styles.textInfo}>
-                                    {formatDate(ad.do_the_job_from)} - {formatDate(ad.do_the_job_to)}
+                                    {formatDate(ad.do_the_job_from)}-{formatDate(ad.do_the_job_to)}
                                 </Text>
                             </View>
                         </View>
@@ -226,7 +226,10 @@ const AdContainer: React.FC<AdContainerProps> = ({ ad, navigation, refreshing, r
                                             )}
                                             <Pressable
                                                 style={styles.offerSpecificContainer}
-                                                onPress={() => navigation.navigate("user-page", { expert: offer.user })}
+                                                onPress={() => {
+                                                    console.log(offer)
+                                                    navigation.navigate("user-page", { expert: offer.user })
+                                                }}
                                             >
                                                 <OfferContainer offer={offer} />
                                             </Pressable>
@@ -326,7 +329,7 @@ const styles = StyleSheet.create({
     container: {
         width: '90%',
         alignSelf: 'center',
-        marginBottom: 10,
+        marginBottom: 20,
     },
     itemContainer: {
         backgroundColor: 'white',
@@ -398,7 +401,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     textInfo: {
-        marginLeft: 5,
+        marginRight: 25,
     },
     noOffers: {
         marginTop: 10,
@@ -460,7 +463,7 @@ const styles = StyleSheet.create({
     icon: {
         width: 20,
         height: 20,
-        marginRight: 10,
+        marginRight: 5,
     },
     heading: {
         fontSize: 18,

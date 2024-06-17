@@ -19,7 +19,7 @@ const PhotoSliderEdit: React.FC<PhotoSliderProps> = ({ images, setImages, parent
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [1, 1],
-            quality: 0.2,
+            quality: 0.5,
         });
 
         if (!result.canceled) {

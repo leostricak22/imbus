@@ -5,7 +5,8 @@ export type ChatInputProps = {
     setMessage: any;
     submit: any;
     role: string;
-    otherUser: string;
-    calendarTrigger: boolean;
-    setCalendarTrigger: any;
+    calendarOption?: boolean;
+    otherUser?: string;
+    calendarTrigger?: boolean;
+    setCalendarTrigger?: any;
 }

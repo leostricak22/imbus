@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     List<Rating> findAllByUserRatedUsername(String username);
+    List<Rating> findAllByUserRatedId(Integer id);
     boolean existsByUserRatedIdAndUserRatingId(Integer id1, Integer id2);
 }

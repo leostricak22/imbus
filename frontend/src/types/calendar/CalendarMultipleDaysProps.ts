@@ -1,6 +1,6 @@
 type CalendarMultipleDaysProps = {
-    firstDate: Date | null;
-    secondDate: Date | null;
+    firstDate: any;
+    secondDate: any;
     setFirstDate: any;
     setSecondDate: any;
 }

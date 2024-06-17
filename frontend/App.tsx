@@ -17,6 +17,7 @@ import UserPage from "@/src/screens/UserPage";
 import Chat from "@/src/screens/Chat";
 import AddSmallFixes from "@/src/screens/AddSmallFixes";
 import Premium from "@/src/components/Premium/Premium";
+import ViewSmallFixes from "@/src/screens/ViewSmallFixes";
 
 const Stack = createStackNavigator();
 
@@ -63,6 +64,11 @@ export default function App() {
                     <Stack.Screen
                         name="view-ad"
                         component={ViewAd}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="small-fixes-view"
+                        component={ViewSmallFixes}
                         options={{ headerShown: false }}
                     />
                     <Stack.Screen

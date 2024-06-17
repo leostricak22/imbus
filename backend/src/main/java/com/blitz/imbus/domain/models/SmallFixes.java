@@ -1,5 +1,7 @@
 package com.blitz.imbus.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,4 +37,7 @@ public class SmallFixes {
     @Column(columnDefinition = "MEDIUMBLOB")
     private List<byte[]> attachments;
 
+    @OneToMany(mappedBy = "smallFix", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Comment> comments;
 }

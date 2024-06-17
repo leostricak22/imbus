@@ -60,7 +60,9 @@ export const Jobs: React.FC<JobsProps> = ({ navigation, date, refreshing, noEven
 
 const styles = StyleSheet.create({
     container: {
-        height: 130,
+        height: 70,
+        maxHeight: 70,
+        width: "100%",
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',

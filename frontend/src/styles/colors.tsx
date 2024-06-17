@@ -22,8 +22,17 @@ export const colors = StyleSheet.create({
     darkRed: {
         color:"#b30000",
     },
+    gold: {
+        color: "#edf11d"
+    },
     backgroundBlue: {
         backgroundColor: '#0478ca',
+    },
+    backgroundGold: {
+        backgroundColor: '#edf11d',
+    },
+    backgroundDarkGold: {
+        backgroundColor: '#898a14',
     },
     backgroundRed: {
         backgroundColor:"#ff0d0d",

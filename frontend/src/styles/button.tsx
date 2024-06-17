@@ -28,7 +28,6 @@ export const button = StyleSheet.create({
     buttonText: {
         textAlign: 'center',
         color: 'white',
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontSize: 16,
     },
 })

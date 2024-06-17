@@ -132,7 +132,7 @@ export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
               onPressIn={() => setHoverStateTrue("login")}
               onPressOut={() => setHoverStateFalse("login")}
           >
-            <Text style={button.buttonText}>Prijava</Text>
+            <Text style={[ {fontWeight:"bold"},button.buttonText]}>Prijava</Text>
           </Pressable>
 
           <Text style={styles.smallText}>ili</Text>
@@ -167,13 +167,13 @@ export const Login: React.FC<NavigationParameter> = ({ navigation }) => {
           keyboardVisible ? null : (
               <View style={styles.noAccountContainer}>
                 <Text style={styles.smallText}>Nemaš račun?</Text>
-                <Pressable style={[button.buttonContainer, styles.spaceTop, hoverStates.register ? colors.backgroundDarkOrange : colors.backgroundOrange]}
+                <Pressable style={[button.buttonContainer, hoverStates.register ? colors.backgroundDarkOrange : colors.backgroundOrange]}
                            onPress={() => navigation.navigate('register')}
                            onPressIn={() => setHoverStateTrue('register')}
                            onPressOut={() => setHoverStateFalse('register')}
                 >
 
-                  <Text style={button.buttonText}>Registracija</Text>
+                  <Text style={[ {fontWeight:"bold"}, button.buttonText ]}>Registracija</Text>
                 </Pressable>
               </View>
             )

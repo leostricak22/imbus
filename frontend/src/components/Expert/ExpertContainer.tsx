@@ -1,6 +1,6 @@
 import {Image, Pressable, StyleSheet, Text, View} from "react-native";
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {categoryTypes} from "@/src/data/CategoryTypes";
 import {counties} from "@/src/data/Counties";
@@ -15,17 +15,57 @@ import ExpertContainerProps from "@/src/types/expert/ExpertContainerProps";
 import {expertinfo} from "@/src/styles/expertinfo";
 import ExpertInfo from "@/src/components/Expert/ExpertInfo";
 
-const ExpertContainer: React.FC<ExpertContainerProps> = ({ navigation , expert}) => {
+const ExpertContainer: React.FC<ExpertContainerProps> = ({ navigation , expert, ad=false}) => {
+    const [pickedAd, setPickedAd] = useState(null);
+
     const openUserPage = () => {
-        navigation.navigate("user-page", {expert: expert});
+        if(!ad)
+            navigation.navigate("user-page", {expert: expert});
     }
+
+    function averageRating () {
+        let sum = 0;
+        expert.ratings.forEach((rating: { rating: number; }) => {
+            sum += rating.rating;
+        });
+
+        if(sum==0)
+            return (0).toFixed(1);
+
+        return (sum / expert.ratings.length).toFixed(1);
+    }
+
+    const ads = [
+        require("@/assets/ads/mima.jpg"),
+        require("@/assets/ads/emmezeta.jpg"),
+        require("@/assets/ads/bauhaus.jpg"),
+        require("@/assets/ads/pevex.png"),
+        require("@/assets/ads/prima.jpg"),
+        require("@/assets/ads/tacta.png"),
+    ]
+
+    useEffect(() => {
+        setPickedAd(ads[Math.floor(Math.random() * ads.length)]);
+    }, []);
 
     return (
         <View style={styles.container}>
-            <Pressable style={styles.pressable}
+            <Pressable style={[styles.pressable, expert.premium && {borderColor: "#edf11d"}]}
                 onPress={openUserPage}
             >
-                <ExpertInfo navigation={navigation} expert={expert} />
+                {!ad ?
+                    <ExpertInfo navigation={navigation} expert={expert} container={true} />
+                    :
+                    <View style={styles.ad}>
+                        {pickedAd &&
+                            <Image
+                                style={styles.adImage}
+                                source={pickedAd}
+                                resizeMode="cover"
+                            />
+                        }
+                    </View>
+                }
             </Pressable>
         </View>
     );
@@ -57,7 +97,14 @@ const styles = StyleSheet.create({
         shadowRadius: 5.62,
         elevation: 4
     },
-
+    ad: {
+        width: '100%',
+        maxHeight: 150
+    },
+    adImage: {
+        width: '100%',
+        height: '100%'
+    }
 });
 
 export default ExpertContainer;

@@ -9,47 +9,14 @@ import chat from "@/assets/icons/navigation/chat";
 import ChatUserContainer from "@/src/components/Chat/ChatUserContainer";
 import Message from "@/src/interface/Message";
 import userFromUsername from "@/src/services/user/userFromUsername";
+import ChatSectionProps from "@/src/types/chat/ChatSectionProps";
 
-export const ChatSection: React.FC<ChatProps> = ({ navigation, userData }) => {
-    const {messages, setMessages, dataLoading, refetchMessages } = getMessages();
-    const [chats, setChats] = useState<Message[]>([]);
-
-    useEffect(() => {
-        const newChats: React.SetStateAction<Message[]> = [];
-
-        if(!messages)
-            return;
-
-        for(let i = 0; i < messages.length; i++) {
-            if ((messages[i].receiverName === userData.username || messages[i].senderName === userData.username)) {
-                const otherUser = messages[i].receiverName === userData.username ? messages[i].senderName : messages[i].receiverName;
-
-                const isOtherUserInChats = newChats.some(chat => chat.receiverName === otherUser || chat.senderName === otherUser);
-
-                if (!isOtherUserInChats && otherUser) {
-                    newChats.push(messages[i]);
-                }
-            }
-        }
-
-        setChats(newChats);
-    }, [messages]);
-
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            refetchMessages();
-        }, 1000);
-
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, []);
-
+export const ChatSection: React.FC<ChatSectionProps> = ({ navigation, userData, chats, refetchMessages, messages }) => {
     return (
         <ScrollView style={styles.container}>
             <View>
                 {
-                    chats.map((chat, index) => {
+                    chats.map((chat: Message, index: React.Key | null | undefined) => {
                         return (
                             <View key={index}>
                                 {userData.username && <ChatUserContainer navigation={navigation} chat={chat} username={userData.username} role={userData.role} messages={messages} refetchMessages={refetchMessages} />}

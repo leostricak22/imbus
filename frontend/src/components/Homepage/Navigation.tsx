@@ -28,8 +28,11 @@ import post_client from "@/assets/icons/navigation/post_client";
 import post_client_hover from "@/assets/icons/navigation/post_client_hover";
 
 import {button} from "@/src/styles/button";
+import new_chat_expert from "@/assets/icons/navigation/new_chat_expert";
+import {newExpression} from "@babel/types";
+import new_chat_client from "@/assets/icons/navigation/new_chat_client";
 
-export default function Navigation({ navigation, selectedSection, setSelectedSection, userData}:any ) {
+export default function Navigation({ navigation, selectedSection, setSelectedSection, userData, newMessages}:any ) {
     const [buttonAddIsHovered, setButtonAddIsHovered] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
     const [role, setRole] = useState("")
@@ -150,7 +153,7 @@ export default function Navigation({ navigation, selectedSection, setSelectedSec
                             ) : selectedSection === 2 && role === 'EXPERT' ? (
                                 chat_expert
                             ) : (
-                                chat
+                                !newMessages ? chat : (role === 'EXPERT' ? new_chat_expert : new_chat_client)
                             )
                         }
                     />

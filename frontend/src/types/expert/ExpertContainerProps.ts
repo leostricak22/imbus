@@ -5,6 +5,9 @@ export type ExpertContainerProps = {
     navigation: NavigationProp<any>;
     expert: Expert;
     role?: string;
+    averageRating?: number;
+    container?: boolean;
+    ad?: boolean;
 };
 
 export default ExpertContainerProps;

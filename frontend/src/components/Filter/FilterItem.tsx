@@ -1,8 +1,10 @@
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
+import React from "react";
+import FilterItemProps from "@/src/types/filter/FilterItemProps";
 
-export default function FilterItem({ label, isSelected, onPress }:any) {
+export const FilterItem:React.FC<FilterItemProps> = ({ role, label, isSelected, onPress }) => {
     return (
-        <TouchableOpacity onPress={onPress} style={[styles.unselectedFilterContainer, isSelected && styles.selectedFilterContainer]}>
+        <TouchableOpacity onPress={onPress} style={[styles.unselectedFilterContainer, isSelected && (role == "CLIENT" ? {backgroundColor:"lightblue"} : {backgroundColor:"#FFDEAD"})]}>
             <Text>{label}</Text>
         </TouchableOpacity>
     );
@@ -19,3 +21,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightblue',
     },
 });
+
+export default FilterItem;

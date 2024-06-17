@@ -8,7 +8,7 @@ import React, {useEffect, useState} from "react";
 import {ChatInputProps} from "@/src/types/chat/ChatInputProps";
 import CalendarModal from "@/src/components/Dialogs/CalendarDialog";
 
-export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, submit, role, otherUser, calendarTrigger, setCalendarTrigger}) => {
+export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, calendarOption=true, submit, role, otherUser, calendarTrigger, setCalendarTrigger}) => {
     const [hoverStates, setHoverStates] = useState({
         send: false,
     });
@@ -35,7 +35,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, submit
 
     return (
         <View style={styles.sendContainer}>
-            <CalendarModal modalVisible={modalVisible} closeCalendar={closeCalendar} role={role} otherUser={otherUser} />
+            {calendarOption && otherUser && <CalendarModal modalVisible={modalVisible} closeCalendar={closeCalendar} role={role} otherUser={otherUser} /> }
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
@@ -43,6 +43,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, submit
                     value={message}
                     onChangeText={(text) => setMessage(text)}
                 />
+                {calendarOption &&
                 <View style={styles.iconContainer}>
                     <Pressable style={styles.icon}
                                onPress={openCalendar}
@@ -54,6 +55,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({message, setMessage, submit
                         />
                     </Pressable>
                 </View>
+                }
             </View>
             <Pressable style={[styles.send, role == 'CLIENT' ? (hoverStates.send ? colors.backgroundDarkBlue : colors.backgroundBlue) : (hoverStates.send ? colors.backgroundDarkOrange : colors.backgroundOrange)]}
                        onPress={() => {

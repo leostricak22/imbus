@@ -13,18 +13,24 @@ import DateTimeInput from "@/src/components/InputTypes/DateTimeInput";
 import CalendarMultipleDays from "@/src/components/Calendar/CalendarMultipleDays";
 
 export const AdFormStep2: React.FC<FormProps> = ({ form, setForm }) => {
-    const [firstDate, setFirstDate] = useState(null);
-    const [secondDate, setSecondDate] = useState(null);
+    const [firstDate, setFirstDate] = useState("");
+    const [secondDate, setSecondDate] = useState("");
 
     useEffect(() => {
         console.log(form)
     }, [form]);
 
     useEffect(() => {
+        if(!firstDate || !secondDate)
+            return;
+
+        let [yearFirstDate, monthFirstDate, dayFirstDate] = firstDate.split('-');
+        let [yearSecondDate, monthSecondDate, daySecondDate] = secondDate.split('-');
+
         setForm({
             ...form,
-            do_the_job_from: firstDate,
-            do_the_job_to: secondDate,
+            do_the_job_from: new Date(parseInt(yearFirstDate), parseInt(monthFirstDate)-1, parseInt(dayFirstDate)+1),
+            do_the_job_to: new Date(parseInt(yearSecondDate), parseInt(monthSecondDate)-1, parseInt(daySecondDate)+1),
         });
 
         console.log(form)

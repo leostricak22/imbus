@@ -27,6 +27,8 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
 
     const {userData, setUserData, dataLoading:dataLoadingSession, refetchUserData } = userSessionData();
 
+    const [offerSet, setOfferSet] = useState(true);
+
     const [hoverStates, setHoverStates] = useState({
         chat: false,
         offer: false,
@@ -46,6 +48,18 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
         )));
     }, []);
 
+    useEffect(() => {
+        setOfferSet(true);
+        if(allOfferData.length > 0) {
+            for(let i =0;i<allOfferData.length;i++) {
+                // @ts-ignore
+                if(allOfferData[i].user.id === userData.id) {
+                    setOfferSet(false);
+                }
+            }
+        }
+    }, [allOfferData]);
+
     const adCreatedAt = ad.created_at ? new Date(ad.created_at) : null;
     let timeAgoString:string = "";
     if (adCreatedAt) {
@@ -58,7 +72,7 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
 
     return (
         <View style={styles.container}>
-            <Header navigation={navigation} userData={userData} />
+            <Header navigation={navigation} role={userData.role} />
             <ScrollView style={[styles.itemContainer, userData && userData.role === "CLIENT" && {marginBottom:0}]}>
                 <View style={styles.userInfo}>
                     {
@@ -112,6 +126,7 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
                             style={[
                                 button.buttonContainer,
                                 styles.option,
+                                !offerSet && {width: "100%"},
                                 hoverStates.chat ? colors.backgroundDarkGray : colors.backgroundBlack
                             ]}
                             onPressIn={() => setHoverState("chat", true)}
@@ -120,17 +135,20 @@ export const ViewAd: React.FC<NavigationParameter> = ({ navigation, route}) => {
                             <Text style={button.buttonText}>Poruka</Text>
                         </Pressable>
 
-                        <Pressable
-                            style={[
-                                button.buttonContainer,
-                                styles.option,
-                                hoverStates.offer ? colors.backgroundDarkOrange : colors.backgroundOrange
-                            ]}
-                            onPressIn={() => setHoverState("offer", true)}
-                            onPressOut={() => setHoverState("offer", false)}
-                        >
-                            <Text style={button.buttonText}>Ponuda</Text>
-                        </Pressable>
+                        {
+                            offerSet &&
+                            <Pressable
+                                style={[
+                                    button.buttonContainer,
+                                    styles.option,
+                                    hoverStates.offer ? colors.backgroundDarkOrange : colors.backgroundOrange
+                                ]}
+                                onPressIn={() => setHoverState("offer", true)}
+                                onPressOut={() => setHoverState("offer", false)}
+                            >
+                                <Text style={[button.buttonText, colors.black]}>Ponuda</Text>
+                            </Pressable>
+                        }
                     </View>
                 )
             }

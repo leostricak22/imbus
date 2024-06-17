@@ -43,4 +43,7 @@ public class UserRequest {
 
     @Enumerated(EnumType.STRING)
     private Set<CategoryType> categories;
+
+    private String profileImage;
+
 }

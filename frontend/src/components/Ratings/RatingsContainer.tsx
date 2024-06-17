@@ -5,6 +5,7 @@ import { colors } from "@/src/styles/colors";
 import AddRatingDialog from "@/src/components/Dialogs/AddRatingDialog";
 import getRatings from "@/src/services/ratings/getRatings";
 import StarRating from "@/src/components/Ratings/StarRating";
+import premium from "@/assets/icons/premium/premium";
 
 const RatingsContainer: React.FC<ExpertContainerProps> = ({ navigation, expert, role="CLIENT" }) => {
     const [hoverStates, setHoverStates] = useState({
@@ -32,12 +33,12 @@ const RatingsContainer: React.FC<ExpertContainerProps> = ({ navigation, expert, 
             <View style={styles.ratingHeader}>
                 <Text style={styles.header}>Recenzije:</Text>
                 <Pressable
-                    style={[styles.addRating, role == 'CLIENT' ? (!hoverStates.rating ? colors.backgroundBlue : colors.backgroundDarkBlue) : (!hoverStates.rating ? colors.backgroundOrange : colors.backgroundDarkOrange)]}
+                    style={[styles.addRating, (role == 'CLIENT' ? (!hoverStates.rating ? colors.backgroundBlue : colors.backgroundDarkBlue) : (!hoverStates.rating ? colors.backgroundOrange : colors.backgroundDarkOrange))]}
                     onPress={addRating}
                     onPressIn={() => setHoverState("rating", true)}
                     onPressOut={() => setHoverState("rating", false)}
                 >
-                    <Text style={colors.white}>Dodaj recenziju</Text>
+                    <Text style={[colors.white]}>Dodaj recenziju</Text>
                 </Pressable>
             </View>
             <ScrollView style={styles.ratingContainer}>

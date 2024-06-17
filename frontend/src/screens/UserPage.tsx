@@ -28,7 +28,7 @@ const UserPage: React.FC<NavigationParameter> = ({ navigation, route}) => {
 
     return (
         <View style={styles.container}>
-            {userData && <Header navigation={navigation} userData={userData} />}
+            {userData && <Header navigation={navigation} role={userData.role} />}
             <View style={styles.infoContainer}>
                 <View style={styles.expertInfoContainer}>
                     <ExpertInfo navigation={navigation} expert={expert} role={userData.role}/>
@@ -40,7 +40,7 @@ const UserPage: React.FC<NavigationParameter> = ({ navigation, route}) => {
             </View>
             <View style={styles.messageContainer}>
                 <Pressable
-                    style={[button.buttonContainer, hoverStates.chat ? colors.backgroundDarkGray : colors.backgroundBlack]}
+                    style={[button.buttonContainer, hoverStates.chat ? (userData.role == 'EXPERT' ? colors.backgroundDarkOrange : colors.backgroundDarkBlue) : (userData.role == 'EXPERT' ? colors.backgroundOrange : colors.backgroundBlue)]}
                     onPressIn={() => setHoverStateTrue("chat")}
                     onPressOut={() => setHoverStateFalse("chat")}
                 >

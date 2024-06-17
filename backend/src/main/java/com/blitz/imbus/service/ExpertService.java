@@ -4,7 +4,9 @@ import com.blitz.imbus.domain.enums.Role;
 import com.blitz.imbus.domain.exception.AppException;
 import com.blitz.imbus.domain.exception.ErrorCode;
 import com.blitz.imbus.domain.models.FilterCriteria;
+import com.blitz.imbus.domain.models.Rating;
 import com.blitz.imbus.domain.models.User;
+import com.blitz.imbus.repository.RatingRepository;
 import com.blitz.imbus.repository.UserRepository;
 import com.blitz.imbus.rest.dto.FilterRequest;
 import com.blitz.imbus.rest.dto.UserResponse;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class ExpertService {
     private final UserRepository userRepository;
     private final FilterService filterService;
+    private final RatingRepository ratingRepository;
 
     private final ModelMapper modelMapper;
 
@@ -33,12 +36,18 @@ public class ExpertService {
 
     public List<UserResponse> getExperts(List<User> allExperts, List<FilterCriteria> filterList) {
         List<UserResponse> allExpertsResponse = new ArrayList<>();
+        List<Rating> ratings;
 
         for (User expert : allExperts) {
             if (!filterService.checkFilter(filterList, expert))
                 continue;
 
-            allExpertsResponse.add(modelMapper.map(expert, UserResponse.class));
+            ratings = ratingRepository.findAllByUserRatedId(expert.getId());
+
+            UserResponse addToResponseUser = modelMapper.map(expert, UserResponse.class);
+            addToResponseUser.setRatings(ratings);
+
+            allExpertsResponse.add(addToResponseUser);
         }
 
         return allExpertsResponse;
@@ -50,6 +59,12 @@ public class ExpertService {
         if(user.isEmpty())
             throw new AppException(ErrorCode.BAD_REQUEST);
 
-        return modelMapper.map(user.get(), UserResponse.class);
+        List<Rating> ratings = ratingRepository.findAllByUserRatedId(id);
+
+        UserResponse userResponse = modelMapper.map(user.get(), UserResponse.class);
+
+        userResponse.setRatings(ratings);
+
+        return userResponse;
     }
 }

@@ -3,6 +3,7 @@ package com.blitz.imbus.rest.dto;
 import com.blitz.imbus.domain.enums.CategoryType;
 import com.blitz.imbus.domain.enums.CroatianCounty;
 import com.blitz.imbus.domain.enums.Role;
+import com.blitz.imbus.domain.models.Rating;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,6 @@ public class UserResponse {
     private Role role;
     private Set<CategoryType> categories;
     private String profileImage;
+    private List<Rating> ratings = null;
+    private Boolean premium;
 }

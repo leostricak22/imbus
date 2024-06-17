@@ -9,13 +9,23 @@ import visibility from "@/assets/icons/login/visibility";
 
 import {input} from "@/src/styles/input";
 import {FormParameter} from "@/src/types/form/FormParameter";
+import DropdownInput from "@/src/components/InputTypes/DropdownInput";
+import {counties} from "@/src/data/Counties";
+import location from "@/assets/icons/dropdown/location";
 
 export const RegisterClientForm: React.FC<FormParameter> = ({ form, setForm }) => {
     const [isPasswordHidden1, setIsPasswordHidden1] = useState(true);
     const [isPasswordHidden2, setIsPasswordHidden2] = useState(true);
 
+    const [pickedLocation, setPickedLocation] = React.useState("");
+
     const handleChange = (inputTag: string, value: string) => {
         setForm((prevForm: any) => ({ ...prevForm, [inputTag]: value }));
+    };
+
+    const handleChangeLocation = (name: string, value: string) => {
+        setPickedLocation(value);
+        setForm({ ...form, location: value });
     };
 
     return (
@@ -30,10 +40,30 @@ export const RegisterClientForm: React.FC<FormParameter> = ({ form, setForm }) =
                 </View>
                 <TextInput
                     style={input.input}
-                    placeholder="Ime"
-                    onChangeText={(text) => handleChange("name", text)}
+                    placeholder="Korisničko ime"
+                    onChangeText={(text) => handleChange("username", text)}
                 />
             </View>
+            <View style={styles.nameSurnameContainer}>
+                <View style={[input.inputContainer, {width: "48%"}]}>
+                    <TextInput
+                        style={[input.input, {paddingLeft: 10}]}
+                        placeholder="Ime"
+                        onChangeText={(text) => handleChange("name", text)}
+                    />
+                </View>
+                <View style={[input.inputContainer, {width: "48%"}]}>
+                    <TextInput
+                        style={[input.input, {paddingLeft: 10}]}
+                        placeholder="Prezime"
+                        onChangeText={(text) => handleChange("surname", text)}
+                    />
+                </View>
+            </View>
+            <View style={styles.dropdownForm}>
+                <DropdownInput handleChange={handleChangeLocation} items={counties} formData={{}} formDataItem={"location"} icon={location}/>
+            </View>
+
             <View style={input.inputContainer}>
                 <View style={input.inputIcon}>
                     <SvgXml
@@ -106,5 +136,14 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: '#fff',
+    },
+    nameSurnameContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    dropdownForm: {
+        width: '100%',
+        marginBottom: 10,
     },
 });

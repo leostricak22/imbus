@@ -41,7 +41,7 @@ export const AccountSettings: React.FC<NavigationParameter> = ({ navigation }) =
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
-            quality: 1,
+            quality: 0.5,
             base64: true,
         });
 
@@ -72,7 +72,7 @@ export const AccountSettings: React.FC<NavigationParameter> = ({ navigation }) =
 
     return (
         <View style={styles.containerBox}>
-            <Header navigation={navigation} userData={userData} />
+            <Header navigation={navigation} role={userData.role} />
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Pressable onPress={pickImage}>

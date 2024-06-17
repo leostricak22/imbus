@@ -63,6 +63,8 @@ public class User implements UserDetails {
     @Builder.Default
     private String profileImage = null;
 
+    private Boolean premium=false;
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

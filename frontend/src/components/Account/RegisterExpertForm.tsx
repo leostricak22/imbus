@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {View, Text, StyleSheet, TextInput, Pressable} from "react-native";
 import {SvgXml} from "react-native-svg";
@@ -13,6 +13,8 @@ import {roles} from "@/src/data/Roles";
 import {counties} from "@/src/data/Counties";
 import {categoryTypes} from "@/src/data/CategoryTypes";
 import {FormParameter} from "@/src/types/form/FormParameter";
+import build from "@/assets/icons/dropdown/build";
+import location from "@/assets/icons/dropdown/location";
 
 export const RegisterExpertForm: React.FC<FormParameter> = ({ form, setForm }) => {
     const [isPasswordHidden1, setIsPasswordHidden1] = useState(true);
@@ -31,16 +33,24 @@ export const RegisterExpertForm: React.FC<FormParameter> = ({ form, setForm }) =
 
     const handleChangeCategory = (name: string, value: string) => {
         setPickedCategory(value);
-        setForm({ ...form, category: value });
+
+        let tempCategory = [];
+        tempCategory?.push(value)
+
+        setForm({ ...form, category: tempCategory });
     };
+
+    useEffect(() => {
+        console.log(form)
+    }, [form]);
 
     return (
         <View style={styles.container}>
             <View style={styles.dropdownForm}>
-                <DropdownInput handleChange={handleChangeCategory} items={categoryTypes} formData={{}} formDataItem={"categories"}/>
+                <DropdownInput handleChange={handleChangeCategory} items={categoryTypes} formData={{}} formDataItem={"categories"} icon={build}/>
             </View>
             <View style={styles.dropdownForm}>
-                <DropdownInput handleChange={handleChangeLocation} items={counties} formData={{}} formDataItem={"location"}/>
+                <DropdownInput handleChange={handleChangeLocation} items={counties} formData={{}} formDataItem={"location"} icon={location}/>
             </View>
 
             <View style={input.inputContainer}>
@@ -53,9 +63,25 @@ export const RegisterExpertForm: React.FC<FormParameter> = ({ form, setForm }) =
                 </View>
                 <TextInput
                     style={input.input}
-                    placeholder="Ime"
-                    onChangeText={(text) => handleChange("name", text)}
+                    placeholder="Korisničko ime"
+                    onChangeText={(text) => handleChange("username", text)}
                 />
+            </View>
+            <View style={styles.nameSurnameContainer}>
+                <View style={[input.inputContainer, {width: "48%"}]}>
+                    <TextInput
+                        style={[input.input, {paddingLeft: 10}]}
+                        placeholder="Ime"
+                        onChangeText={(text) => handleChange("name", text)}
+                    />
+                </View>
+                <View style={[input.inputContainer, {width: "48%"}]}>
+                    <TextInput
+                        style={[input.input, {paddingLeft: 10}]}
+                        placeholder="Prezime"
+                        onChangeText={(text) => handleChange("surname", text)}
+                    />
+                </View>
             </View>
             <View style={input.inputContainer}>
                 <View style={input.inputIcon}>
@@ -133,5 +159,10 @@ const styles = StyleSheet.create({
     dropdownForm: {
         width: '100%',
         marginBottom: 10,
-    }
+    },
+    nameSurnameContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
 });

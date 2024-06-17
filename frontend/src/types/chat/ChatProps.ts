@@ -6,6 +6,7 @@ export type ChatProps = {
     navigation: NavigationProp<any>;
     userData: UserData;
     route: any;
+
 }
 
 export default ChatProps;

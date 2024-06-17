@@ -12,9 +12,10 @@ import filter from "@/assets/icons/filters/filter";
 import sort from "@/assets/icons/filters/sort";
 import {AppliedFilters} from "@/src/components/Filter/AppliedFilters";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
+import ExpertSectionProps from "@/src/types/expert/ExpertSectionProps";
 
 
-const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {
+const ExpertSection: React.FC<ExpertSectionProps> = ({ navigation, userData }) => {
     const { allExpertData, dataLoading, refetchAllExpertData, filters, setFilters } = getExperts();
     const [refreshing, setRefreshing] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
@@ -26,15 +27,22 @@ const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {
         setRefreshing(false);
     };
 
+    useEffect(() => {
+        if(!showFilter)
+            refresh();
+    }, [showFilter]);
+
     return (
         <View style={styles.container}>
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={showFilter}
-                onRequestClose={() => setShowFilter(false)}
+                onRequestClose={() => {
+                    setShowFilter(false)
+                }}
             >
-                <Filter setShowFilter={setShowFilter} setFilters={setFilters} />
+                <Filter role={userData.role} setShowFilter={setShowFilter} setFilters={setFilters} />
             </Modal>
 
             <View style={styles.filterContainer}>
@@ -90,8 +98,11 @@ const ExpertSection: React.FC<NavigationParameter> = ({ navigation }) => {
                         <ActivityIndicator size="large" color="#0478ca" />
                     ) : (
                         <>
-                            {allExpertData.map((expert: Expert) => (
-                                <ExpertContainer key={expert.id} expert={expert} navigation={navigation} />
+                            {allExpertData.map((expert: Expert, index) => (
+                                <View key={expert.id}>
+                                    <ExpertContainer expert={expert} navigation={navigation} />
+                                    {(index+1) % 3 == 0 && !userData.premium && <ExpertContainer expert={expert} navigation={navigation} ad={true} /> }
+                                </View>
                             ))}
                         </>
                     )
@@ -144,6 +155,11 @@ const styles = StyleSheet.create({
         width: '90%',
         alignSelf: 'flex-start',
         marginVertical: 5,
+    },
+    ad: {
+        height: 250,
+        width: '100%',
+        backgroundColor: 'red'
     }
 });
 

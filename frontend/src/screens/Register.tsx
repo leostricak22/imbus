@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
-import {View, Text, StyleSheet, ScrollView, Button, Pressable} from "react-native";
+import {View, Text, StyleSheet, ScrollView, Button, Pressable, Image} from "react-native";
 import {SvgXml} from "react-native-svg";
 import logo from "@/assets/icons/logo";
 import DropdownInput from "@/src/components/InputTypes/DropdownInput";
@@ -16,16 +16,26 @@ import {button} from "@/src/styles/button";
 import {colors} from "@/src/styles/colors";
 import {RegisterClientForm} from "@/src/components/Account/RegisterClientForm";
 import {FormParameter} from "@/src/types/form/FormParameter";
+import add_a_photo from "@/assets/icons/photo/add_a_photo";
+import * as ImagePicker from "expo-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import envVars from "@/src/utils/envVars";
 
 export const Register: React.FC<NavigationParameter> = ({ navigation }) => {
     const [pickedRole, setPickedRole] = React.useState("");
+    const [error, setError] = React.useState("");
     const [form, setForm] = React.useState({
         name: "",
+        surname: "",
+        username: "",
+        role: "",
         email: "",
         password: "",
         confirmPassword: "",
         location: "",
-        category: "",
+        category: [],
+        profileImage: "",
     });
 
     const [hoverStates, setHoverStates] = useState({
@@ -44,18 +54,84 @@ export const Register: React.FC<NavigationParameter> = ({ navigation }) => {
     const handleChange = (name: string, value: string) => {
         setForm({
             name: "",
+            surname: "",
+            username: "",
+            role: "CLIENT",
             email: "",
             password: "",
             confirmPassword: "",
             location: "",
-            category: "",
+            category: [],
+            profileImage: "",
         });
+        console.log(pickedRole)
         setPickedRole(value);
     };
 
     const handleRegister = async () => {
-        console.log("Registering...");
-    }
+        if (
+            form.username === "" ||
+            form.email === "" ||
+            form.password === "" ||
+            form.confirmPassword === "" ||
+            form.name === "" ||
+            form.location === "" ||
+            form.surname === ""
+        ) {
+            setError("Molimo popunite sva polja.");
+            return;
+        }
+
+        if(pickedRole == 'EXPERT' && form.category.length == 0) {
+            setError("Molimo odaberite kategoriju.");
+            return;
+        }
+
+        if (form.password !== form.confirmPassword) {
+            setError("Lozinke se ne podudaraju.");
+            return;
+        }
+
+        console.log(form)
+
+        try {
+            const response = await fetch(`${envVars.API_ENDPOINT}/api/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(form),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(data.message || "Registration failed. Please try again.");
+            } else {
+                await AsyncStorage.setItem("token", data.token);
+                navigation.navigate("homepage");
+            }
+        } catch (error) {
+            setError("An error occurred. Please try again.");
+            console.error("Registration error:", error);
+        }
+    };
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 0.5,
+            base64: true,
+        });
+
+        if (!result.canceled) {
+            const base64Image = result.assets[0].base64;
+            // @ts-ignore
+            setForm({ ...form, profileImage: base64Image });
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -73,11 +149,29 @@ export const Register: React.FC<NavigationParameter> = ({ navigation }) => {
                     <DropdownInput handleChange={handleChange} items={roles} formData={{}} formDataItem={"location"}/>
                 </View>
 
+                <Pressable style={[styles.imagePickContainer, form.profileImage != "" ? {borderWidth: 0} : {borderWidth: 1}]}
+                    onPress={pickImage}
+                >
+                    {
+                        form.profileImage != "" ? (
+                            <Image style={styles.profileImage} source={{ uri: `data:image/jpeg;base64,${form.profileImage}` }}/>
+                        ) : (
+                            <>
+                                <View style={styles.addPhotoContainer}>
+                                    <SvgXml width="100%" height="100%" xml={add_a_photo} />
+                                </View>
+                                <Text>Slika profila</Text>
+                            </>
+                        )
+                    }
+                </Pressable>
+
                 <View style={styles.formContainer}>
                     {
                         pickedRole == 'CLIENT' ? (
                             <View style={styles.form}>
                                 <RegisterClientForm form={form} setForm={setForm}/>
+                                <Text style={styles.error}>{error}</Text>
                                 <Pressable
                                     style={[button.buttonContainer, hoverStates.register ? colors.backgroundDarkBlue : colors.backgroundBlue]}
                                     onPress={handleRegister}
@@ -90,6 +184,7 @@ export const Register: React.FC<NavigationParameter> = ({ navigation }) => {
                         ) : pickedRole == 'EXPERT' ? (
                             <View style={styles.form}>
                                 <RegisterExpertForm form={form} setForm={setForm}/>
+                                <Text style={styles.error}>{error}</Text>
                                 <Pressable
                                     style={[button.buttonContainer, hoverStates.register ? colors.backgroundDarkOrange : colors.backgroundOrange]}
                                     onPress={handleRegister}
@@ -138,5 +233,34 @@ const styles = StyleSheet.create({
     },
     form: {
         width: '100%',
+    },
+    imagePickContainer: {
+        width: 120,
+        height: 120,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 100,
+        marginBottom: 10,
+        alignSelf: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    addPhotoContainer: {
+        width: '50%',
+        height: '50%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    profileImage: {
+        width: 120,
+        height: 120,
+        borderRadius: 100,
+        marginBottom: 10,
+    },
+    error: {
+        color: 'red',
+        marginBottom: 10,
+        alignSelf: 'center',
     }
 });

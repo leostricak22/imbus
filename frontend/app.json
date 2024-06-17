@@ -22,14 +22,70 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.leostricak22.imbus"
+      "package": "com.leostricak22.imbus",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "ACCESS_NETWORK_STATE",
+        "ACCESS_WIFI_STATE",
+        "BATTERY_STATS",
+        "BLUETOOTH",
+        "BLUETOOTH_ADMIN",
+        "BROADCAST_STICKY",
+        "CALL_PHONE",
+        "CAMERA",
+        "CHANGE_CONFIGURATION",
+        "CHANGE_NETWORK_STATE",
+        "CHANGE_WIFI_MULTICAST_STATE",
+        "CHANGE_WIFI_STATE",
+        "DISABLE_KEYGUARD",
+        "EXPAND_STATUS_BAR",
+        "FLASHLIGHT",
+        "GET_ACCOUNTS",
+        "GET_PACKAGE_SIZE",
+        "INTERNET",
+        "KILL_BACKGROUND_PROCESSES",
+        "MANAGE_DOCUMENTS",
+        "NFC",
+        "READ_CALENDAR",
+        "READ_CALL_LOG",
+        "READ_CONTACTS",
+        "READ_EXTERNAL_STORAGE",
+        "READ_PHONE_STATE",
+        "READ_SMS",
+        "RECEIVE_BOOT_COMPLETED",
+        "RECEIVE_MMS",
+        "RECEIVE_SMS",
+        "RECEIVE_WAP_PUSH",
+        "RECORD_AUDIO",
+        "REORDER_TASKS",
+        "REQUEST_IGNORE_BATTERY_OPTIMIZATIONS",
+        "REQUEST_INSTALL_PACKAGES",
+        "SEND_SMS",
+        "SET_ALARM",
+        "SET_WALLPAPER",
+        "SET_WALLPAPER_HINTS",
+        "SYSTEM_ALERT_WINDOW",
+        "TRANSMIT_IR",
+        "USE_FINGERPRINT",
+        "USE_BIOMETRIC",
+        "VIBRATE",
+        "WAKE_LOCK",
+        "WRITE_APN_SETTINGS",
+        "WRITE_CALENDAR",
+        "WRITE_CALL_LOG",
+        "WRITE_CONTACTS",
+        "WRITE_EXTERNAL_STORAGE",
+        "WRITE_SETTINGS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "8ea1519c-d0c0-43d5-967b-cb8e127c6e84"
+        "projectId": "a4f4c613-4246-44b4-971b-1a0c9829d68d"
       }
     }
   }

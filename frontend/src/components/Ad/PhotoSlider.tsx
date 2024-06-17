@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Dimensions, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 
-const PhotoSlider = ({images, parentWidth=Dimensions.get('window').width}:any) => {
+const PhotoSlider: React.FC<PhotoSliderProps> = ({images, parentWidth=Dimensions.get('window').width}:any) => {
     const width  = parentWidth;
     const height = width;
 

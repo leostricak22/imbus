@@ -8,6 +8,9 @@ import {timeAgo} from "@/src/utils/dateFormat";
 import PhotoSlider from "@/src/components/Ad/PhotoSlider";
 import {button} from "@/src/styles/button";
 import {colors} from "@/src/styles/colors";
+import share from "@/assets/icons/smallfixes/share";
+import add_comment from "@/assets/icons/smallfixes/add_comment";
+import add_comment_expert from "@/assets/icons/smallfixes/add_comment_expert";
 
 const SmallFixesContainer: React.FC<SmallFixesContainerProps> = ({ smallFixes, navigation, refreshing, role="EXPERT" }) => {
     const [parentWidth, setParentWidth] = useState(0);
@@ -39,8 +42,18 @@ const SmallFixesContainer: React.FC<SmallFixesContainerProps> = ({ smallFixes, n
         setParentWidth(width);
     };
 
+    function navigateViewSmallFixes() {
+        navigation.navigate('small-fixes-view', {
+            smallFixesForm: smallFixes,
+            images: images,
+            role: role,
+        });
+    }
+
     return (
-        <Pressable key={smallFixes.creator.id}  style={styles.container}>
+        <Pressable key={smallFixes.creator.id}  style={styles.container}
+            onPress={navigateViewSmallFixes}
+        >
             <View style={styles.userInfo}>
                 {
                     smallFixes.creator.profileImage ? (
@@ -72,21 +85,28 @@ const SmallFixesContainer: React.FC<SmallFixesContainerProps> = ({ smallFixes, n
                     } parentWidth={parentWidth} />
                 </View>
                 <View style={styles.commentContainer}>
-                    <Text style={styles.commentText}>Komentara: {0}</Text>
+                    <Text style={styles.commentText}>Komentara: {smallFixes.comments.length}</Text>
                 </View>
                 <View style={styles.optionsContainer}>
                     <Pressable
-                        style={[button.buttonContainer, styles.option, colors.backgroundGray, (hoverStates.comment ? (role == "CLIENT" ? colors.backgroundDarkOrange : colors.backgroundDarkOrange) : (role == "CLIENT" ? colors.backgroundBlue : colors.backgroundOrange))]}
+                        style={[button.buttonContainer, styles.option, colors.backgroundGray, (hoverStates.comment ? (role == "CLIENT" ? colors.backgroundDarkBlue : colors.backgroundDarkOrange) : (role == "CLIENT" ? colors.backgroundBlue : colors.backgroundOrange))]}
                         onPressIn={() => setHoverState("comment", true)}
                         onPressOut={() => setHoverState("comment", false)}
+                        onPress={navigateViewSmallFixes}
                     >
-                        <Text style={button.buttonText}>Komentiraj</Text>
+                        <View style={styles.icon}>
+                            <SvgXml xml={role == 'EXPERT' ? add_comment_expert : add_comment} width="100%" height="100%" />
+                        </View>
+                        <Text style={[button.buttonText, role == 'EXPERT' && colors.black]}>Komentiraj</Text>
                     </Pressable>
                     <Pressable
                         style={[button.buttonContainer, styles.option, colors.backgroundWhite, {borderWidth: 1, borderColor:"black"}, (hoverStates.share && colors.backgroundGray)]}
                         onPressIn={() => setHoverState("share", true)}
                         onPressOut={() => setHoverState("share", false)}
                     >
+                        <View style={styles.icon}>
+                            <SvgXml xml={share} width="100%" height="100%" />
+                        </View>
                         <Text style={[button.buttonText, {color:"black"}]}>Podijeli</Text>
                     </Pressable>
 
@@ -150,6 +170,7 @@ const styles = StyleSheet.create({
     commentText: {
         color: 'gray',
         fontSize: 14,
+        marginTop: 5,
         textAlign: 'right',
     },
     optionsContainer: {
@@ -163,6 +184,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width: '48%',
+    },
+    icon: {
+        width: 20,
+        height: 20,
+        marginRight: 10,
     },
 });
 

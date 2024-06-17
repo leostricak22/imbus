@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
-import FormProps from "@/src/types/form/FormProps";
-import getJobs from "@/src/services/offer/getJobs";
 
 LocaleConfig.locales['hr'] = {
     monthNames: [
@@ -27,8 +25,7 @@ LocaleConfig.locales['hr'] = {
 
 LocaleConfig.defaultLocale = 'hr';
 
-const CalendarMultipleDays : React.FC<CalendarMultipleDaysProps>  = ({firstDate, secondDate, setFirstDate, setSecondDate}) => {
-    const [selectedDate, setSelectedDate] = useState('');
+const CalendarMultipleDays : React.FC<CalendarMultipleDaysProps> = ({ firstDate, secondDate, setFirstDate, setSecondDate }) => {
     const [markedDates, setMarkedDates] = useState({});
 
     const onDayPress = (day: { dateString: any; }) => {
@@ -36,67 +33,37 @@ const CalendarMultipleDays : React.FC<CalendarMultipleDaysProps>  = ({firstDate,
 
         if (!firstDate) {
             setFirstDate(selected);
-            const newMarkedDates = { ...markedDates, [selected]: { startingDay: true, color: '#0478ca', textColor: 'white' } };
+            const newMarkedDates = { [selected]: { startingDay: true, color: '#0478ca', textColor: 'white' } };
             setMarkedDates(newMarkedDates);
         } else if (!secondDate) {
             setSecondDate(selected);
-            const newMarkedDates = { ...markedDates, [selected]: { endingDay: true, color: '#0478ca', selected: true, textColor: 'white' } };
-            setMarkedDates(newMarkedDates);
+            markRangeDates(firstDate, selected);
         } else {
             setFirstDate('');
             setSecondDate('');
-            setMarkedDates({ ...disabledDate, ...disabledSundays() });
+            setMarkedDates({});
+        }
+    };
+
+    const markRangeDates = (start: string | number | Date, end: string | number | Date) => {
+        let dates = {};
+        let currentDate = new Date(start);
+        const endDate = new Date(end);
+
+        while (currentDate <= endDate) {
+            const dateString = currentDate.toISOString().split('T')[0];
+            // @ts-ignore
+            dates[dateString] = { color: '#0478ca', textColor: 'white' };
+            currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        setSelectedDate(selected);
-    };
+        // @ts-ignore
+        dates[start] = { startingDay: true, color: '#0478ca', textColor: 'white' };
+        // @ts-ignore
+        dates[end] = { endingDay: true, color: '#0478ca', textColor: 'white' };
 
-    const disabledDate = {
-        /*'2024-06-07': { disabled: true },
-        '2024-06-10': { disabled: true },
-        '2024-06-15': { disabled: true },
-        '2024-06-21': { disabled: true },
-        '2024-06-23': { disabled: true },
-        '2024-06-24': { disabled: true },
-        '2024-06-25': { disabled: true },
-        '2024-06-28': { disabled: true },
-        '2024-06-30': { disabled: true },*/
-    };
-
-
-
-    const formatDate = (dateString: string | number | Date) => {
-        const date = new Date(dateString);
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-        return `${day}.${month}.${year}.`;
-    };
-
-    const disabledSundays = () => {
-        const dates = {};
-        const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const numMonths = 12;
-
-        for (let month = 0; month < numMonths; month++) {
-            const numDays = new Date(year, month + 1, 0).getDate();
-            for (let day = 1; day <= numDays; day++) {
-                const date = new Date(year, month, day);
-                if (date.getDay() === 1) {
-                    const dateString = date.toISOString().split('T')[0];
-                    // @ts-ignore
-                    dates[dateString] = { disabled: false, textColor: 'red' };
-                }
-            }
-        }
-        return dates;
-    };
-
-    useEffect(() => {
-        const dates = { ...disabledDate, ...disabledSundays() };
         setMarkedDates(dates);
-    }, []);
+    };
 
     return (
         <View style={styles.container}>
@@ -133,10 +100,11 @@ const CalendarMultipleDays : React.FC<CalendarMultipleDaysProps>  = ({firstDate,
                 }}
             />
             <View style={styles.box}>
-                <Text style={styles.text}>{firstDate && secondDate ? `${formatDate(firstDate)} - ${formatDate(secondDate)}` : ''}</Text>
+                <Text style={styles.text}>
+                    {firstDate && secondDate ? `${formatDate(firstDate)} - ${formatDate(secondDate)}` : ''}
+                </Text>
             </View>
         </View>
-
     );
 };
 
@@ -158,8 +126,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         marginHorizontal: 'auto',
         marginVertical: 40,
-        width: 360,
-        height: 44,
+        width: '100%',
+        height: 50,
         borderColor: 'black',
         borderWidth: 1,
         borderRadius: 30
@@ -176,5 +144,13 @@ const styles = StyleSheet.create({
         color: '#000000',
     },
 });
+
+const formatDate = (dateString: string | number | Date) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}.`;
+};
 
 export default CalendarMultipleDays;

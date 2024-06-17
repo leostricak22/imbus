@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
     },
     jobsContainer: {
         flex: 1,
+        flexDirection: "column",
         marginTop: 20,
     }
 });

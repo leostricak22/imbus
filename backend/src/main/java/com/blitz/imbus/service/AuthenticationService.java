@@ -36,6 +36,7 @@ public class AuthenticationService {
             throw new AppException(CONFLICT);
 
         user.setPassword(passwordEncoder.encode(password));
+
         userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);

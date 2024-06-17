@@ -1,8 +1,10 @@
 import {ScrollView} from "react-native";
 import FilterItem from "./FilterItem";
 import {counties} from "../../data/Counties"
+import React from "react";
+import FilterCountyListProps from "@/src/types/filter/FilterCountyListProps";
 
-export default function FilterCountyList({ visible, selectedCounty, setSelectedCounty }:any) {
+const FilterCountyList: React.FC<FilterCountyListProps> = ({ role, visible, selectedCounty, setSelectedCounty }) => {
     const toggleSelection = (item: string) => {
         if (selectedCounty.includes(item)) {
             setSelectedCounty(selectedCounty.filter((i: string) => i !== item));
@@ -19,6 +21,7 @@ export default function FilterCountyList({ visible, selectedCounty, setSelectedC
         <ScrollView>
             {counties.map((county, index) => (
                 <FilterItem
+                    role={role}
                     key={index}
                     label={county.label}
                     isSelected={selectedCounty.includes(county.value)}
@@ -28,3 +31,5 @@ export default function FilterCountyList({ visible, selectedCounty, setSelectedC
         </ScrollView>
     );
 };
+
+export default FilterCountyList;

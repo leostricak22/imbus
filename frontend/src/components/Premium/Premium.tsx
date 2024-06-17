@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons/faCircleCheck'
 import Header from '../Partials/Header';
 import userSessionData from "@/src/services/user/userSessionData";
+import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 
-// @ts-ignore
-const Premium = ({navigation}) => {
+export const Premium: React.FC<NavigationParameter> = ({ navigation, route }) => {
     const [selectedOption, setSelectedOption] = useState(null);
 
     const [checkoutUrl, setCheckoutUrl] = useState(null);
@@ -50,7 +49,7 @@ const Premium = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <Header userData={userData} navigation={navigation} />
+            <Header role={userData.role} navigation={navigation} />
             <View style={styles.secondContainer}>
                 <View style={styles.textContainer}>
                     <Text style={[styles.secondText, styles.yellowSecondText, userData.role == 'CLIENT' && {color:"#0478ca"}]}>Premium plan</Text>
@@ -84,16 +83,25 @@ const Premium = ({navigation}) => {
                 <View style={styles.topHalfFourthContainer}></View>
                 <View style={styles.bottomHalfFourthContainer}>
                     <TouchableOpacity style={styles.iconTextContainerFour} onPress={() => handleOptionSelect('1 month')}>
-                        <Icon name={selectedOption === '1 month' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '1 months' ? (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49') : (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49')} />
-                        <Text style={styles.fourthText}>1 mjesec</Text><Text style={styles.priceText}>10€</Text>
+                        <View style={styles.data}>
+                            <Icon name={selectedOption === '1 month' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '1 months' ? (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49') : (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49')} />
+                            <Text style={styles.fourthText}>1 mjesec</Text>
+                        </View>
+                        <Text style={styles.priceText}>10€</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.iconTextContainerFour} onPress={() => handleOptionSelect('6 months')}>
-                        <Icon name={selectedOption === '6 months' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '6 months' ? (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49') : (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49')} />
-                        <Text style={styles.fourthText}>6 mjeseci</Text><Text style={styles.fourthGrayText}>(9€/mj.)</Text><Text style={styles.priceText}>54€</Text>
+                        <View style={styles.data}>
+                            <Icon name={selectedOption === '6 months' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '6 months' ? (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49') : (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49')} />
+                            <Text style={styles.fourthText}>6 mjeseci</Text><Text style={styles.fourthGrayText}>(9€/mj.)</Text>
+                        </View>
+                        <Text style={styles.priceText}>54€</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.iconTextContainerFour} onPress={() => handleOptionSelect('12 months')}>
-                        <Icon name={selectedOption === '12 months' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '12 months' ? (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49') : (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49')} />
-                        <Text style={styles.fourthText}>12 mjeseci</Text><Text style={styles.fourthGrayText}>(8€/mj.)</Text><Text style={styles.priceText}>96€</Text>
+                        <View style={styles.data}>
+                            <Icon name={selectedOption === '12 months' ? 'check-circle' : 'circle'} size={20} color={selectedOption === '12 months' ? (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49') : (userData.role == 'CLIENT' ? "#0478ca" : '#FFBF49')} />
+                            <Text style={styles.fourthText}>12 mjeseci</Text><Text style={styles.fourthGrayText}>(8€/mj.)</Text>
+                        </View>
+                        <Text style={styles.priceText}>96€</Text>
                     </TouchableOpacity>
                 </View>
             </View >
@@ -109,6 +117,7 @@ const Premium = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "white"
     },
     headerContainer: {
         height: 50,
@@ -191,11 +200,11 @@ const styles = StyleSheet.create({
     priceText: {
         display: 'flex',
         fontSize: 25,
-        textAlign: 'right',
     },
     iconTextContainerFour: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: "space-between"
     },
     paymentButtonContainer: {
         paddingHorizontal: 10,
@@ -213,6 +222,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20
     },
+    data: {
+        flexDirection: "row"
+    }
 });
 
 export default Premium;

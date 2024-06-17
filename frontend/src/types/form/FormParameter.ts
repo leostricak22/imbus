@@ -5,7 +5,7 @@ export type FormParameter = {
         password: string;
         confirmPassword: string;
         location?: string;
-        category?: string;
+        category?: string[];
     };
     setForm: any;
 };

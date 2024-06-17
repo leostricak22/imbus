@@ -12,6 +12,15 @@ export const input = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         paddingLeft: 5,
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
+        elevation: 2,
     },
     input: {
         width: '85%',

@@ -7,6 +7,8 @@ export interface Expert {
     role: string;
     categories: string[];
     profileImage: string;
+    ratings?: any;
+    premium?: boolean;
 }
 
 export default Expert;

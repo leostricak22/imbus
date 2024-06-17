@@ -11,7 +11,7 @@ import notification from "@/assets/icons/header/notification";
 const logoImage = require("../../../assets/icon.png");
 const backIconImage = require("../../../assets/icons/back.png");
 
-const Header: React.FC<UserContainerProps> = ({ navigation, userData}) => {
+const Header: React.FC<NavigationParameter> = ({ navigation, role}) => {
     return (
         <View style={styles.header}>
             <Pressable style={styles.backIconContainer} onPress={() => navigation.goBack()}>
@@ -21,7 +21,7 @@ const Header: React.FC<UserContainerProps> = ({ navigation, userData}) => {
                     xml={arrow_back}
                 />
             </Pressable>
-            <LogoUserImage userDataRole={userData.role} />
+            <LogoUserImage userDataRole={role} />
             <View style={styles.notification}>
                 <SvgXml
                     width="100%"

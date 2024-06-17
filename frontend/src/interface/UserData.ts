@@ -10,4 +10,5 @@ export default interface UserData {
     location: string;
     categories: string[];
     profileImage: string;
+    premium?: boolean;
 }

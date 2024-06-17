@@ -24,7 +24,7 @@ import {useFocusEffect} from "@react-navigation/native";
 import getSmallFixes from "@/src/services/smallfixes/getSmallFixes";
 import SmallFixesContainer from "@/src/components/SmallFixes/SmallFixesContainer";
 
-const SmallFixesSection: React.FC<NavigationParameter> = ({ navigation }) => {
+const SmallFixesSection: React.FC<NavigationParameter> = ({ navigation, role }) => {
     const { allSmallFixesData, dataLoading, refetchAllSmallFixesData, filters, setFilters } = getSmallFixes();
     const [refreshing, setRefreshing] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
@@ -53,57 +53,6 @@ const SmallFixesSection: React.FC<NavigationParameter> = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={showFilter}
-                onRequestClose={() => setShowFilter(false)}
-            >
-                <Filter setShowFilter={setShowFilter} setFilters={setFilters} />
-            </Modal>
-
-            <View style={styles.filterContainer}>
-                <View style={styles.search}>
-                    <View style={input.inputContainer}>
-                        <View style={input.inputIcon}>
-                            <SvgXml
-                                width="100%"
-                                height="100%"
-                                xml={search}
-                            />
-                        </View>
-                        <TextInput
-                            style={input.input}
-                            placeholder="Pretraži oglase..."
-                            onChangeText={(text:string) => setSearchText(text)}
-                        />
-                    </View>
-                </View>
-                <View style={styles.filterIconsContainer}>
-                    <Pressable onPress={() => setShowFilter(true)}>
-                        <View style={styles.icon}>
-                            <SvgXml
-                                width="100%"
-                                height="100%"
-                                xml={filter}
-                            />
-                        </View>
-                    </Pressable>
-                    <Pressable>
-                        <View style={styles.icon}>
-                            <SvgXml
-                                width="100%"
-                                height="100%"
-                                xml={sort}
-                            />
-                        </View>
-                    </Pressable>
-                </View>
-                <View style={styles.appliedFiltersContainer}>
-                    {filters && filters.length > 0 &&  <AppliedFilters filters={filters} color={"#ffbf49"}/>}
-                </View>
-            </View>
-
             <ScrollView style={styles.scrollViewContainer} refreshControl={
                 <RefreshControl
                     refreshing={refreshing}
@@ -114,7 +63,7 @@ const SmallFixesSection: React.FC<NavigationParameter> = ({ navigation }) => {
                     !dataLoading && allSmallFixesData && (
                         <>
                             {allSmallFixesData.map((smallFixes: any) => (
-                                <SmallFixesContainer key={smallFixes.id} smallFixes={smallFixes} navigation={navigation} refreshing={refreshing} />
+                                <SmallFixesContainer key={smallFixes.id} smallFixes={smallFixes} navigation={navigation} refreshing={refreshing} role={role} />
                             ))}
                         </>
                     )

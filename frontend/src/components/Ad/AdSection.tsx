@@ -22,6 +22,7 @@ import {AppliedFilters} from "@/src/components/Filter/AppliedFilters";
 import ExpertContainerProps from "@/src/types/expert/ExpertContainerProps";
 import {NavigationParameter} from "@/src/types/navigation/NavigationParameter";
 import {useFocusEffect} from "@react-navigation/native";
+import userSessionData from "@/src/services/user/userSessionData";
 
 const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {
     const { allAdData, dataLoading, refetchAllAdData, filters, setFilters } = getAds();
@@ -58,7 +59,8 @@ const AdSection: React.FC<NavigationParameter> = ({ navigation }) => {
                 visible={showFilter}
                 onRequestClose={() => setShowFilter(false)}
             >
-                <Filter setShowFilter={setShowFilter} setFilters={setFilters} />
+                <Filter role={"Expert"} setShowFilter={setShowFilter} setFilters={setFilters} />
+                {/*"Only experts can see ad section"*/}
             </Modal>
 
             <View style={styles.filterContainer}>

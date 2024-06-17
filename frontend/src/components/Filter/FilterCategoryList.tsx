@@ -1,8 +1,10 @@
 import {ScrollView} from "react-native";
 import FilterItem from "./FilterItem";
 import {categoryTypes} from "../../data/CategoryTypes";
+import React from "react";
+import FilterCategoryListProps from "@/src/types/filter/FilterCategoryListProps";
 
-export default function FilterCategoryList({ visible, selectedCategoryTypes, setSelectedCategoryTypes }:any) {
+const FilterCategoryList: React.FC<FilterCategoryListProps> =  ({ role, visible, selectedCategoryTypes, setSelectedCategoryTypes }) => {
     const toggleSelection = (item: string) => {
         if (selectedCategoryTypes.includes(item)) {
             setSelectedCategoryTypes(selectedCategoryTypes.filter((i: string) => i !== item));
@@ -19,6 +21,7 @@ export default function FilterCategoryList({ visible, selectedCategoryTypes, set
         <ScrollView>
             {categoryTypes.map((category, index) => (
                 <FilterItem
+                    role={role}
                     key={index}
                     label={category.label}
                     isSelected={selectedCategoryTypes.includes(category.value)}
@@ -28,3 +31,5 @@ export default function FilterCategoryList({ visible, selectedCategoryTypes, set
         </ScrollView>
     );
 };
+
+export default FilterCategoryList;
